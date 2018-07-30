@@ -1,0 +1,22 @@
+{
+  "name": "gdpr-cookie-consent-banner",
+  "version": "1.0.0",
+  "description": "GDPR Cookie Consent Banner in vanilla js",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^0.11.1",
+    "js-cookie": "^2.2.0",
+    "rollup": "^0.63.4",
+    "rollup-plugin-commonjs": "^9.1.4",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-svelte": "^4.2.1",
+    "svelte": "^2.9.7"
+  },
+  "scripts": {
+    "demo": "http-server",
+    "watch": "rollup -cw"
+  },
+  "author": "Antony Jones",
+  "license": "MIT"
+}
