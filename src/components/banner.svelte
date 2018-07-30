@@ -130,11 +130,11 @@
 
 <script>
   import Cookie from 'js-cookie'
-  const cookieName = 'beyonk_gdpr'
 
   export default {
     data () {
       return {
+        cookieName: 'beyonk_gdpr',
         shown: true,
         heading: 'GDPR Notice',
         description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
@@ -162,6 +162,7 @@
     },
 
     oncreate () {
+      const { cookieName } = this.get()
       const cookie = Cookie.get(cookieName)
       if (cookie) {
         this.set({ shown: false })
@@ -170,7 +171,7 @@
 
     methods: {
       choose () {
-        const { groups, choices } = this.get()
+        const { groups, choices, cookieName } = this.get()
         Cookie.set(cookieName, { choices })
         const types = Object.keys(choices)
         types

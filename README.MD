@@ -46,7 +46,11 @@ It is not possible to opt-out of 'necessary' cookies.
 
 ```js
 const options = {
-  
+  /**
+   * This is the default cookie name
+   **/
+  cookieName: 'beyonk_gdpr'
+
   /**
    * These are the top two lines of text on the banner
    **/
