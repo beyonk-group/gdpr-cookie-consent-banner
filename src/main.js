@@ -2,12 +2,17 @@
 
 import Banner from './components/banner.svelte'
 
-const element = document.createElement('div', { id: 'gdpr-banner' })
-const banner = new Banner({
-  target: element
-})
+function attachBanner (parent, data = {}) {
+  const element = document.createElement('div', { id: 'gdpr-banner' })
+  parent.appendChild(element)
+
+  const banner = new Banner({
+    target: element,
+    data
+  })
+}
 
 window.GdprConsent = window.GdprConsent || {}
-window.GdprConsent.attachBanner = function (parent) {
-  parent.appendChild(element)
-}
+window.GdprConsent.attachBanner = attachBanner
+
+export default attachBanner

@@ -2,7 +2,7 @@
   "name": "gdpr-cookie-consent-banner",
   "version": "1.0.0",
   "description": "GDPR Cookie Consent Banner in vanilla js",
-  "main": "index.js",
+  "main": "dist/bundle.js",
   "dependencies": {},
   "devDependencies": {
     "http-server": "^0.11.1",
