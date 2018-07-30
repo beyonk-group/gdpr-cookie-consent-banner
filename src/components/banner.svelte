@@ -1,34 +1,38 @@
 {#if shown}
 <div class="wrapper">
-  <div>
+  <div class="left">
     <h1>{heading}</h1>
     <h2>{description}</h2>
+    <div class="operations">
+      <ul>
+        <li>
+          <input type="checkbox" id="gdpr-check-necessary" bind:checked="choices.necessary" disabled>
+          <label for="gdpr-check-necessary">Neccessary Cookies</label>
+        </li>
+        <li>
+          <input type="checkbox" id="gdpr-check-tracking" bind:checked="choices.tracking">
+          <label for="gdpr-check-tracking">Tracking Cookies</label>
+        </li>
+        <li>
+          <input type="checkbox" id="gdpr-check-analytics" bind:checked="choices.analytics">
+          <label for="gdpr-check-analytics">Analytics Cookies</label>
+        </li>
+        <li>
+          <input type="checkbox" id="gdpr-check-marketing" bind:checked="choices.marketing">
+          <label for="gdpr-check-marketing">Marketing Cookies</label>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="operations">
-    <ul>
-      <li>
-        <input type="checkbox" id="gdpr-check-necessary" bind:checked="choices.necessary" disabled>
-        <label for="gdpr-check-necessary">Neccessary Cookies</label>
-      </li>
-      <li>
-        <input type="checkbox" id="gdpr-check-tracking" bind:checked="choices.tracking">
-        <label for="gdpr-check-tracking">Tracking Cookies</label>
-      </li>
-      <li>
-        <input type="checkbox" id="gdpr-check-analytics" bind:checked="choices.analytics">
-        <label for="gdpr-check-analytics">Analytics Cookies</label>
-      </li>
-      <li>
-        <input type="checkbox" id="gdpr-check-marketing" bind:checked="choices.marketing">
-        <label for="gdpr-check-marketing">Marketing Cookies</label>
-      </li>
-    </ul>
+  <div class="right">
     <button type="button" on:click="choose()">Accept</button>
   </div>
 </div>
 {/if}
 
 <style>
+  @import url('https://fonts.googleapis.com/css?family=Montserrat:600');
+
   h1 {
     font-size: 18px;
   }
@@ -38,13 +42,45 @@
   }
 
   .wrapper {
-    padding: 2vh 2vw 0 2vw;
-    font-family: sans-serif;
+    font-family: 'Montserrat', sans-serif;
     position: fixed;
     bottom: 0;
-    width: 100%;
-    background-color: #07090F;
-    color: #D6C3C9;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    background-color: rgba(7, 9, 15, 0.50);
+    color: #fff;
+  }
+
+  .left, .right {
+    margin: 1vh 1vw 1vh 1vw;
+  }
+
+  .left {
+    width: 89vw;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 9vw;
+    text-align: center;
+  }
+
+  @media only screen and (max-width: 500px) {
+    .wrapper {
+      flex-direction: column;
+    }
+
+    .left, .right {
+      margin: 1vh 2vw 1vh 2vw;
+      width: 96vw;
+    }
+
+    ul > li:first-child {
+      padding-left: 2vw;
+    }
   }
 
   ul {
@@ -52,6 +88,7 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
+    margin-top: 1vh;
   }
 
   ul > li {
@@ -59,8 +96,12 @@
     margin: 0 2vw;
   }
 
+  ul > li:first-child {
+    margin-left: 0;
+  }
+
   .operations {
-    text-align: center;
+    text-align: left;
   }
 
   input[type="checkbox"] {
@@ -72,7 +113,7 @@
     position: relative;
     padding-left: 35px;
     margin-bottom: 20px;
-    font: 14px/20px 'Open Sans', Arial, sans-serif;
+    font-size: 14px/20px;
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
@@ -108,23 +149,21 @@
 
   button {
     padding: 1vh 1vw;
-    color: white;
+    color: #fff;
     text-align: center;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-    background-color: #3A3C42;
+    border-radius: 4px;
+    background-color: #ff9273;
     border: 0;
-    border-bottom: 2px solid #EFF1C5;
+    border: 4px solid #ff9273;;
     cursor: pointer;
-    -webkit-box-shadow: inset 0 -2px #EFF1C5;
-    box-shadow: inset 0 -2px #EFF1C5;
 
     transition: all 0.3s ease;
   }
 
   button:hover {
-    background-color: #A0A2A8;
-    color: #07090F;
-    border-bottom: 2px solid #FFFFDF;
+    background-color: #fff;
+    color: #ff9273;
   }
 </style>
 
