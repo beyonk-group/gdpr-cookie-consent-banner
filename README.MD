@@ -23,8 +23,8 @@ npm install --save-dev @beyonk/gdpr-cookie-consent-banner
 then import the banner into your code:
 
 ```js
-  import GdprConsent from '@beyonk/gdpr-cookie-consent-banner'
-  GdprConsent.attachBanner(document.body)
+  import attachBanner from '@beyonk/gdpr-cookie-consent-banner'
+  attachBanner(document.body)
 ```
 
 #### Using raw javascript
@@ -33,7 +33,7 @@ Download the contents of `dist/bundle.js` to your codebase, and include it in yo
 
 ```html
 <script>
-  import GdprConsent from '@beyonk/gdpr-cookie-consent-banner'
+  <script src="path/to/bundle.js"></script>
   GdprConsent.attachBanner(document.body)
 </script>
 ```
