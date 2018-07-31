@@ -38,6 +38,52 @@ Download the contents of `dist/bundle.js` to your codebase, and include it in yo
   </script>
 ```
 
+### Usage
+
+Because this banner was designed to work across three different technology stacks, usage is a bit different to a regular es module.
+
+I've documented our usage of it below:
+
+#### Nuxt / Vue
+
+You can use the banner in NuxtJS application as follows:
+
+Create a component which uses the library, and mounts it during the render stage:
+```js
+<template>
+  <div ref="gdprBanner"></div>
+</template>
+
+<script>
+  export default {
+    mounted () {
+      const { attachBanner } = require('@beyonk/gdpr-cookie-consent-banner/dist/esm/bundle.js')
+      attachBanner(this.$refs.gdprBanner, {
+        heading: 'Cookie policy'
+      })
+    }
+  }
+</script>
+```
+
+#### Svelte
+
+Just use it as a regular svelte component:
+
+```html
+<GdprBanner />
+
+<script>
+  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+
+  export default {
+    components: {
+      GdprBanner
+    }
+  }
+</script>
+```
+
 ### Configuration
 
 The defaults are shown below, simply put modified versions of as many of the below into an options object, and pass it to attachBanner.
