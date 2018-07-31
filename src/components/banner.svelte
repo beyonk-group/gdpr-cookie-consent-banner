@@ -3,7 +3,7 @@
   <div class="left">
     <div class="text">
       <h1>{heading}</h1>
-      <h2>{description}</h2>
+      <h2>{@html description}</h2>
     </div>
     <div class="operations">
       <ul>
@@ -81,7 +81,6 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    /* margin-top: 1vh; */
   }
 
   ul > li {
@@ -191,16 +190,16 @@
         description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
         groups: {
           analytics: function () {
-            console.log('No analytics cookies specified')
+            console.info('No analytics cookies specified')
           },
           tracking: function () {
-            console.log('No tracking cookies specified')
+            console.info('No tracking cookies specified')
           },
           marketing: function () {
-            console.log('No marketing cookies specified')
+            console.info('No marketing cookies specified')
           },
           necessary: function () {
-            console.log('No necessary cookies specified')
+            console.info('No necessary cookies specified')
           },
         },
         choices: {
