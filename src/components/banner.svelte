@@ -35,52 +35,37 @@
 
   h1 {
     font-size: 18px;
+    font-weight: bold;
   }
   
   h2 {
     font-size: 14px;
+    line-height: 16px;
   }
 
   .wrapper {
+    z-index: 99999;
     font-family: 'Montserrat', sans-serif;
     position: fixed;
     bottom: 0;
     display: flex;
     flex-direction: row;
     width: 100vw;
-    background-color: rgba(7, 9, 15, 0.50);
+    background-color: rgba(7, 9, 15, 0.75);
     color: #fff;
   }
 
   .left, .right {
-    margin: 1vh 1vw 1vh 1vw;
-  }
-
-  .left {
-    width: 89vw;
+    margin: 10px 20px 10px 10px;
   }
 
   .right {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 9vw;
+    min-width: 200px;
     text-align: center;
-  }
-
-  @media only screen and (max-width: 500px) {
-    .wrapper {
-      flex-direction: column;
-    }
-
-    .left, .right {
-      margin: 1vh 2vw 1vh 2vw;
-      width: 96vw;
-    }
-
-    ul > li:first-child {
-      padding-left: 2vw;
-    }
+    flex-grow: 1;
   }
 
   ul {
@@ -94,10 +79,6 @@
   ul > li {
     display: inline-block;
     margin: 0 2vw;
-  }
-
-  ul > li:first-child {
-    margin-left: 0;
   }
 
   .operations {
@@ -148,6 +129,10 @@
   }
 
   button {
+    font-size: 14px;
+    max-width: 200px;
+    text-transform: uppercase;
+    font-weight: bold;
     padding: 1vh 1vw;
     color: #fff;
     text-align: center;
@@ -157,6 +142,7 @@
     border: 0;
     border: 4px solid #ff9273;;
     cursor: pointer;
+    margin: 1vh 1vw;
 
     transition: all 0.3s ease;
   }
@@ -165,10 +151,34 @@
     background-color: #fff;
     color: #ff9273;
   }
+
+
+  @media only screen and (max-width: 500px) {
+    .wrapper {
+      flex-direction: column;
+    }
+
+    .left, .right {
+      margin: 1vh 2vw 1vh 2vw;
+      width: 92vw;
+      min-width: 0;
+    }
+
+    ul > li:first-child {
+      padding-left: 2vw;
+    }
+
+    button {
+      max-width: 92vw;
+    }
+  }
+
 </style>
 
 <script>
-  import Cookie from 'js-cookie'
+  import Cookie from 'cookie-universal'
+
+  const cookies = Cookie()
 
   export default {
     data () {
@@ -202,7 +212,7 @@
 
     oncreate () {
       const { cookieName } = this.get()
-      const cookie = Cookie.get(cookieName)
+      const cookie = cookies.get(cookieName)
       if (cookie) {
         this.set({ shown: false })
       }
@@ -211,7 +221,7 @@
     methods: {
       choose () {
         const { groups, choices, cookieName } = this.get()
-        Cookie.set(cookieName, { choices })
+        cookies.set(cookieName, { choices })
         const types = Object.keys(choices)
         types
           .filter(t => !!choices[t])

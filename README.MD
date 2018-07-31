@@ -32,10 +32,10 @@ then import the banner into your code:
 Download the contents of `dist/bundle.js` to your codebase, and include it in your html:
 
 ```html
-<script>
   <script src="path/to/bundle.js"></script>
-  GdprConsent.attachBanner(document.body)
-</script>
+  <script>
+    GdprConsent.attachBanner(document.body)
+  </script>
 ```
 
 ### Configuration

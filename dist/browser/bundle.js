@@ -1,4 +1,4 @@
-var Banner = (function () {
+(function () {
 	'use strict';
 
 	function noop() {}
@@ -162,168 +162,29 @@ var Banner = (function () {
 		_differs
 	};
 
+	function unwrapExports (x) {
+		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+	}
+
 	function createCommonjsModule(fn, module) {
 		return module = { exports: {} }, fn(module, module.exports), module.exports;
 	}
 
-	var js_cookie = createCommonjsModule(function (module, exports) {
-	(function (factory) {
-		var registeredInModuleLoader = false;
-		{
-			module.exports = factory();
-			registeredInModuleLoader = true;
-		}
-		if (!registeredInModuleLoader) {
-			var OldCookies = window.Cookies;
-			var api = window.Cookies = factory();
-			api.noConflict = function () {
-				window.Cookies = OldCookies;
-				return api;
-			};
-		}
-	}(function () {
-		function extend () {
-			var i = 0;
-			var result = {};
-			for (; i < arguments.length; i++) {
-				var attributes = arguments[ i ];
-				for (var key in attributes) {
-					result[key] = attributes[key];
-				}
-			}
-			return result;
-		}
-
-		function init (converter) {
-			function api (key, value, attributes) {
-				var result;
-				if (typeof document === 'undefined') {
-					return;
-				}
-
-				// Write
-
-				if (arguments.length > 1) {
-					attributes = extend({
-						path: '/'
-					}, api.defaults, attributes);
-
-					if (typeof attributes.expires === 'number') {
-						var expires = new Date();
-						expires.setMilliseconds(expires.getMilliseconds() + attributes.expires * 864e+5);
-						attributes.expires = expires;
-					}
-
-					// We're using "expires" because "max-age" is not supported by IE
-					attributes.expires = attributes.expires ? attributes.expires.toUTCString() : '';
-
-					try {
-						result = JSON.stringify(value);
-						if (/^[\{\[]/.test(result)) {
-							value = result;
-						}
-					} catch (e) {}
-
-					if (!converter.write) {
-						value = encodeURIComponent(String(value))
-							.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
-					} else {
-						value = converter.write(value, key);
-					}
-
-					key = encodeURIComponent(String(key));
-					key = key.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent);
-					key = key.replace(/[\(\)]/g, escape);
-
-					var stringifiedAttributes = '';
-
-					for (var attributeName in attributes) {
-						if (!attributes[attributeName]) {
-							continue;
-						}
-						stringifiedAttributes += '; ' + attributeName;
-						if (attributes[attributeName] === true) {
-							continue;
-						}
-						stringifiedAttributes += '=' + attributes[attributeName];
-					}
-					return (document.cookie = key + '=' + value + stringifiedAttributes);
-				}
-
-				// Read
-
-				if (!key) {
-					result = {};
-				}
-
-				// To prevent the for loop in the first place assign an empty array
-				// in case there are no cookies at all. Also prevents odd result when
-				// calling "get()"
-				var cookies = document.cookie ? document.cookie.split('; ') : [];
-				var rdecode = /(%[0-9A-Z]{2})+/g;
-				var i = 0;
-
-				for (; i < cookies.length; i++) {
-					var parts = cookies[i].split('=');
-					var cookie = parts.slice(1).join('=');
-
-					if (!this.json && cookie.charAt(0) === '"') {
-						cookie = cookie.slice(1, -1);
-					}
-
-					try {
-						var name = parts[0].replace(rdecode, decodeURIComponent);
-						cookie = converter.read ?
-							converter.read(cookie, name) : converter(cookie, name) ||
-							cookie.replace(rdecode, decodeURIComponent);
-
-						if (this.json) {
-							try {
-								cookie = JSON.parse(cookie);
-							} catch (e) {}
-						}
-
-						if (key === name) {
-							result = cookie;
-							break;
-						}
-
-						if (!key) {
-							result[name] = cookie;
-						}
-					} catch (e) {}
-				}
-
-				return result;
-			}
-
-			api.set = api;
-			api.get = function (key) {
-				return api.call(api, key);
-			};
-			api.getJSON = function () {
-				return api.apply({
-					json: true
-				}, [].slice.call(arguments));
-			};
-			api.defaults = {};
-
-			api.remove = function (key, attributes) {
-				api(key, '', extend(attributes, {
-					expires: -1
-				}));
-			};
-
-			api.withConverter = init;
-
-			return api;
-		}
-
-		return init(function () {});
-	}));
+	var cookieUniversalCommon = createCommonjsModule(function (module) {
+	module.exports=function(e){function t(o){if(r[o])return r[o].exports;var n=r[o]={i:o,l:!1,exports:{}};return e[o].call(n.exports,n,n.exports,t),n.l=!0,n.exports}var r={};return t.m=e,t.c=r,t.d=function(e,r,o){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:o});},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,r){var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},n=r(1);e.exports=function(t,r){var i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],a="object"===("undefined"==typeof document?"undefined":o(document))&&"string"==typeof document.cookie,s="object"===(void 0===t?"undefined":o(t))&&"object"===(void 0===r?"undefined":o(r))&&void 0!==e,u=!a&&!s||a&&s,f=function(e){if(s){var o=t.headers.cookie||"";return e&&(o=r.getHeaders(),o=o["set-cookie"]?o["set-cookie"].map(function(e){return e.split(";")[0]}).join(";"):""),o}if(a)return document.cookie||""},c=function(){var e=r.getHeader("Set-Cookie");return (e="string"==typeof e?[e]:e)||[]},p=function(e){return r.setHeader("Set-Cookie",e)},d=function(e,t){if(!t)return e;try{return JSON.parse(e)}catch(t){return e}},l={parseJSON:i,set:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{path:"/"};if(!u)if(t="object"===(void 0===t?"undefined":o(t))?JSON.stringify(t):t,s){var i=c();i.push(n.serialize(e,t,r)),p(i);}else document.cookie=n.serialize(e,t,r);},setAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];u||Array.isArray(e)&&e.forEach(function(e){var t=e.name,r=void 0===t?"":t,o=e.value,n=void 0===o?"":o,i=e.opts,a=void 0===i?{path:"/"}:i;l.set(r,n,a);});},get:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return "";var r=n.parse(f(t.fromRes)),o=r[e];return d(o,t.parseJSON)},getAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return {};var t=n.parse(f(e.fromRes));for(var r in t)t[r]=d(t[r],e.parseJSON);return t},remove:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{path:"/"};if(!u){var r=l.get(e);t.expires=new Date(0),r&&l.set(e,"",t);}},removeAll:function(){if(!u){var e=n.parse(f());for(var t in e)l.remove(t);}},nodeCookie:n};return l};},function(e,t,r){function o(e,t){if("string"!=typeof e)throw new TypeError("argument str must be a string");for(var r={},o=t||{},n=e.split(u),s=o.decode||a,f=0;f<n.length;f++){var c=n[f],p=c.indexOf("=");if(!(p<0)){var d=c.substr(0,p).trim(),l=c.substr(++p,c.length).trim();'"'==l[0]&&(l=l.slice(1,-1)),void 0==r[d]&&(r[d]=i(l,s));}}return r}function n(e,t,r){var o=r||{},n=o.encode||s;if("function"!=typeof n)throw new TypeError("option encode is invalid");if(!f.test(e))throw new TypeError("argument name is invalid");var i=n(t);if(i&&!f.test(i))throw new TypeError("argument val is invalid");var a=e+"="+i;if(null!=o.maxAge){var u=o.maxAge-0;if(isNaN(u))throw new Error("maxAge should be a Number");a+="; Max-Age="+Math.floor(u);}if(o.domain){if(!f.test(o.domain))throw new TypeError("option domain is invalid");a+="; Domain="+o.domain;}if(o.path){if(!f.test(o.path))throw new TypeError("option path is invalid");a+="; Path="+o.path;}if(o.expires){if("function"!=typeof o.expires.toUTCString)throw new TypeError("option expires is invalid");a+="; Expires="+o.expires.toUTCString();}if(o.httpOnly&&(a+="; HttpOnly"),o.secure&&(a+="; Secure"),o.sameSite){switch("string"==typeof o.sameSite?o.sameSite.toLowerCase():o.sameSite){case!0:a+="; SameSite=Strict";break;case"lax":a+="; SameSite=Lax";break;case"strict":a+="; SameSite=Strict";break;default:throw new TypeError("option sameSite is invalid")}}return a}function i(e,t){try{return t(e)}catch(t){return e}}/*!
+	 * cookie
+	 * Copyright(c) 2012-2014 Roman Shtylman
+	 * Copyright(c) 2015 Douglas Christopher Wilson
+	 * MIT Licensed
+	 */
+	t.parse=o,t.serialize=n;var a=decodeURIComponent,s=encodeURIComponent,u=/; */,f=/^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;}]);
 	});
 
+	var Cookie = unwrapExports(cookieUniversalCommon);
+
 	/* src/components/banner.svelte generated by Svelte v2.9.7 */
+
+	const cookies = Cookie();
 
 	function data() {
 	  return {
@@ -356,7 +217,7 @@ var Banner = (function () {
 	var methods = {
 	  choose () {
 	    const { groups, choices, cookieName } = this.get();
-	    js_cookie.set(cookieName, { choices });
+	    cookies.set(cookieName, { choices });
 	    const types = Object.keys(choices);
 	    types
 	      .filter(t => !!choices[t])
@@ -369,15 +230,15 @@ var Banner = (function () {
 
 	function oncreate() {
 	  const { cookieName } = this.get();
-	  const cookie = js_cookie.get(cookieName);
+	  const cookie = cookies.get(cookieName);
 	  if (cookie) {
 	    this.set({ shown: false });
 	  }
 	}
 	function add_css() {
 		var style = createElement("style");
-		style.id = 'svelte-gopv1s-style';
-		style.textContent = "@import url('https://fonts.googleapis.com/css?family=Montserrat:600');h1.svelte-gopv1s{font-size:18px}h2.svelte-gopv1s{font-size:14px}.wrapper.svelte-gopv1s{font-family:'Montserrat', sans-serif;position:fixed;bottom:0;display:flex;flex-direction:row;width:100vw;background-color:rgba(7, 9, 15, 0.50);color:#fff}.left.svelte-gopv1s,.right.svelte-gopv1s{margin:1vh 1vw 1vh 1vw}.left.svelte-gopv1s{width:89vw}.right.svelte-gopv1s{display:flex;flex-direction:column;justify-content:center;width:9vw;text-align:center}@media only screen and (max-width: 500px){.wrapper.svelte-gopv1s{flex-direction:column}.left.svelte-gopv1s,.right.svelte-gopv1s{margin:1vh 2vw 1vh 2vw;width:96vw}ul.svelte-gopv1s>li.svelte-gopv1s:first-child{padding-left:2vw}}ul.svelte-gopv1s{display:inline-block;list-style-type:none;margin:0;padding:0;margin-top:1vh}ul.svelte-gopv1s>li.svelte-gopv1s{display:inline-block;margin:0 2vw}ul.svelte-gopv1s>li.svelte-gopv1s:first-child{margin-left:0}.operations.svelte-gopv1s{text-align:left}input[type=\"checkbox\"].svelte-gopv1s{display:none}input[type=\"checkbox\"]+label.svelte-gopv1s{display:block;position:relative;padding-left:35px;margin-bottom:20px;font-size:14px/20px;cursor:pointer;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}input[type=\"checkbox\"]+label.svelte-gopv1s:before{content:'';display:block;width:20px;height:20px;border:1px solid #D6C3C9;position:absolute;left:0;top:0;opacity:.6;-webkit-transition:all .12s, border-color .08s;transition:all .12s, border-color .08s}input[type=\"checkbox\"]:checked+label.svelte-gopv1s:before{width:10px;top:-5px;left:5px;border-radius:0;opacity:1;border-top-color:transparent;border-left-color:transparent;-webkit-transform:rotate(45deg);transform:rotate(45deg)}button.svelte-gopv1s{padding:1vh 1vw;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0, 0, 0, 0.25);border-radius:4px;background-color:#ff9273;border:0;border:4px solid #ff9273;cursor:pointer;transition:all 0.3s ease}button.svelte-gopv1s:hover{background-color:#fff;color:#ff9273}";
+		style.id = 'svelte-156el8v-style';
+		style.textContent = "@import url('https://fonts.googleapis.com/css?family=Montserrat:600');h1.svelte-156el8v{font-size:18px;font-weight:bold}h2.svelte-156el8v{font-size:14px;line-height:16px}.wrapper.svelte-156el8v{z-index:99999;font-family:'Montserrat', sans-serif;position:fixed;bottom:0;display:flex;flex-direction:row;width:100vw;background-color:rgba(7, 9, 15, 0.75);color:#fff}.left.svelte-156el8v,.right.svelte-156el8v{margin:10px 20px 10px 10px}.right.svelte-156el8v{display:flex;flex-direction:column;justify-content:center;min-width:200px;text-align:center;flex-grow:1}ul.svelte-156el8v{display:inline-block;list-style-type:none;margin:0;padding:0;margin-top:1vh}ul.svelte-156el8v>li.svelte-156el8v{display:inline-block;margin:0 2vw}.operations.svelte-156el8v{text-align:left}input[type=\"checkbox\"].svelte-156el8v{display:none}input[type=\"checkbox\"]+label.svelte-156el8v{display:block;position:relative;padding-left:35px;margin-bottom:20px;font-size:14px/20px;cursor:pointer;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}input[type=\"checkbox\"]+label.svelte-156el8v:before{content:'';display:block;width:20px;height:20px;border:1px solid #D6C3C9;position:absolute;left:0;top:0;opacity:.6;-webkit-transition:all .12s, border-color .08s;transition:all .12s, border-color .08s}input[type=\"checkbox\"]:checked+label.svelte-156el8v:before{width:10px;top:-5px;left:5px;border-radius:0;opacity:1;border-top-color:transparent;border-left-color:transparent;-webkit-transform:rotate(45deg);transform:rotate(45deg)}button.svelte-156el8v{font-size:14px;max-width:200px;text-transform:uppercase;font-weight:bold;padding:1vh 1vw;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0, 0, 0, 0.25);border-radius:4px;background-color:#ff9273;border:0;border:4px solid #ff9273;cursor:pointer;margin:1vh 1vw;transition:all 0.3s ease}button.svelte-156el8v:hover{background-color:#fff;color:#ff9273}@media only screen and (max-width: 500px){.wrapper.svelte-156el8v{flex-direction:column}.left.svelte-156el8v,.right.svelte-156el8v{margin:1vh 2vw 1vh 2vw;width:92vw;min-width:0}ul.svelte-156el8v>li.svelte-156el8v:first-child{padding-left:2vw}button.svelte-156el8v{max-width:92vw}}";
 		appendNode(style, document.head);
 	}
 
@@ -485,45 +346,45 @@ var Banner = (function () {
 				div_3 = createElement("div");
 				button = createElement("button");
 				button.textContent = "Accept";
-				h1.className = "svelte-gopv1s";
-				h2.className = "svelte-gopv1s";
+				h1.className = "svelte-156el8v";
+				h2.className = "svelte-156el8v";
 				addListener(input, "change", input_change_handler);
 				setAttribute(input, "type", "checkbox");
 				input.id = "gdpr-check-necessary";
 				input.disabled = true;
-				input.className = "svelte-gopv1s";
+				input.className = "svelte-156el8v";
 				label.htmlFor = "gdpr-check-necessary";
-				label.className = "svelte-gopv1s";
-				li.className = "svelte-gopv1s";
+				label.className = "svelte-156el8v";
+				li.className = "svelte-156el8v";
 				addListener(input_1, "change", input_1_change_handler);
 				setAttribute(input_1, "type", "checkbox");
 				input_1.id = "gdpr-check-tracking";
-				input_1.className = "svelte-gopv1s";
+				input_1.className = "svelte-156el8v";
 				label_1.htmlFor = "gdpr-check-tracking";
-				label_1.className = "svelte-gopv1s";
-				li_1.className = "svelte-gopv1s";
+				label_1.className = "svelte-156el8v";
+				li_1.className = "svelte-156el8v";
 				addListener(input_2, "change", input_2_change_handler);
 				setAttribute(input_2, "type", "checkbox");
 				input_2.id = "gdpr-check-analytics";
-				input_2.className = "svelte-gopv1s";
+				input_2.className = "svelte-156el8v";
 				label_2.htmlFor = "gdpr-check-analytics";
-				label_2.className = "svelte-gopv1s";
-				li_2.className = "svelte-gopv1s";
+				label_2.className = "svelte-156el8v";
+				li_2.className = "svelte-156el8v";
 				addListener(input_3, "change", input_3_change_handler);
 				setAttribute(input_3, "type", "checkbox");
 				input_3.id = "gdpr-check-marketing";
-				input_3.className = "svelte-gopv1s";
+				input_3.className = "svelte-156el8v";
 				label_3.htmlFor = "gdpr-check-marketing";
-				label_3.className = "svelte-gopv1s";
-				li_3.className = "svelte-gopv1s";
-				ul.className = "svelte-gopv1s";
-				div_2.className = "operations svelte-gopv1s";
-				div_1.className = "left svelte-gopv1s";
+				label_3.className = "svelte-156el8v";
+				li_3.className = "svelte-156el8v";
+				ul.className = "svelte-156el8v";
+				div_2.className = "operations svelte-156el8v";
+				div_1.className = "left svelte-156el8v";
 				addListener(button, "click", click_handler);
 				button.type = "button";
-				button.className = "svelte-gopv1s";
-				div_3.className = "right svelte-gopv1s";
-				div.className = "wrapper svelte-gopv1s";
+				button.className = "svelte-156el8v";
+				div_3.className = "right svelte-156el8v";
+				div.className = "wrapper svelte-156el8v";
 			},
 
 			m(target, anchor) {
@@ -605,7 +466,7 @@ var Banner = (function () {
 		this._state = assign(data(), options.data);
 		this._intro = true;
 
-		if (!document.getElementById("svelte-gopv1s-style")) add_css();
+		if (!document.getElementById("svelte-156el8v-style")) add_css();
 
 		if (!options.root) {
 			this._oncreate = [];
@@ -629,19 +490,14 @@ var Banner = (function () {
 	assign(Banner.prototype, proto);
 	assign(Banner.prototype, methods);
 
-	function attachBanner (parent, data = {}) {
-	  const element = document.createElement('div', { id: 'gdpr-banner' });
-	  parent.appendChild(element);
-
+	function attachBanner (target, data = {}) {
 	  const banner = new Banner({
-	    target: element,
+	    target,
 	    data
 	  });
 	}
 
 	window.GdprConsent = window.GdprConsent || {};
 	window.GdprConsent.attachBanner = attachBanner;
-
-	return attachBanner;
 
 }());
