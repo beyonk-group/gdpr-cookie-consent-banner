@@ -20,16 +20,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - run:
-          name: Eslint
-          command: npm run lint:ci
-
-      - store_test_results:
-          path: reports/junit
-
-      - store_artifacts:
-          path: reports/junit
-
   publish:
     docker:
       - image: circleci/node:10
