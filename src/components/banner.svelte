@@ -46,9 +46,13 @@
     line-height: 16px;
   }
 
+  h1, h2, label, button {
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+  }
+
   .wrapper {
     z-index: 99999;
-    font-family: 'Montserrat', sans-serif;
     position: fixed;
     bottom: 0;
     display: flex;
