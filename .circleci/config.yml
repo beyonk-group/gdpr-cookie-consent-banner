@@ -9,6 +9,14 @@ jobs:
     steps:
       - checkout
 
+  publish:
+    docker:
+      - image: circleci/node:10
+
+    steps:
+      - add_ssh_keys
+      - checkout
+
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
@@ -20,13 +28,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-  publish:
-    docker:
-      - image: circleci/node:10
-
-    steps:
-      - add_ssh_keys
-      - checkout
+      - run: npm run build
 
       - run:
           name: Authorize NPM

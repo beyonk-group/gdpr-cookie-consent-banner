@@ -234,8 +234,8 @@ function oncreate() {
 }
 function add_css() {
 	var style = createElement("style");
-	style.id = 'svelte-1sinrws-style';
-	style.textContent = "@import url('https://fonts.googleapis.com/css?family=Montserrat:600');h1.svelte-1sinrws{font-size:18px;font-weight:bold;margin:0}h2.svelte-1sinrws{font-size:14px;line-height:16px}.wrapper.svelte-1sinrws{z-index:99999;font-family:'Montserrat', sans-serif;position:fixed;bottom:0;display:flex;flex-direction:row;width:100vw;background-color:rgba(7, 9, 15, 0.75);color:#fff;padding:20px}.text.svelte-1sinrws{margin-right:20px}.right.svelte-1sinrws{display:flex;flex-direction:column;justify-content:center;min-width:200px;text-align:center;flex-grow:1}ul.svelte-1sinrws{display:inline-block;list-style-type:none;margin:0;padding:0}ul.svelte-1sinrws>li.svelte-1sinrws{display:inline-block}.operations.svelte-1sinrws{text-align:left}input[type=\"checkbox\"].svelte-1sinrws{display:none}input[type=\"checkbox\"]+label.svelte-1sinrws{display:block;position:relative;padding-left:35px;padding-right:15px;margin-bottom:10px;font-size:14px/20px;cursor:pointer;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}input[type=\"checkbox\"]+label.svelte-1sinrws:before{content:'';display:block;width:20px;height:20px;border:1px solid #D6C3C9;position:absolute;left:0;top:0;opacity:.6;-webkit-transition:all .12s, border-color .08s;transition:all .12s, border-color .08s}input[type=\"checkbox\"]:checked+label.svelte-1sinrws:before{width:10px;top:-5px;left:5px;border-radius:0;opacity:1;border-top-color:transparent;border-left-color:transparent;-webkit-transform:rotate(45deg);transform:rotate(45deg)}button.svelte-1sinrws{font-size:14px;max-width:200px;text-transform:uppercase;font-weight:bold;padding:1vh 1vw;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0, 0, 0, 0.25);border-radius:4px;background-color:#ff9273;border:0;border:4px solid #ff9273;cursor:pointer;transition:all 0.3s ease}button.svelte-1sinrws:hover{background-color:#fff;color:#ff9273}@media only screen and (max-width: 600px){.wrapper.svelte-1sinrws{flex-direction:column}.operations.svelte-1sinrws{margin-bottom:35px}button.svelte-1sinrws{max-width:100vw;margin-bottom:2vh}}";
+	style.id = 'svelte-7yn18i-style';
+	style.textContent = "@import url('https://fonts.googleapis.com/css?family=Montserrat:600');h1.svelte-7yn18i{font-size:18px;font-weight:bold;margin:0}h2.svelte-7yn18i{font-size:14px;line-height:16px}h1.svelte-7yn18i,h2.svelte-7yn18i,label.svelte-7yn18i,button.svelte-7yn18i{color:#fff;font-family:'Montserrat', sans-serif}.wrapper.svelte-7yn18i{z-index:99999;position:fixed;bottom:0;display:flex;flex-direction:row;width:100vw;background-color:rgba(7, 9, 15, 0.75);color:#fff;padding:20px}.text.svelte-7yn18i{margin-right:20px}.right.svelte-7yn18i{display:flex;flex-direction:column;justify-content:center;min-width:200px;text-align:center;flex-grow:1}ul.svelte-7yn18i{display:inline-block;list-style-type:none;margin:0;padding:0}ul.svelte-7yn18i>li.svelte-7yn18i{display:inline-block}.operations.svelte-7yn18i{text-align:left}input[type=\"checkbox\"].svelte-7yn18i{display:none}input[type=\"checkbox\"]+label.svelte-7yn18i{display:block;position:relative;padding-left:35px;padding-right:15px;margin-bottom:10px;font-size:14px/20px;cursor:pointer;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}input[type=\"checkbox\"]+label.svelte-7yn18i:before{content:'';display:block;width:20px;height:20px;border:1px solid #D6C3C9;position:absolute;left:0;top:0;opacity:.6;-webkit-transition:all .12s, border-color .08s;transition:all .12s, border-color .08s}input[type=\"checkbox\"]:checked+label.svelte-7yn18i:before{width:10px;top:-5px;left:5px;border-radius:0;opacity:1;border-top-color:transparent;border-left-color:transparent;-webkit-transform:rotate(45deg);transform:rotate(45deg)}button.svelte-7yn18i{font-size:14px;max-width:200px;text-transform:uppercase;font-weight:bold;padding:1vh 1vw;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0, 0, 0, 0.25);border-radius:4px;background-color:#ff9273;border:0;border:4px solid #ff9273;cursor:pointer;transition:all 0.3s ease}button.svelte-7yn18i:hover{background-color:#fff;color:#ff9273}@media only screen and (max-width: 600px){.wrapper.svelte-7yn18i{flex-direction:column}.operations.svelte-7yn18i{margin-bottom:35px}button.svelte-7yn18i{max-width:100vw;margin-bottom:2vh}}";
 	appendNode(style, document.head);
 }
 
@@ -344,46 +344,46 @@ function create_if_block(component, ctx) {
 			div_4 = createElement("div");
 			button = createElement("button");
 			button.textContent = "Accept";
-			h1.className = "svelte-1sinrws";
-			h2.className = "svelte-1sinrws";
-			div_2.className = "text svelte-1sinrws";
+			h1.className = "svelte-7yn18i";
+			h2.className = "svelte-7yn18i";
+			div_2.className = "text svelte-7yn18i";
 			addListener(input, "change", input_change_handler);
 			setAttribute(input, "type", "checkbox");
 			input.id = "gdpr-check-necessary";
 			input.disabled = true;
-			input.className = "svelte-1sinrws";
+			input.className = "svelte-7yn18i";
 			label.htmlFor = "gdpr-check-necessary";
-			label.className = "svelte-1sinrws";
-			li.className = "svelte-1sinrws";
+			label.className = "svelte-7yn18i";
+			li.className = "svelte-7yn18i";
 			addListener(input_1, "change", input_1_change_handler);
 			setAttribute(input_1, "type", "checkbox");
 			input_1.id = "gdpr-check-tracking";
-			input_1.className = "svelte-1sinrws";
+			input_1.className = "svelte-7yn18i";
 			label_1.htmlFor = "gdpr-check-tracking";
-			label_1.className = "svelte-1sinrws";
-			li_1.className = "svelte-1sinrws";
+			label_1.className = "svelte-7yn18i";
+			li_1.className = "svelte-7yn18i";
 			addListener(input_2, "change", input_2_change_handler);
 			setAttribute(input_2, "type", "checkbox");
 			input_2.id = "gdpr-check-analytics";
-			input_2.className = "svelte-1sinrws";
+			input_2.className = "svelte-7yn18i";
 			label_2.htmlFor = "gdpr-check-analytics";
-			label_2.className = "svelte-1sinrws";
-			li_2.className = "svelte-1sinrws";
+			label_2.className = "svelte-7yn18i";
+			li_2.className = "svelte-7yn18i";
 			addListener(input_3, "change", input_3_change_handler);
 			setAttribute(input_3, "type", "checkbox");
 			input_3.id = "gdpr-check-marketing";
-			input_3.className = "svelte-1sinrws";
+			input_3.className = "svelte-7yn18i";
 			label_3.htmlFor = "gdpr-check-marketing";
-			label_3.className = "svelte-1sinrws";
-			li_3.className = "svelte-1sinrws";
-			ul.className = "svelte-1sinrws";
-			div_3.className = "operations svelte-1sinrws";
+			label_3.className = "svelte-7yn18i";
+			li_3.className = "svelte-7yn18i";
+			ul.className = "svelte-7yn18i";
+			div_3.className = "operations svelte-7yn18i";
 			div_1.className = "left";
 			addListener(button, "click", click_handler);
 			button.type = "button";
-			button.className = "svelte-1sinrws";
-			div_4.className = "right svelte-1sinrws";
-			div.className = "wrapper svelte-1sinrws";
+			button.className = "svelte-7yn18i";
+			div_4.className = "right svelte-7yn18i";
+			div.className = "wrapper svelte-7yn18i";
 		},
 
 		m(target, anchor) {
@@ -466,7 +466,7 @@ function Banner(options) {
 	this._state = assign(data(), options.data);
 	this._intro = true;
 
-	if (!document.getElementById("svelte-1sinrws-style")) add_css();
+	if (!document.getElementById("svelte-7yn18i-style")) add_css();
 
 	if (!options.root) {
 		this._oncreate = [];
