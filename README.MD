@@ -95,7 +95,13 @@ const options = {
   /**
    * This is the default cookie name
    **/
-  cookieName: 'beyonk_gdpr'
+  cookieName: 'beyonk_gdpr',
+
+  /**
+   * The domain the cookie is valid on. This can be some.subdomain.com 
+   * or just somedomain.com to allow the cookie to be read across all subdomains.
+   **/
+  domain: 'example.com',
 
   /**
    * These are the top two lines of text on the banner
