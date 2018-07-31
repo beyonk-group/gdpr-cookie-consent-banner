@@ -234,8 +234,8 @@ function oncreate() {
 }
 function add_css() {
 	var style = createElement("style");
-	style.id = 'svelte-156el8v-style';
-	style.textContent = "@import url('https://fonts.googleapis.com/css?family=Montserrat:600');h1.svelte-156el8v{font-size:18px;font-weight:bold}h2.svelte-156el8v{font-size:14px;line-height:16px}.wrapper.svelte-156el8v{z-index:99999;font-family:'Montserrat', sans-serif;position:fixed;bottom:0;display:flex;flex-direction:row;width:100vw;background-color:rgba(7, 9, 15, 0.75);color:#fff}.left.svelte-156el8v,.right.svelte-156el8v{margin:10px 20px 10px 10px}.right.svelte-156el8v{display:flex;flex-direction:column;justify-content:center;min-width:200px;text-align:center;flex-grow:1}ul.svelte-156el8v{display:inline-block;list-style-type:none;margin:0;padding:0;margin-top:1vh}ul.svelte-156el8v>li.svelte-156el8v{display:inline-block;margin:0 2vw}.operations.svelte-156el8v{text-align:left}input[type=\"checkbox\"].svelte-156el8v{display:none}input[type=\"checkbox\"]+label.svelte-156el8v{display:block;position:relative;padding-left:35px;margin-bottom:20px;font-size:14px/20px;cursor:pointer;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}input[type=\"checkbox\"]+label.svelte-156el8v:before{content:'';display:block;width:20px;height:20px;border:1px solid #D6C3C9;position:absolute;left:0;top:0;opacity:.6;-webkit-transition:all .12s, border-color .08s;transition:all .12s, border-color .08s}input[type=\"checkbox\"]:checked+label.svelte-156el8v:before{width:10px;top:-5px;left:5px;border-radius:0;opacity:1;border-top-color:transparent;border-left-color:transparent;-webkit-transform:rotate(45deg);transform:rotate(45deg)}button.svelte-156el8v{font-size:14px;max-width:200px;text-transform:uppercase;font-weight:bold;padding:1vh 1vw;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0, 0, 0, 0.25);border-radius:4px;background-color:#ff9273;border:0;border:4px solid #ff9273;cursor:pointer;margin:1vh 1vw;transition:all 0.3s ease}button.svelte-156el8v:hover{background-color:#fff;color:#ff9273}@media only screen and (max-width: 500px){.wrapper.svelte-156el8v{flex-direction:column}.left.svelte-156el8v,.right.svelte-156el8v{margin:1vh 2vw 1vh 2vw;width:92vw;min-width:0}ul.svelte-156el8v>li.svelte-156el8v:first-child{padding-left:2vw}button.svelte-156el8v{max-width:92vw}}";
+	style.id = 'svelte-1sinrws-style';
+	style.textContent = "@import url('https://fonts.googleapis.com/css?family=Montserrat:600');h1.svelte-1sinrws{font-size:18px;font-weight:bold;margin:0}h2.svelte-1sinrws{font-size:14px;line-height:16px}.wrapper.svelte-1sinrws{z-index:99999;font-family:'Montserrat', sans-serif;position:fixed;bottom:0;display:flex;flex-direction:row;width:100vw;background-color:rgba(7, 9, 15, 0.75);color:#fff;padding:20px}.text.svelte-1sinrws{margin-right:20px}.right.svelte-1sinrws{display:flex;flex-direction:column;justify-content:center;min-width:200px;text-align:center;flex-grow:1}ul.svelte-1sinrws{display:inline-block;list-style-type:none;margin:0;padding:0}ul.svelte-1sinrws>li.svelte-1sinrws{display:inline-block}.operations.svelte-1sinrws{text-align:left}input[type=\"checkbox\"].svelte-1sinrws{display:none}input[type=\"checkbox\"]+label.svelte-1sinrws{display:block;position:relative;padding-left:35px;padding-right:15px;margin-bottom:10px;font-size:14px/20px;cursor:pointer;user-select:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none}input[type=\"checkbox\"]+label.svelte-1sinrws:before{content:'';display:block;width:20px;height:20px;border:1px solid #D6C3C9;position:absolute;left:0;top:0;opacity:.6;-webkit-transition:all .12s, border-color .08s;transition:all .12s, border-color .08s}input[type=\"checkbox\"]:checked+label.svelte-1sinrws:before{width:10px;top:-5px;left:5px;border-radius:0;opacity:1;border-top-color:transparent;border-left-color:transparent;-webkit-transform:rotate(45deg);transform:rotate(45deg)}button.svelte-1sinrws{font-size:14px;max-width:200px;text-transform:uppercase;font-weight:bold;padding:1vh 1vw;color:#fff;text-align:center;text-shadow:0 1px 2px rgba(0, 0, 0, 0.25);border-radius:4px;background-color:#ff9273;border:0;border:4px solid #ff9273;cursor:pointer;transition:all 0.3s ease}button.svelte-1sinrws:hover{background-color:#fff;color:#ff9273}@media only screen and (max-width: 600px){.wrapper.svelte-1sinrws{flex-direction:column}.operations.svelte-1sinrws{margin-bottom:35px}button.svelte-1sinrws{max-width:100vw;margin-bottom:2vh}}";
 	appendNode(style, document.head);
 }
 
@@ -281,7 +281,7 @@ function create_main_fragment(component, ctx) {
 
 // (1:0) {#if shown}
 function create_if_block(component, ctx) {
-	var div, div_1, h1, text, text_1, h2, text_2, text_3, div_2, ul, li, input, text_4, label, li_1, input_1, text_7, label_1, li_2, input_2, text_10, label_2, li_3, input_3, text_13, label_3, text_18, div_3, button;
+	var div, div_1, div_2, h1, text, text_1, h2, text_2, text_4, div_3, ul, li, input, text_5, label, li_1, input_1, text_8, label_1, li_2, input_2, text_11, label_2, li_3, input_3, text_14, label_3, text_19, div_4, button;
 
 	function input_change_handler() {
 		ctx.choices.necessary = input.checked;
@@ -311,121 +311,124 @@ function create_if_block(component, ctx) {
 		c() {
 			div = createElement("div");
 			div_1 = createElement("div");
+			div_2 = createElement("div");
 			h1 = createElement("h1");
 			text = createText(ctx.heading);
-			text_1 = createText("\n    ");
+			text_1 = createText("\n      ");
 			h2 = createElement("h2");
 			text_2 = createText(ctx.description);
-			text_3 = createText("\n    ");
-			div_2 = createElement("div");
+			text_4 = createText("\n    ");
+			div_3 = createElement("div");
 			ul = createElement("ul");
 			li = createElement("li");
 			input = createElement("input");
-			text_4 = createText("\n          ");
+			text_5 = createText("\n          ");
 			label = createElement("label");
 			label.textContent = "Neccessary Cookies";
 			li_1 = createElement("li");
 			input_1 = createElement("input");
-			text_7 = createText("\n          ");
+			text_8 = createText("\n          ");
 			label_1 = createElement("label");
 			label_1.textContent = "Tracking Cookies";
 			li_2 = createElement("li");
 			input_2 = createElement("input");
-			text_10 = createText("\n          ");
+			text_11 = createText("\n          ");
 			label_2 = createElement("label");
 			label_2.textContent = "Analytics Cookies";
 			li_3 = createElement("li");
 			input_3 = createElement("input");
-			text_13 = createText("\n          ");
+			text_14 = createText("\n          ");
 			label_3 = createElement("label");
 			label_3.textContent = "Marketing Cookies";
-			text_18 = createText("\n  ");
-			div_3 = createElement("div");
+			text_19 = createText("\n  ");
+			div_4 = createElement("div");
 			button = createElement("button");
 			button.textContent = "Accept";
-			h1.className = "svelte-156el8v";
-			h2.className = "svelte-156el8v";
+			h1.className = "svelte-1sinrws";
+			h2.className = "svelte-1sinrws";
+			div_2.className = "text svelte-1sinrws";
 			addListener(input, "change", input_change_handler);
 			setAttribute(input, "type", "checkbox");
 			input.id = "gdpr-check-necessary";
 			input.disabled = true;
-			input.className = "svelte-156el8v";
+			input.className = "svelte-1sinrws";
 			label.htmlFor = "gdpr-check-necessary";
-			label.className = "svelte-156el8v";
-			li.className = "svelte-156el8v";
+			label.className = "svelte-1sinrws";
+			li.className = "svelte-1sinrws";
 			addListener(input_1, "change", input_1_change_handler);
 			setAttribute(input_1, "type", "checkbox");
 			input_1.id = "gdpr-check-tracking";
-			input_1.className = "svelte-156el8v";
+			input_1.className = "svelte-1sinrws";
 			label_1.htmlFor = "gdpr-check-tracking";
-			label_1.className = "svelte-156el8v";
-			li_1.className = "svelte-156el8v";
+			label_1.className = "svelte-1sinrws";
+			li_1.className = "svelte-1sinrws";
 			addListener(input_2, "change", input_2_change_handler);
 			setAttribute(input_2, "type", "checkbox");
 			input_2.id = "gdpr-check-analytics";
-			input_2.className = "svelte-156el8v";
+			input_2.className = "svelte-1sinrws";
 			label_2.htmlFor = "gdpr-check-analytics";
-			label_2.className = "svelte-156el8v";
-			li_2.className = "svelte-156el8v";
+			label_2.className = "svelte-1sinrws";
+			li_2.className = "svelte-1sinrws";
 			addListener(input_3, "change", input_3_change_handler);
 			setAttribute(input_3, "type", "checkbox");
 			input_3.id = "gdpr-check-marketing";
-			input_3.className = "svelte-156el8v";
+			input_3.className = "svelte-1sinrws";
 			label_3.htmlFor = "gdpr-check-marketing";
-			label_3.className = "svelte-156el8v";
-			li_3.className = "svelte-156el8v";
-			ul.className = "svelte-156el8v";
-			div_2.className = "operations svelte-156el8v";
-			div_1.className = "left svelte-156el8v";
+			label_3.className = "svelte-1sinrws";
+			li_3.className = "svelte-1sinrws";
+			ul.className = "svelte-1sinrws";
+			div_3.className = "operations svelte-1sinrws";
+			div_1.className = "left";
 			addListener(button, "click", click_handler);
 			button.type = "button";
-			button.className = "svelte-156el8v";
-			div_3.className = "right svelte-156el8v";
-			div.className = "wrapper svelte-156el8v";
+			button.className = "svelte-1sinrws";
+			div_4.className = "right svelte-1sinrws";
+			div.className = "wrapper svelte-1sinrws";
 		},
 
 		m(target, anchor) {
 			insertNode(div, target, anchor);
 			appendNode(div_1, div);
-			appendNode(h1, div_1);
-			appendNode(text, h1);
-			appendNode(text_1, div_1);
-			appendNode(h2, div_1);
-			appendNode(text_2, h2);
-			appendNode(text_3, div_1);
 			appendNode(div_2, div_1);
-			appendNode(ul, div_2);
+			appendNode(h1, div_2);
+			appendNode(text, h1);
+			appendNode(text_1, div_2);
+			appendNode(h2, div_2);
+			appendNode(text_2, h2);
+			appendNode(text_4, div_1);
+			appendNode(div_3, div_1);
+			appendNode(ul, div_3);
 			appendNode(li, ul);
 			appendNode(input, li);
 
 			input.checked = ctx.choices.necessary;
 
-			appendNode(text_4, li);
+			appendNode(text_5, li);
 			appendNode(label, li);
 			appendNode(li_1, ul);
 			appendNode(input_1, li_1);
 
 			input_1.checked = ctx.choices.tracking;
 
-			appendNode(text_7, li_1);
+			appendNode(text_8, li_1);
 			appendNode(label_1, li_1);
 			appendNode(li_2, ul);
 			appendNode(input_2, li_2);
 
 			input_2.checked = ctx.choices.analytics;
 
-			appendNode(text_10, li_2);
+			appendNode(text_11, li_2);
 			appendNode(label_2, li_2);
 			appendNode(li_3, ul);
 			appendNode(input_3, li_3);
 
 			input_3.checked = ctx.choices.marketing;
 
-			appendNode(text_13, li_3);
+			appendNode(text_14, li_3);
 			appendNode(label_3, li_3);
-			appendNode(text_18, div);
-			appendNode(div_3, div);
-			appendNode(button, div_3);
+			appendNode(text_19, div);
+			appendNode(div_4, div);
+			appendNode(button, div_4);
 		},
 
 		p(changed, _ctx) {
@@ -463,7 +466,7 @@ function Banner(options) {
 	this._state = assign(data(), options.data);
 	this._intro = true;
 
-	if (!document.getElementById("svelte-156el8v-style")) add_css();
+	if (!document.getElementById("svelte-1sinrws-style")) add_css();
 
 	if (!options.root) {
 		this._oncreate = [];

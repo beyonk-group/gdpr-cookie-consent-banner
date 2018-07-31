@@ -1,8 +1,10 @@
 {#if shown}
 <div class="wrapper">
   <div class="left">
-    <h1>{heading}</h1>
-    <h2>{description}</h2>
+    <div class="text">
+      <h1>{heading}</h1>
+      <h2>{description}</h2>
+    </div>
     <div class="operations">
       <ul>
         <li>
@@ -36,6 +38,7 @@
   h1 {
     font-size: 18px;
     font-weight: bold;
+    margin: 0;
   }
   
   h2 {
@@ -53,10 +56,11 @@
     width: 100vw;
     background-color: rgba(7, 9, 15, 0.75);
     color: #fff;
+    padding: 20px;
   }
 
-  .left, .right {
-    margin: 10px 20px 10px 10px;
+  .text {
+    margin-right: 20px;
   }
 
   .right {
@@ -73,12 +77,11 @@
     list-style-type: none;
     margin: 0;
     padding: 0;
-    margin-top: 1vh;
+    /* margin-top: 1vh; */
   }
 
   ul > li {
     display: inline-block;
-    margin: 0 2vw;
   }
 
   .operations {
@@ -93,7 +96,8 @@
     display: block;
     position: relative;
     padding-left: 35px;
-    margin-bottom: 20px;
+    padding-right: 15px;
+    margin-bottom: 10px;
     font-size: 14px/20px;
     cursor: pointer;
     user-select: none;
@@ -142,7 +146,6 @@
     border: 0;
     border: 4px solid #ff9273;;
     cursor: pointer;
-    margin: 1vh 1vw;
 
     transition: all 0.3s ease;
   }
@@ -153,23 +156,18 @@
   }
 
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: 600px) {
     .wrapper {
       flex-direction: column;
     }
 
-    .left, .right {
-      margin: 1vh 2vw 1vh 2vw;
-      width: 92vw;
-      min-width: 0;
-    }
-
-    ul > li:first-child {
-      padding-left: 2vw;
+    .operations {
+      margin-bottom: 35px;
     }
 
     button {
-      max-width: 92vw;
+      max-width: 100vw;
+      margin-bottom: 2vh;
     }
   }
 
