@@ -99,15 +99,18 @@ const options = {
 
   /**
    * These are the top two lines of text on the banner
+   * The 'description' field can include html such as links
    **/
   heading: 'GDPR Notice',
-  description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
+  description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our <a href=\"/privacy-policy\">privacy policy page</a>. By clicking accept, you consent to our privacy policy & use of cookies.",
   
   /**
    * These are the functions which are run if a user opts-in to that category.
    * You should drop your cookies here (or set a variable to control the later dropping of cookies.
+   * 
+   * If you don't want to show a category, simply remove the specified function (and key) from this object.
    **/
-  groups: {
+  categories: {
     analytics: function () {
       console.log('No analytics cookies specified')
     },

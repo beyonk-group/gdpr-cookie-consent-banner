@@ -13,9 +13,23 @@
   </head>
 
   <body>
-    <script src="dist/bundle.js"></script>
+    <script src="dist/browser/bundle.js"></script>
+    <div id="banner"></div>
     <script>
-      GdprConsent.attachBanner(document.body)
+      GdprConsent.attachBanner(document.getElementById('banner'), {
+        categories: {
+          analytics: function () {
+            console.info('Dropped analytics cookies')
+          },
+          necessary: function () {
+            console.info('Dropped necessary cookies')
+          }
+        },
+        choices: {
+          necessary: true,
+          analytics: false
+        }
+      })
     </script>
   </body>
 </html>
