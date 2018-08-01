@@ -1,6 +1,15 @@
 import svelte from 'rollup-plugin-svelte'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import { terser } from 'rollup-plugin-terser'
+
+const plugins = [
+  resolve(),
+  commonjs(),
+  svelte({
+    include: 'src/components/**/*.svelte'
+  })
+]
 
 const esm = {
   input: 'src/esm/main.js',
@@ -9,13 +18,7 @@ const esm = {
     format: 'es',
     name: 'Banner'
   },
-  plugins: [
-    resolve(),
-    commonjs(),
-    svelte({
-      include: 'src/components/**/*.svelte'
-    })
-  ]
+  plugins
 }
 
 const browser = {
@@ -25,16 +28,21 @@ const browser = {
     format: 'iife',
     name: 'Banner'
   },
-  plugins: [
-    resolve(),
-    commonjs(),
-    svelte({
-      include: 'src/components/**/*.svelte'
-    })
-  ]
+  plugins
+}
+
+const browserMin = {
+  input: 'src/browser/main.js',
+  output: {
+    file: 'dist/browser/bundle.min.js',
+    format: 'iife',
+    name: 'Banner'
+  },
+  plugins: [].concat(plugins, [ terser() ])
 }
 
 export default [
   esm,
-  browser
+  browser,
+  browserMin
 ]

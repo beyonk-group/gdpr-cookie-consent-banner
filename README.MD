@@ -29,6 +29,16 @@ then import the banner into your code:
 
 #### Using raw javascript
 
+##### From a CDN
+
+You can include the minified script directly from unpkg cdn:
+
+```html
+<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@3.1.0/dist/browser/bundle.min.js"></script>
+```
+
+##### Storing a local copy
+
 Download the contents of `dist/bundle.js` to your codebase, and include it in your html:
 
 ```html

@@ -216,8 +216,9 @@
 	}
 	var methods = {
 	  choose () {
-	    const { categories, choices, cookieName } = this.get();
-	    cookies.set(cookieName, { choices });
+	    const { categories, choices, cookieName, domain } = this.get();
+	    const options = domain ? { domain } : {};
+	    cookies.set(cookieName, { choices }, options);
 	    const types = Object.keys(categories);
 
 	    types
