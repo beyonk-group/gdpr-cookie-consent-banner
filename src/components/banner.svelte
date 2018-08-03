@@ -228,10 +228,19 @@
     },
 
     methods: {
-      choose () {
-        const { categories, choices, cookieName, cookieConfig } = this.get()
-        const options = cookieConfig ? cookieConfig : {}
+      setCookie (choices) {
+        const { cookieName, cookieConfig } = this.get()
+        const expires = new Date()
+        expires.setDate(expires.getDate() + 365)
+
+        const options = Object.assign({}, cookieConfig ? cookieConfig : {}, { expires })
         cookies.set(cookieName, { choices }, options)
+      },
+
+      choose () {
+        const { categories, choices } = this.get()
+        this.setCookie(choices)
+        
         const types = Object.keys(categories)
 
         types
