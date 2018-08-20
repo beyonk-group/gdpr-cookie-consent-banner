@@ -17,6 +17,7 @@
     <div id="banner"></div>
     <script>
       GdprConsent.attachBanner(document.getElementById('banner'), {
+        cookieName: 'test_gdpr',
         categories: {
           analytics: function () {
             console.info('Dropped analytics cookies')

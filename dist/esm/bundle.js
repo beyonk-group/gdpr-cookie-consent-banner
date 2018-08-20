@@ -185,7 +185,7 @@ const cookies = Cookie();
 
 function data() {
   return {
-    cookieName: 'beyonk_gdpr',
+    cookieName: null,
     shown: true,
     heading: 'GDPR Notice',
     description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
@@ -212,10 +212,17 @@ function data() {
   }
 }
 var methods = {
-  choose () {
-    const { categories, choices, cookieName, domain } = this.get();
-    const options = domain ? { domain } : {};
+  setCookie (choices) {
+    const { cookieName, cookieConfig } = this.get();
+    const expires = new Date();
+    expires.setDate(expires.getDate() + 365);
+
+    const options = Object.assign({}, cookieConfig ? cookieConfig : {}, { expires });
     cookies.set(cookieName, { choices }, options);
+  },
+
+  execute (choices) {
+    const { categories } = this.get();
     const types = Object.keys(categories);
 
     types
@@ -226,14 +233,25 @@ var methods = {
       }
     });
     this.set({ shown: false });
+  },
+
+  choose () {
+    const { categories, choices } = this.get();
+    this.setCookie(choices);
+    this.execute(choices);
   }
 };
 
 function oncreate() {
   const { cookieName } = this.get();
+  if (!cookieName) {
+    throw('You must set gdpr cookie name')
+  }
+
   const cookie = cookies.get(cookieName);
   if (cookie) {
-    this.set({ shown: false });
+    console.log('cookie, exists');
+    this.execute(cookie.choices);
   }
 }
 function add_css() {
