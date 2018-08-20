@@ -227,7 +227,6 @@
 
       const cookie = cookies.get(cookieName)
       if (cookie) {
-        console.log('cookie, exists')
         this.execute(cookie.choices)
       }
     },

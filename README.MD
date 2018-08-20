@@ -103,7 +103,7 @@ It is not possible to opt-out of 'necessary' cookies.
 ```js
 const options = {
   /**
-   * This is the default cookie name
+   * You must set the cookie name.
    **/
   cookieName: 'beyonk_gdpr',
 
