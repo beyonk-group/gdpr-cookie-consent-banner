@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="379" height="168" src="https://user-images.githubusercontent.com/218949/43399071-c35bfd86-9401-11e8-9e11-ffee6888ce8a.png" alt="Beyonk" />
+  <img width="186" height="90" src="(https://user-images.githubusercontent.com/218949/44782765-377e7c80-ab80-11e8-9dd8-fce0e37c235b.png" alt="Beyonk" />
 </p>
 
 ## GDPR Cookie Consent banner
