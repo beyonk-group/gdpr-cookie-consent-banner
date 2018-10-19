@@ -221,15 +221,16 @@ var methods = {
     cookies.set(cookieName, { choices }, options);
   },
 
-  execute (choices) {
-    const { categories } = this.get();
-    const types = Object.keys(categories);
+  execute (chosen) {
+    const { categories, choices } = this.get();
+    const types = Object.keys(choices);
 
     types
     .forEach(t => {
-      const agreed = choices[t];
+      const agreed = chosen[t];
       if (agreed) {
         categories[t]();
+        this.fire(`${t}`);
       }
     });
     this.set({ shown: false });
@@ -250,7 +251,6 @@ function oncreate() {
 
   const cookie = cookies.get(cookieName);
   if (cookie) {
-    console.log('cookie, exists');
     this.execute(cookie.choices);
   }
 }

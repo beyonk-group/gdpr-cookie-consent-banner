@@ -126,7 +126,7 @@ const options = {
    * These are the functions which are run if a user opts-in to that category.
    * You should drop your cookies here (or set a variable to control the later dropping of cookies.
    * 
-   * If you don't want to show a category, simply remove the specified function (and key) from this object.
+   * If you are using svelte, you can use events instead - see the Svelte section below.
    **/
   categories: {
     analytics: function () {
@@ -146,6 +146,8 @@ const options = {
   /**
    * These are the default opt-ins.
    * When set to true, the option will automatically be checked on load.
+   *
+   * If you don't want to show a category, simply remove the specified key from this object.
    **/
   choices: {
     necessary: true,

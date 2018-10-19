@@ -20,7 +20,7 @@
   },
   "scripts": {
     "demo": "http-server",
-    "watch": "rollup -cw",
+    "dev": "rollup -cw",
     "build": "rollup -c"
   },
   "author": "Antony Jones",
