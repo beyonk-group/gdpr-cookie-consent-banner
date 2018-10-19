@@ -7,25 +7,25 @@
     </div>
     <div class="operations">
       <ul>
-        {#if categories.necessary}
+        {#if choices.hasOwnProperty('necessary')}
           <li>
             <input type="checkbox" id="gdpr-check-necessary" bind:checked="choices.necessary" disabled>
             <label for="gdpr-check-necessary">Neccessary Cookies</label>
           </li>
         {/if}
-        {#if categories.tracking}
+        {#if choices.hasOwnProperty('tracking')}
           <li>
             <input type="checkbox" id="gdpr-check-tracking" bind:checked="choices.tracking">
             <label for="gdpr-check-tracking">Tracking Cookies</label>
           </li>
         {/if}
-        {#if categories.analytics}
+        {#if choices.hasOwnProperty('analytics')}
           <li>
             <input type="checkbox" id="gdpr-check-analytics" bind:checked="choices.analytics">
             <label for="gdpr-check-analytics">Analytics Cookies</label>
           </li>
         {/if}
-        {#if categories.marketing}
+        {#if choices.hasOwnProperty('marketing')}
           <li>
             <input type="checkbox" id="gdpr-check-marketing" bind:checked="choices.marketing">
             <label for="gdpr-check-marketing">Marketing Cookies</label>
