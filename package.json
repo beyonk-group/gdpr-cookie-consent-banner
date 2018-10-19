@@ -5,10 +5,11 @@
   "main": "dist/esm/bundle.js",
   "browser": "dist/browser/bundle.min.js",
   "svelte": "src/components/banner.svelte",
-  "dependencies": {},
+  "dependencies": {
+    "cookie-universal": "^2.0.5"
+  },
   "devDependencies": {
     "cdnjs-importer": "^2.0.0-beta",
-    "cookie-universal": "^2.0.5",
     "http-server": "^0.11.1",
     "rollup": "^0.63.4",
     "rollup-plugin-commonjs": "^9.1.4",
