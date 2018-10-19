@@ -198,16 +198,12 @@
         description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
         categories: {
           analytics: function () {
-            console.info('No analytics cookies specified')
           },
           tracking: function () {
-            console.info('No tracking cookies specified')
           },
           marketing: function () {
-            console.info('No marketing cookies specified')
           },
           necessary: function () {
-            console.info('No necessary cookies specified')
           }
         },
         choices: {

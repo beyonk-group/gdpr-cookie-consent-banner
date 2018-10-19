@@ -81,12 +81,18 @@ Create a component which uses the library, and mounts it during the render stage
 Just use it as a regular svelte component:
 
 ```html
-<GdprBanner />
+<GdprBanner { ...gdprBannerOptions } on:analytics="this.someFunction()" />
 
 <script>
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 
   export default {
+    data () {
+      gdprBannerOptions: {
+        ...
+      }
+    }
+
     components: {
       GdprBanner
     }
