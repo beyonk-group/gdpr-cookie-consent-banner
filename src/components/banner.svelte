@@ -193,7 +193,7 @@
     data () {
       return {
         cookieName: null,
-        shown: true,
+        shown: false,
         heading: 'GDPR Notice',
         description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
         categories: {
@@ -224,6 +224,8 @@
       const cookie = cookies.get(cookieName)
       if (cookie) {
         this.execute(cookie.choices)
+      } else {
+        this.set({ shown: true })
       }
     },
 
