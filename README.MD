@@ -10,6 +10,20 @@
 
 This is a vanilla JS implementation (thanks to [Svelte](http://svelte.technology)) of a compliant GDPR banner. It allows the user granular opt-in and out of four different cookie categories.
 
+### What are its features?
+
+* Small, discrete, and non-intrusive
+* GDPR Compliant
+* Responsive
+* Offers four categories
+* Runs any function on opting-in
+* Runs opted-in functions on each visit
+* Changing the choices requires the user to opt-in again.
+* Vanilla JS
+* Svelte Ready
+* No dependencies
+* Choices expire yearly
+
 ### How do I install it?
 
 #### Via NPM

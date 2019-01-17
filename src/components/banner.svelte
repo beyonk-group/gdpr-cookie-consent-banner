@@ -186,6 +186,7 @@
 
 <script>
   import Cookie from 'cookie-universal'
+  import { validate } from '../util'
 
   const cookies = Cookie()
 
@@ -222,9 +223,10 @@
       }
 
       const cookie = cookies.get(cookieName)
-      if (cookie) {
+      if (cookie && this.chosenMatchesChoice(cookie)) {
         this.execute(cookie.choices)
       } else {
+        this.removeCookie()
         this.set({ shown: true })
       }
     },
@@ -237,6 +239,17 @@
 
         const options = Object.assign({}, cookieConfig ? cookieConfig : {}, { expires })
         cookies.set(cookieName, { choices }, options)
+      },
+
+      removeCookie () {
+        const { cookieName, cookieConfig } = this.get()
+        const { path } = cookieConfig
+        cookies.remove(cookieName, { ...path ? { path } : {} } )
+      },
+
+      chosenMatchesChoice (cookie) {
+        const { choices } = this.get()
+        return validate(choices, cookie)
       },
 
       execute (chosen) {
