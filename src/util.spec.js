@@ -1,6 +1,6 @@
 'use strict'
 
-const { expect } = require('code')
+const { expect } = require('@hapi/code')
 const { validate } = require('./util')
 
 describe('util', () => {

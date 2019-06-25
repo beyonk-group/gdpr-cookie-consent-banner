@@ -9,25 +9,25 @@
       <ul>
         {#if choices.hasOwnProperty('necessary')}
           <li>
-            <input type="checkbox" id="gdpr-check-necessary" bind:checked="choices.necessary" disabled>
+            <input type="checkbox" id="gdpr-check-necessary" bind:checked={choices.necessary} disabled>
             <label for="gdpr-check-necessary">Neccessary Cookies</label>
           </li>
         {/if}
         {#if choices.hasOwnProperty('tracking')}
           <li>
-            <input type="checkbox" id="gdpr-check-tracking" bind:checked="choices.tracking">
+            <input type="checkbox" id="gdpr-check-tracking" bind:checked={choices.tracking}>
             <label for="gdpr-check-tracking">Tracking Cookies</label>
           </li>
         {/if}
         {#if choices.hasOwnProperty('analytics')}
           <li>
-            <input type="checkbox" id="gdpr-check-analytics" bind:checked="choices.analytics">
+            <input type="checkbox" id="gdpr-check-analytics" bind:checked={choices.analytics}>
             <label for="gdpr-check-analytics">Analytics Cookies</label>
           </li>
         {/if}
         {#if choices.hasOwnProperty('marketing')}
           <li>
-            <input type="checkbox" id="gdpr-check-marketing" bind:checked="choices.marketing">
+            <input type="checkbox" id="gdpr-check-marketing" bind:checked={choices.marketing}>
             <label for="gdpr-check-marketing">Marketing Cookies</label>
           </li>
         {/if}
@@ -35,14 +35,12 @@
     </div>
   </div>
   <div class="right">
-    <button type="button" on:click="choose()">Accept</button>
+    <button type="button" on:click={choose}>Accept</button>
   </div>
 </div>
 {/if}
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Montserrat:600');
-
   h1 {
     font-size: 18px;
     font-weight: bold;
@@ -56,7 +54,6 @@
 
   h1, h2, label, button {
     color: #fff;
-    font-family: 'Montserrat', sans-serif;
   }
 
   .wrapper {
@@ -187,91 +184,87 @@
 <script>
   import Cookie from 'cookie-universal'
   import { validate } from '../util'
+  import { onMount, createEventDispatcher } from 'svelte'
+
+  const dispatch = createEventDispatcher()
 
   const cookies = Cookie()
 
-  export default {
-    data () {
-      return {
-        cookieName: null,
-        shown: false,
-        heading: 'GDPR Notice',
-        description: "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.",
-        categories: {
-          analytics: function () {
-          },
-          tracking: function () {
-          },
-          marketing: function () {
-          },
-          necessary: function () {
-          }
-        },
-        choices: {
-          necessary: true,
-          marketing: true,
-          analytics: true,
-          tracking: true
-        }
-      }
+  export let cookieName = null
+
+  let shown = false
+
+  export let heading = 'GDPR Notice'
+  export let description = "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies."
+  
+  export let categories = {
+    analytics: function () {
     },
-
-    oncreate () {
-      const { cookieName } = this.get()
-      if (!cookieName) {
-        throw('You must set gdpr cookie name')
-      }
-
-      const cookie = cookies.get(cookieName)
-      if (cookie && this.chosenMatchesChoice(cookie)) {
-        this.execute(cookie.choices)
-      } else {
-        this.removeCookie()
-        this.set({ shown: true })
-      }
+    tracking: function () {
     },
-
-    methods: {
-      setCookie (choices) {
-        const { cookieName, cookieConfig } = this.get()
-        const expires = new Date()
-        expires.setDate(expires.getDate() + 365)
-
-        const options = Object.assign({}, cookieConfig ? cookieConfig : {}, { expires })
-        cookies.set(cookieName, { choices }, options)
-      },
-
-      removeCookie () {
-        const { cookieName, cookieConfig } = this.get()
-        const { path } = cookieConfig
-        cookies.remove(cookieName, { ...path ? { path } : {} })
-      },
-
-      chosenMatchesChoice (cookie) {
-        const { choices } = this.get()
-        return validate(choices, cookie)
-      },
-
-      execute (chosen) {
-        const { categories, choices } = this.get()
-        const types = Object.keys(choices)
-
-        types
-        .forEach(t => {
-          const agreed = chosen[t]
-          if (agreed) {
-            categories[t]()
-            this.fire(`${t}`)
-          }
-        })
-        this.set({ shown: false })
-      },
-
-      choose () {
-        const { categories, choices } = this.get()
-        this.setCookie(choices)
-        this.execute(choices)
-      }
+    marketing: function () {
+    },
+    necessary: function () {
     }
+  }
+
+  export let cookieConfig = {}
+
+  export let choices = {
+    necessary: true,
+    marketing: true,
+    analytics: true,
+    tracking: true
+  }
+
+  onMount(() => {
+    console.log('on mounty')
+    if (!cookieName) {
+      throw('You must set gdpr cookie name')
+    }
+
+    const cookie = cookies.get(cookieName)
+    if (cookie && chosenMatchesChoice(cookie)) {
+      execute(cookie.choices)
+    } else {
+      removeCookie()
+      shown = true
+    }
+  })
+
+  function setCookie (choices) {
+    const expires = new Date()
+    expires.setDate(expires.getDate() + 365)
+
+    const options = { ...cookieConfig, expires }
+    cookies.set(cookieName, { choices }, options)
+  }
+
+  function removeCookie () {
+    const { path } = cookieConfig
+    cookies.remove(cookieName, { ...path ? { path } : {} })
+  }
+
+  function chosenMatchesChoice (cookie) {
+    return validate(choices, cookie)
+  }
+
+  function execute (chosen) {
+    const types = Object.keys(choices)
+
+    types
+    .forEach(t => {
+      const agreed = chosen[t]
+      if (agreed) {
+        categories[t]()
+        dispatch(`${t}`)
+      }
+    })
+    shown = false
+  }
+
+  function choose () {
+    setCookie(choices)
+    execute(choices)
   }
 </script>
