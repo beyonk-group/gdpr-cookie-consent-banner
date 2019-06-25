@@ -4,11 +4,11 @@
 
 ## GDPR Cookie Consent banner
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![CircleCI](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner.svg?style=shield)](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![CircleCI](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner.svg?style=shield)](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner) [![Svelte v3](https://img.shields.io/badge/svelte-v2-orange.svg)](https://v2.svelte.dev) [![Svelte v3](https://img.shields.io/badge/svelte-v3-blueviolet.svg)](https://svelte.dev)
 
 ### What is it?
 
-This is a vanilla JS implementation (thanks to [Svelte](http://svelte.technology)) of a compliant GDPR banner. It allows the user granular opt-in and out of four different cookie categories.
+This is a vanilla JS implementation (thanks to [Svelte](http://svelte.dev)) of a compliant GDPR banner. It allows the user granular opt-in and out of four different cookie categories.
 
 ### What are its features?
 
@@ -90,29 +90,21 @@ Create a component which uses the library, and mounts it during the render stage
 </script>
 ```
 
-#### Svelte
+#### Svelte v3
 
 Just use it as a regular svelte component:
 
 ```html
-<GdprBanner { ...gdprBannerOptions } on:analytics="this.someFunction()" />
+<GdprBanner cookieName="foo" description="bar" on:analytics="this.someFunction()" />
 
 <script>
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
-
-  export default {
-    data () {
-      gdprBannerOptions: {
-        ...
-      }
-    }
-
-    components: {
-      GdprBanner
-    }
-  }
 </script>
 ```
+
+#### Svelte v2
+
+See the v4.x.x tag of this repository.
 
 ### Configuration
 
