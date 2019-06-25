@@ -218,7 +218,6 @@
   }
 
   onMount(() => {
-    console.log('on mounty')
     if (!cookieName) {
       throw('You must set gdpr cookie name')
     }
