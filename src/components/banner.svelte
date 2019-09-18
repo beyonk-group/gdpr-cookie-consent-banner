@@ -235,13 +235,13 @@
     const expires = new Date()
     expires.setDate(expires.getDate() + 365)
 
-    const options = { ...cookieConfig, expires }
+    const options = Object.assign({}, cookieConfig, { expires })
     cookies.set(cookieName, { choices }, options)
   }
 
   function removeCookie () {
     const { path } = cookieConfig
-    cookies.remove(cookieName, { ...path ? { path } : {} })
+    cookies.remove(cookieName, Object.assign({}, path ? { path } : {}));
   }
 
   function chosenMatchesChoice (cookie) {

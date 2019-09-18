@@ -261,7 +261,7 @@
 	  removeCookie () {
 	    const { cookieName, cookieConfig } = this.get();
 	    const { path } = cookieConfig;
-	    cookies.remove(cookieName, { ...path ? { path } : {} });
+	    cookies.remove(cookieName, Object.assign({}, path ? { path } : {}));
 	  },
 
 	  chosenMatchesChoice (cookie) {
