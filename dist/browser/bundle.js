@@ -788,7 +788,7 @@
     }
 
     function attachBanner(target, props = {}) {
-      new Banner({
+      const banner = new Banner({
         target,
         props
       });
