@@ -1,7 +1,7 @@
 import Banner from '../components/banner.svelte'
 
 function attachBanner(target, props = {}) {
-  new attachBanner({
+  new Banner({
     target,
     props
   })
