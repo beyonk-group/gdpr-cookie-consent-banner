@@ -149,7 +149,7 @@ const options = {
 
   /**
    * All the button labels
-   */
+   **/
   acceptLabel: 'Confirm all',
   settingsLabel: 'Preferences',
   closeLabel: 'Close window',
@@ -169,6 +169,11 @@ const options = {
     },
     analytics: false
   },
+
+  /**
+   * Show a button after users have confirmed their selection to finetune cookies at any time.
+  **/
+  showOnInit: true,
 
   /**
    * These are the functions which are run if a user opts-in to that category.
