@@ -1,3 +1,5 @@
+## GDPR Cookie Consent banner (fork)
+
 This is a fork of the original repo aimed at providing more flexibility and better visuals. It also fixes an error when loading the package from CDN directly. Please refrain from using the CDN link (if there's any).
 
 ### What's different?
@@ -6,11 +8,11 @@ This is a fork of the original repo aimed at providing more flexibility and bett
 - each cookie (necessary, analytics, etc.) now has a description value which is usually a requirement by the EU (e.g. Google analytics is a 3rd party service used to...)
 - there's additional options for labels. Each cookie choice and every button can now be renamed (see fiddle for example
 
+____
+
 <p align="center">
   <img width="186" height="90" src="https://user-images.githubusercontent.com/218949/44782765-377e7c80-ab80-11e8-9dd8-fce0e37c235b.png" alt="Beyonk" />
 </p>
-
-## GDPR Cookie Consent banner
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![CircleCI](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner.svg?style=shield)](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner) [![Svelte v3](https://img.shields.io/badge/svelte-v2-orange.svg)](https://v2.svelte.dev) [![Svelte v3](https://img.shields.io/badge/svelte-v3-blueviolet.svg)](https://svelte.dev)
 
