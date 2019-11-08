@@ -18,16 +18,16 @@
   margin-right: 40px;
 }
 
-.cookieConsent__Content p {
+.cookieConsent__Description {
   margin: 20px 0 0;
 }
 
-.cookieConsent__Content a {
+.cookieConsent__Description a {
   color: white;
   text-decoration: underline;
 }
 
-.cookieConsent__Content a:hover {
+.cookieConsent__Description a:hover {
   text-decoration: none;
 }
 
