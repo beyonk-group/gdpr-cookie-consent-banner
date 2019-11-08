@@ -1,14 +1,4 @@
-## GDPR Cookie Consent banner (fork)
-
-This is a fork of the original repo aimed at providing more flexibility and better visuals. It also fixes an error when loading the package from CDN directly. Please refrain from using the CDN link (if there's any).
-
-### What's different?
-- CSS has been detached from the main instance and separated into a file so it can be loaded conditionally (I usually don't prefer having CSS with my components and since Svelte doesn't have renderless components like Vue does I merely separated styles and markup and renamed all the classes)
-- visuals have been vastly improved and CSS now uses BEM. I understand that the original uses scoped CSS from Svelte by default, but since I wanted to detach CSS completely I had to namespace my classes
-- each cookie (necessary, analytics, etc.) now has a description value which is usually a requirement by the EU (e.g. Google analytics is a 3rd party service used to...)
-- there's additional options for labels. Each cookie choice and every button can now be renamed (see fiddle for example
-
-____
+## GDPR Cookie Consent banner
 
 <p align="center">
   <img width="186" height="90" src="https://user-images.githubusercontent.com/218949/44782765-377e7c80-ab80-11e8-9dd8-fce0e37c235b.png" alt="Beyonk" />
@@ -33,6 +23,8 @@ This is a vanilla JS implementation (thanks to [Svelte](http://svelte.dev)) of a
 * Svelte Ready
 * No dependencies
 * Choices expire yearly
+* Optional CSS (with BEM) to bootstrap your cookie message right away
+* Modifiable labels and messages
 
 ### How do I install it?
 
@@ -55,7 +47,9 @@ then import the banner into your code:
 
 ##### From a CDN
 
-No CDN link as of now. Please see the methods above and below on how to either include the esm package or a local file.
+```html
+<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@3.1.0/dist/browser/bundle.min.js"></script>
+```
 
 ##### Storing a local copy
 
@@ -123,15 +117,22 @@ const options = {
   /**
    * You must set the cookie name.
    **/
-  cookieName: 'gdpr_consent',
+  cookieName: 'beyonk_gdpr',
+  
+  /**
+   * The cookie configuration, such as domain and path.
+   **/
+  cookieConfig: {
+    domain: 'example.com',
+    path: '/'
+  },
 
   /**
    * These are the top two lines of text on the banner
    * The 'description' field can include html such as links
    **/
   heading: 'GDPR Notice',
-  description:
-    'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our <a href="/privacy-policy">privacy policy page</a>. By clicking accept, you consent to our privacy policy & use of cookies.',
+  description: 'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our <a href="/privacy-policy">privacy policy page</a>. By clicking accept, you consent to our privacy policy & use of cookies.',
 
   /**
    * All the button labels
@@ -141,8 +142,11 @@ const options = {
   closeLabel: 'Close window',
 
   /**
-   * Better cookie descriptions
-   */
+   * These are the default opt-ins and their descriptions.
+   * When value is set to true, the option will automatically be checked on load.
+   *
+   * If you don't want to show a category, simply remove the specified key from this object.
+   **/
   choices: {
     necessary: {
       label: 'Required cookies',
