@@ -14,7 +14,7 @@
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  z-index: 9990;
+  z-index: 99990;
 }
 
 .cookieConsentToggle.active {
@@ -32,7 +32,7 @@
 }
 
 .cookieConsentWrapper {
-  z-index: 99999;
+  z-index: 99990;
   position: fixed;
   left: 0;
   right: 0;
@@ -116,6 +116,7 @@
   transition: 200ms transform;
   will-change: transform;
   transform: scale(0.95);
+  z-index: 99999;
 }
 
 .cookieConsentOperations__Item {
