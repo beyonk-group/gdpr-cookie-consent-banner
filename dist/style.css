@@ -93,6 +93,7 @@
   display: flex;
   transition: 300ms;
   will-change: transform;
+  z-index: 99999;
 }
 
 .cookieConsentOperations.active {
@@ -116,7 +117,6 @@
   transition: 200ms transform;
   will-change: transform;
   transform: scale(0.95);
-  z-index: 99999;
 }
 
 .cookieConsentOperations__Item {
