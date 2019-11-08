@@ -1,3 +1,36 @@
+.cookieConsentToggle {
+  width: 40px;
+  height: 40px;
+  position: fixed;
+  will-change: transform;
+  padding: 9px;
+  border: 0;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background: white;
+  border-radius: 50%;
+  bottom: 20px;
+  right: 20px;
+  transition: 200ms;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 9990;
+}
+
+.cookieConsentToggle.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cookieConsentToggle:hover {
+  color: white;
+  background: black;
+}
+
+.cookieConsentToggle * {
+  fill: currentColor;
+}
+
 .cookieConsentWrapper {
   z-index: 99999;
   position: fixed;
@@ -48,7 +81,7 @@
   align-items: flex-end;
 }
 
-.cookieConsent__Operations {
+.cookieConsentOperations {
   position: fixed;
   opacity: 0;
   top: 0;
@@ -62,16 +95,16 @@
   will-change: transform;
 }
 
-.cookieConsent__Operations.active {
+.cookieConsentOperations.active {
   opacity: 1;
   visibility: visible;
 }
 
-.cookieConsent__Operations.active .cookieConsent__OperationsList {
+.cookieConsentOperations.active .cookieConsentOperations__List {
   transform: scale(1);
 }
 
-.cookieConsent__OperationsList {
+.cookieConsentOperations__List {
   background: white;
   color: black;
   max-width: 500px;
@@ -85,25 +118,25 @@
   transform: scale(0.95);
 }
 
-.cookieConsent__OperationsItem {
+.cookieConsentOperations__Item {
   display: block;
   padding-left: 60px;
   margin-bottom: 20px;
 }
 
-.cookieConsent__OperationsItem.disabled {
+.cookieConsentOperations__Item.disabled {
   color: #999;
 }
 
-.cookieConsent__OperationsItem.disabled label::after {
+.cookieConsentOperations__Item.disabled label::after {
   opacity: 0.3;
 }
 
-.cookieConsent__OperationsItem input {
+.cookieConsentOperations__Item input {
   display: none;
 }
 
-.cookieConsent__OperationsItem label {
+.cookieConsentOperations__Item label {
   align-items: center;
   font-size: 22px;
   font-weight: bold;
@@ -111,7 +144,7 @@
   position: relative;
 }
 
-.cookieConsent__OperationsItem label::before {
+.cookieConsentOperations__Item label::before {
   content: "";
   display: block;
   left: -60px;
@@ -124,7 +157,7 @@
   transform: translateY(-50%);
 }
 
-.cookieConsent__OperationsItem label::after {
+.cookieConsentOperations__Item label::after {
   content: "";
   display: block;
   width: 16px;
@@ -138,7 +171,7 @@
   transition: 200ms;
 }
 
-.cookieConsent__OperationsItem input:checked+label::after {
+.cookieConsentOperations__Item input:checked+label::after {
   transform: translate(20px, -50%);
 }
 

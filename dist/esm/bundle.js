@@ -63,11 +63,6 @@ function set_data(text, data) {
 function toggle_class(element, name, toggle) {
     element.classList[toggle ? 'add' : 'remove'](name);
 }
-function custom_event(type, detail) {
-    const e = document.createEvent('CustomEvent');
-    e.initCustomEvent(type, false, false, detail);
-    return e;
-}
 
 let current_component;
 function set_current_component(component) {
@@ -80,20 +75,6 @@ function get_current_component() {
 }
 function onMount(fn) {
     get_current_component().$$.on_mount.push(fn);
-}
-function createEventDispatcher() {
-    const component = current_component;
-    return (type, detail) => {
-        const callbacks = component.$$.callbacks[type];
-        if (callbacks) {
-            // TODO are there situations where events could be dispatched
-            // in a server (non-DOM) environment?
-            const event = custom_event(type, detail);
-            callbacks.slice().forEach(fn => {
-                fn.call(component, event);
-            });
-        }
-    };
 }
 
 const dirty_components = [];
@@ -306,161 +287,51 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (124:0) {#if shown}
-function create_if_block(ctx) {
-	var div6, div5, div3, div0, h2, t0, t1, p, t2, div2, div1, t3, button0, t4, t5, div4, button1, t6, t7, button2, t8, dispose;
-
-	var each_value = ctx.choicesArr;
-
-	var each_blocks = [];
-
-	for (var i = 0; i < each_value.length; i += 1) {
-		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
-	}
+// (123:0) {#if showOnInit}
+function create_if_block_1(ctx) {
+	var button, dispose;
 
 	return {
 		c() {
-			div6 = element("div");
-			div5 = element("div");
-			div3 = element("div");
-			div0 = element("div");
-			h2 = element("h2");
-			t0 = text(ctx.heading);
-			t1 = space();
-			p = element("p");
-			t2 = space();
-			div2 = element("div");
-			div1 = element("div");
-
-			for (var i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].c();
-			}
-
-			t3 = space();
-			button0 = element("button");
-			t4 = text(ctx.closeLabel);
-			t5 = space();
-			div4 = element("div");
-			button1 = element("button");
-			t6 = text(ctx.settingsLabel);
-			t7 = space();
-			button2 = element("button");
-			t8 = text(ctx.acceptLabel);
-			attr(h2, "class", "cookieConsent__Title");
-			attr(p, "class", "cookieConsent__Description");
-			attr(div0, "class", "cookieConsent__Content");
-			attr(button0, "type", "submit");
-			attr(button0, "class", "cookieConsent__Button cookieConsent__Button--Close");
-			attr(div1, "class", "cookieConsent__OperationsList");
-			attr(div2, "class", "cookieConsent__Operations");
-			toggle_class(div2, "active", ctx.settingsShown);
-			attr(div3, "class", "cookieConsent__Left");
-			attr(button1, "type", "button");
-			attr(button1, "class", "cookieConsent__Button");
-			attr(button2, "type", "submit");
-			attr(button2, "class", "cookieConsent__Button");
-			attr(div4, "class", "cookieConsent__Right");
-			attr(div5, "class", "cookieConsent");
-			attr(div6, "class", "cookieConsentWrapper");
-
-			dispose = [
-				listen(button0, "click", ctx.showSettings),
-				listen(button1, "click", ctx.showSettings),
-				listen(button2, "click", ctx.choose)
-			];
+			button = element("button");
+			button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17
+			        0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13
+			        35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0
+			        0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77
+			        54.76a132.036 132.036 0 0 0 72.71 37.06l76.71 12.15c27.51 4.36 55.7-.11
+			        80.53-12.76l69.13-35.21a132.273 132.273 0 0 0
+			        57.79-57.81l35.1-68.88c12.56-24.64 17.01-52.58 12.91-79.91zM176
+			        368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32
+			        32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33
+			        32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32
+			        32-14.33 32-32 32z"></path></svg>`;
+			attr(button, "class", "cookieConsentToggle");
+			toggle_class(button, "active", !ctx.shown);
+			dispose = listen(button, "click", ctx.click_handler);
 		},
 
 		m(target, anchor) {
-			insert(target, div6, anchor);
-			append(div6, div5);
-			append(div5, div3);
-			append(div3, div0);
-			append(div0, h2);
-			append(h2, t0);
-			append(div0, t1);
-			append(div0, p);
-			p.innerHTML = ctx.description;
-			append(div3, t2);
-			append(div3, div2);
-			append(div2, div1);
-
-			for (var i = 0; i < each_blocks.length; i += 1) {
-				each_blocks[i].m(div1, null);
-			}
-
-			append(div1, t3);
-			append(div1, button0);
-			append(button0, t4);
-			append(div5, t5);
-			append(div5, div4);
-			append(div4, button1);
-			append(button1, t6);
-			append(div4, t7);
-			append(div4, button2);
-			append(button2, t8);
+			insert(target, button, anchor);
 		},
 
 		p(changed, ctx) {
-			if (changed.heading) {
-				set_data(t0, ctx.heading);
-			}
-
-			if (changed.description) {
-				p.innerHTML = ctx.description;
-			}
-
-			if (changed.choicesMerged || changed.choicesArr) {
-				each_value = ctx.choicesArr;
-
-				for (var i = 0; i < each_value.length; i += 1) {
-					const child_ctx = get_each_context(ctx, each_value, i);
-
-					if (each_blocks[i]) {
-						each_blocks[i].p(changed, child_ctx);
-					} else {
-						each_blocks[i] = create_each_block(child_ctx);
-						each_blocks[i].c();
-						each_blocks[i].m(div1, t3);
-					}
-				}
-
-				for (; i < each_blocks.length; i += 1) {
-					each_blocks[i].d(1);
-				}
-				each_blocks.length = each_value.length;
-			}
-
-			if (changed.closeLabel) {
-				set_data(t4, ctx.closeLabel);
-			}
-
-			if (changed.settingsShown) {
-				toggle_class(div2, "active", ctx.settingsShown);
-			}
-
-			if (changed.settingsLabel) {
-				set_data(t6, ctx.settingsLabel);
-			}
-
-			if (changed.acceptLabel) {
-				set_data(t8, ctx.acceptLabel);
+			if (changed.shown) {
+				toggle_class(button, "active", !ctx.shown);
 			}
 		},
 
 		d(detaching) {
 			if (detaching) {
-				detach(div6);
+				detach(button);
 			}
 
-			destroy_each(each_blocks, detaching);
-
-			run_all(dispose);
+			dispose();
 		}
 	};
 }
 
-// (137:14) {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
-function create_if_block_1(ctx) {
+// (172:6) {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
+function create_if_block(ctx) {
 	var div, input, input_id_value, input_disabled_value, t0, label, t1_value = ctx.choice.label, t1, label_for_value, t2, span, t3_value = ctx.choice.description, t3, dispose;
 
 	function input_change_handler() {
@@ -481,8 +352,8 @@ function create_if_block_1(ctx) {
 			attr(input, "id", input_id_value = `gdpr-check-${ctx.choice.id}`);
 			input.disabled = input_disabled_value = ctx.choice.id === 'necessary';
 			attr(label, "for", label_for_value = `gdpr-check-${ctx.choice.id}`);
-			attr(span, "class", "cookieConsent__OperationsItemLabel");
-			attr(div, "class", "cookieConsent__OperationsItem");
+			attr(span, "class", "cookieConsentOperations__ItemLabel");
+			attr(div, "class", "cookieConsentOperations__Item");
 			toggle_class(div, "disabled", ctx.choice.id === 'necessary');
 			dispose = listen(input, "change", input_change_handler);
 		},
@@ -540,11 +411,11 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (136:12) {#each choicesArr as choice}
+// (171:4) {#each choicesArr as choice}
 function create_each_block(ctx) {
 	var if_block_anchor;
 
-	var if_block = (ctx.choicesMerged.hasOwnProperty(ctx.choice.id) && ctx.choicesMerged[ctx.choice.id]) && create_if_block_1(ctx);
+	var if_block = (ctx.choicesMerged.hasOwnProperty(ctx.choice.id) && ctx.choicesMerged[ctx.choice.id]) && create_if_block(ctx);
 
 	return {
 		c() {
@@ -562,7 +433,7 @@ function create_each_block(ctx) {
 				if (if_block) {
 					if_block.p(changed, ctx);
 				} else {
-					if_block = create_if_block_1(ctx);
+					if_block = create_if_block(ctx);
 					if_block.c();
 					if_block.m(if_block_anchor.parentNode, if_block_anchor);
 				}
@@ -583,33 +454,166 @@ function create_each_block(ctx) {
 }
 
 function create_fragment(ctx) {
-	var if_block_anchor;
+	var t0, div4, div3, div1, div0, h2, t1, t2, p, t3, div2, button0, t4, t5, button1, t6, t7, div6, div5, t8, button2, t9, dispose;
 
-	var if_block = (ctx.shown) && create_if_block(ctx);
+	var if_block = (ctx.showOnInit) && create_if_block_1(ctx);
+
+	var each_value = ctx.choicesArr;
+
+	var each_blocks = [];
+
+	for (var i = 0; i < each_value.length; i += 1) {
+		each_blocks[i] = create_each_block(get_each_context(ctx, each_value, i));
+	}
 
 	return {
 		c() {
 			if (if_block) if_block.c();
-			if_block_anchor = empty();
+			t0 = space();
+			div4 = element("div");
+			div3 = element("div");
+			div1 = element("div");
+			div0 = element("div");
+			h2 = element("h2");
+			t1 = text(ctx.heading);
+			t2 = space();
+			p = element("p");
+			t3 = space();
+			div2 = element("div");
+			button0 = element("button");
+			t4 = text(ctx.settingsLabel);
+			t5 = space();
+			button1 = element("button");
+			t6 = text(ctx.acceptLabel);
+			t7 = space();
+			div6 = element("div");
+			div5 = element("div");
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].c();
+			}
+
+			t8 = space();
+			button2 = element("button");
+			t9 = text(ctx.closeLabel);
+			attr(h2, "class", "cookieConsent__Title");
+			attr(p, "class", "cookieConsent__Description");
+			attr(div0, "class", "cookieConsent__Content");
+			attr(div1, "class", "cookieConsent__Left");
+			attr(button0, "type", "button");
+			attr(button0, "class", "cookieConsent__Button");
+			attr(button1, "type", "submit");
+			attr(button1, "class", "cookieConsent__Button");
+			attr(div2, "class", "cookieConsent__Right");
+			attr(div3, "class", "cookieConsent");
+			attr(div4, "class", "cookieConsentWrapper");
+			toggle_class(div4, "active", ctx.shown);
+			attr(button2, "type", "submit");
+			attr(button2, "class", "cookieConsent__Button cookieConsent__Button--Close");
+			attr(div5, "class", "cookieConsentOperations__List");
+			attr(div6, "class", "cookieConsentOperations");
+			toggle_class(div6, "active", ctx.settingsShown);
+
+			dispose = [
+				listen(button0, "click", ctx.showSettings),
+				listen(button1, "click", ctx.choose),
+				listen(button2, "click", ctx.showSettings)
+			];
 		},
 
 		m(target, anchor) {
 			if (if_block) if_block.m(target, anchor);
-			insert(target, if_block_anchor, anchor);
+			insert(target, t0, anchor);
+			insert(target, div4, anchor);
+			append(div4, div3);
+			append(div3, div1);
+			append(div1, div0);
+			append(div0, h2);
+			append(h2, t1);
+			append(div0, t2);
+			append(div0, p);
+			p.innerHTML = ctx.description;
+			append(div3, t3);
+			append(div3, div2);
+			append(div2, button0);
+			append(button0, t4);
+			append(div2, t5);
+			append(div2, button1);
+			append(button1, t6);
+			insert(target, t7, anchor);
+			insert(target, div6, anchor);
+			append(div6, div5);
+
+			for (var i = 0; i < each_blocks.length; i += 1) {
+				each_blocks[i].m(div5, null);
+			}
+
+			append(div5, t8);
+			append(div5, button2);
+			append(button2, t9);
 		},
 
 		p(changed, ctx) {
-			if (ctx.shown) {
+			if (ctx.showOnInit) {
 				if (if_block) {
 					if_block.p(changed, ctx);
 				} else {
-					if_block = create_if_block(ctx);
+					if_block = create_if_block_1(ctx);
 					if_block.c();
-					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+					if_block.m(t0.parentNode, t0);
 				}
 			} else if (if_block) {
 				if_block.d(1);
 				if_block = null;
+			}
+
+			if (changed.heading) {
+				set_data(t1, ctx.heading);
+			}
+
+			if (changed.description) {
+				p.innerHTML = ctx.description;
+			}
+
+			if (changed.settingsLabel) {
+				set_data(t4, ctx.settingsLabel);
+			}
+
+			if (changed.acceptLabel) {
+				set_data(t6, ctx.acceptLabel);
+			}
+
+			if (changed.shown) {
+				toggle_class(div4, "active", ctx.shown);
+			}
+
+			if (changed.choicesMerged || changed.choicesArr) {
+				each_value = ctx.choicesArr;
+
+				for (var i = 0; i < each_value.length; i += 1) {
+					const child_ctx = get_each_context(ctx, each_value, i);
+
+					if (each_blocks[i]) {
+						each_blocks[i].p(changed, child_ctx);
+					} else {
+						each_blocks[i] = create_each_block(child_ctx);
+						each_blocks[i].c();
+						each_blocks[i].m(div5, t8);
+					}
+				}
+
+				for (; i < each_blocks.length; i += 1) {
+					each_blocks[i].d(1);
+				}
+				each_blocks.length = each_value.length;
+			}
+
+			if (changed.closeLabel) {
+				set_data(t9, ctx.closeLabel);
+			}
+
+			if (changed.settingsShown) {
+				toggle_class(div6, "active", ctx.settingsShown);
 			}
 		},
 
@@ -620,8 +624,15 @@ function create_fragment(ctx) {
 			if (if_block) if_block.d(detaching);
 
 			if (detaching) {
-				detach(if_block_anchor);
+				detach(t0);
+				detach(div4);
+				detach(t7);
+				detach(div6);
 			}
+
+			destroy_each(each_blocks, detaching);
+
+			run_all(dispose);
 		}
 	};
 }
@@ -629,16 +640,17 @@ function create_fragment(ctx) {
 function instance($$self, $$props, $$invalidate) {
 	
 
-  const dispatch = createEventDispatcher();
   const cookies = Cookie();
   let { cookieName = null } = $$props;
 
-  let shown = false;
   let settingsShown = false;
 
   const showSettings = () => {
     $$invalidate('settingsShown', settingsShown = !settingsShown);
   };
+
+  let { showOnInit = true } = $$props;
+  let shown = showOnInit ? true : false;
 
   let { heading = 'GDPR Notice', description =
     'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.', categories = {
@@ -686,7 +698,6 @@ function instance($$self, $$props, $$invalidate) {
       execute(cookie.choices);
     } else {
       removeCookie();
-      $$invalidate('shown', shown = true);
     }
   });
 
@@ -704,7 +715,7 @@ function instance($$self, $$props, $$invalidate) {
   }
 
   function chosenMatchesChoice(cookie) {
-    return validate(choices, cookie)
+    return validate(cookieChoices, cookie)
   }
 
   function execute(chosen) {
@@ -712,19 +723,24 @@ function instance($$self, $$props, $$invalidate) {
 
     types.forEach(t => {
       const agreed = chosen[t];
+      choicesMerged[t] ? (choicesMerged[t].value = agreed) : false; $$invalidate('choicesMerged', choicesMerged);
       if (agreed) {
         categories[t]();
-        dispatch(`${t}`);
       }
     });
     $$invalidate('shown', shown = false);
   }
 
   function choose() {
-    console.log(cookieChoices);
     setCookie(cookieChoices);
     execute(cookieChoices);
   }
+
+	function click_handler() {
+		const $$result = (shown = true);
+		$$invalidate('shown', shown);
+		return $$result;
+	}
 
 	function input_change_handler({ choice }) {
 		choicesMerged[choice.id].value = this.checked;
@@ -734,6 +750,7 @@ function instance($$self, $$props, $$invalidate) {
 
 	$$self.$set = $$props => {
 		if ('cookieName' in $$props) $$invalidate('cookieName', cookieName = $$props.cookieName);
+		if ('showOnInit' in $$props) $$invalidate('showOnInit', showOnInit = $$props.showOnInit);
 		if ('heading' in $$props) $$invalidate('heading', heading = $$props.heading);
 		if ('description' in $$props) $$invalidate('description', description = $$props.description);
 		if ('categories' in $$props) $$invalidate('categories', categories = $$props.categories);
@@ -754,16 +771,17 @@ function instance($$self, $$props, $$invalidate) {
         }
       })); }
 		if ($$dirty.choicesArr) { cookieChoices = choicesArr.reduce(function(result, item, index, array) {
-        result[item.id] = item.value;
+        result[item.id] = item.value ? item.value : false;
         return result
       }, {}); }
 	};
 
 	return {
 		cookieName,
-		shown,
 		settingsShown,
 		showSettings,
+		showOnInit,
+		shown,
 		heading,
 		description,
 		categories,
@@ -775,6 +793,7 @@ function instance($$self, $$props, $$invalidate) {
 		closeLabel,
 		choose,
 		choicesArr,
+		click_handler,
 		input_change_handler
 	};
 }
@@ -782,7 +801,7 @@ function instance($$self, $$props, $$invalidate) {
 class Banner extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, ["cookieName", "heading", "description", "categories", "cookieConfig", "choices", "acceptLabel", "settingsLabel", "closeLabel"]);
+		init(this, options, instance, create_fragment, safe_not_equal, ["cookieName", "showOnInit", "heading", "description", "categories", "cookieConfig", "choices", "acceptLabel", "settingsLabel", "closeLabel"]);
 	}
 }
 
