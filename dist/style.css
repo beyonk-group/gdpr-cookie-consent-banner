@@ -14,7 +14,7 @@
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  z-index: 99990;
+  z-index: 99980;
 }
 
 .cookieConsentToggle.active {
