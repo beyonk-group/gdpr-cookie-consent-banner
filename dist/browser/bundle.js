@@ -66,6 +66,11 @@
     function toggle_class(element, name, toggle) {
         element.classList[toggle ? 'add' : 'remove'](name);
     }
+    function custom_event(type, detail) {
+        const e = document.createEvent('CustomEvent');
+        e.initCustomEvent(type, false, false, detail);
+        return e;
+    }
 
     let current_component;
     function set_current_component(component) {
@@ -78,6 +83,20 @@
     }
     function onMount(fn) {
         get_current_component().$$.on_mount.push(fn);
+    }
+    function createEventDispatcher() {
+        const component = current_component;
+        return (type, detail) => {
+            const callbacks = component.$$.callbacks[type];
+            if (callbacks) {
+                // TODO are there situations where events could be dispatched
+                // in a server (non-DOM) environment?
+                const event = custom_event(type, detail);
+                callbacks.slice().forEach(fn => {
+                    fn.call(component, event);
+                });
+            }
+        };
     }
 
     const dirty_components = [];
@@ -290,7 +309,7 @@
     	return child_ctx;
     }
 
-    // (123:0) {#if showOnInit}
+    // (125:0) {#if showOnInit}
     function create_if_block_1(ctx) {
     	var button, dispose;
 
@@ -333,7 +352,7 @@
     	};
     }
 
-    // (172:6) {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
+    // (174:6) {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
     function create_if_block(ctx) {
     	var div, input, input_id_value, input_disabled_value, t0, label, t1_value = ctx.choice.label, t1, label_for_value, t2, span, t3_value = ctx.choice.description, t3, dispose;
 
@@ -414,7 +433,7 @@
     	};
     }
 
-    // (171:4) {#each choicesArr as choice}
+    // (173:4) {#each choicesArr as choice}
     function create_each_block(ctx) {
     	var if_block_anchor;
 
@@ -643,6 +662,7 @@
     function instance($$self, $$props, $$invalidate) {
     	
 
+      const dispatch = createEventDispatcher();
       const cookies = Cookie();
       let { cookieName = null } = $$props;
 
@@ -729,6 +749,7 @@
           choicesMerged[t] ? (choicesMerged[t].value = agreed) : false; $$invalidate('choicesMerged', choicesMerged);
           if (agreed) {
             categories[t]();
+            dispatch(`${t}`);
           }
         });
         $$invalidate('shown', shown = false);

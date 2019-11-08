@@ -1,8 +1,9 @@
 <script>
   import Cookie from 'cookie-universal'
   import { validate } from '../util'
-  import { onMount } from 'svelte'
+  import { onMount, createEventDispatcher } from 'svelte'
 
+  const dispatch = createEventDispatcher()
   const cookies = Cookie()
   export let cookieName = null
 
@@ -109,6 +110,7 @@
       choicesMerged[t] ? (choicesMerged[t].value = agreed) : false
       if (agreed) {
         categories[t]()
+        dispatch(`${t}`)
       }
     })
     shown = false
