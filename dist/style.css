@@ -18,8 +18,12 @@
   margin-right: 40px;
 }
 
+.cookieConsent__Title {
+  margin: 0;
+}
+
 .cookieConsent__Description {
-  margin: 20px 0 0;
+  margin: 10px 0 0;
 }
 
 .cookieConsent__Description a {
@@ -44,10 +48,10 @@
   bottom: 0;
   left: 0;
   visibility: hidden;
-  justify-content: center;
-  align-items: center;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
+  transition: 300ms;
+  will-change: transform;
 }
 
 .cookieConsent__Operations.active {
@@ -55,11 +59,22 @@
   visibility: visible;
 }
 
+.cookieConsent__Operations.active .cookieConsent__OperationsList {
+  transform: scale(1);
+}
+
 .cookieConsent__OperationsList {
   background: white;
   color: black;
   max-width: 500px;
   padding: 40px;
+  margin: auto;
+  overflow-y: auto;
+  box-sizing: border-box;
+  max-height: 100vh;
+  transition: 200ms transform;
+  will-change: transform;
+  transform: scale(0.95);
 }
 
 .cookieConsent__OperationsItem {
@@ -69,7 +84,11 @@
 }
 
 .cookieConsent__OperationsItem.disabled {
-  opacity: 0.8;
+  color: #999;
+}
+
+.cookieConsent__OperationsItem.disabled label::after {
+  opacity: 0.3;
 }
 
 .cookieConsent__OperationsItem input {
@@ -84,7 +103,7 @@
   position: relative;
 }
 
-.cookieConsent__OperationsItem label:before {
+.cookieConsent__OperationsItem label::before {
   content: "";
   display: block;
   left: -60px;
@@ -97,7 +116,7 @@
   transform: translateY(-50%);
 }
 
-.cookieConsent__OperationsItem label:after {
+.cookieConsent__OperationsItem label::after {
   content: "";
   display: block;
   width: 16px;
@@ -111,7 +130,7 @@
   transition: 200ms;
 }
 
-.cookieConsent__OperationsItem input:checked+label:after {
+.cookieConsent__OperationsItem input:checked+label::after {
   transform: translate(20px, -50%);
 }
 
@@ -136,4 +155,22 @@
 
 .cookieConsent__Button:hover {
   opacity: 0.6;
+}
+
+@media only screen and (max-width: 900px) {
+  .cookieConsent {
+    display: block;
+  }
+
+  .cookieConsent__Right {
+    margin-top: 20px;
+  }
+
+  .cookieConsent__Button {
+    margin: 0 10px 0 0;
+  }
+
+  .cookieConsent__Button--Close {
+    margin: 40px 0 0;
+  }
 }
