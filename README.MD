@@ -39,8 +39,10 @@ npm install --save-dev @beyonk/gdpr-cookie-consent-banner
 then import the banner into your code:
 
 ```js
-  import attachBanner from '@beyonk/gdpr-cookie-consent-banner'
-  attachBanner(document.body)
+import attachBanner from '@beyonk/gdpr-cookie-consent-banner'
+import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // import optional styles
+
+attachBanner(document.body)
 ```
 
 #### Using raw javascript
@@ -48,18 +50,20 @@ then import the banner into your code:
 ##### From a CDN
 
 ```html
-<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@3.1.0/dist/browser/bundle.min.js"></script>
+<link rel="stylesheet" href="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@5.1.0/dist/style.css">
+<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@5.1.0/dist/browser/bundle.min.js"></script>
 ```
 
 ##### Storing a local copy
 
-Download the contents of `dist/bundle.js` to your codebase, and include it in your html:
+Download the contents of `dist/browser/bundle.js` and `dist/style.css` to your codebase, and include it in your html:
 
 ```html
-  <script src="path/to/bundle.js"></script>
-  <script>
-    GdprConsent.attachBanner(document.body)
-  </script>
+<link rel="stylesheet" href="path/to/style.css">
+<script src="path/to/bundle.js"></script>
+<script>
+  GdprConsent.attachBanner(document.body)
+</script>
 ```
 
 ### Usage
@@ -90,6 +94,14 @@ Create a component which uses the library, and mounts it during the render stage
 </script>
 ```
 
+Optionally, add this to your CSS array in your `nuxt.config.js` file:
+```js
+/**
+ * Global CSS
+ **/
+css: ['your_other_css_file.css', '@beyonk/gdpr-cookie-consent-banner/dist/style.css'],
+```
+
 #### Svelte v3
 
 Just use it as a regular svelte component:
@@ -98,6 +110,7 @@ Just use it as a regular svelte component:
 <GdprBanner cookieName="foo" description="bar" on:analytics="this.someFunction()" />
 
 <script>
+  import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 </script>
 ```
@@ -118,7 +131,7 @@ const options = {
    * You must set the cookie name.
    **/
   cookieName: 'beyonk_gdpr',
-  
+
   /**
    * The cookie configuration, such as domain and path.
    **/
