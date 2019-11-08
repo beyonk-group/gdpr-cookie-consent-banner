@@ -311,7 +311,7 @@
 
     // (124:0) {#if shown}
     function create_if_block(ctx) {
-    	var div6, div5, div3, div0, h1, t0, t1, p, t2, div2, div1, t3, button0, t4, t5, div4, button1, t6, t7, button2, t8, dispose;
+    	var div6, div5, div3, div0, h2, t0, t1, p, t2, div2, div1, t3, button0, t4, t5, div4, button1, t6, t7, button2, t8, dispose;
 
     	var each_value = ctx.choicesArr;
 
@@ -327,7 +327,7 @@
     			div5 = element("div");
     			div3 = element("div");
     			div0 = element("div");
-    			h1 = element("h1");
+    			h2 = element("h2");
     			t0 = text(ctx.heading);
     			t1 = space();
     			p = element("p");
@@ -349,6 +349,8 @@
     			t7 = space();
     			button2 = element("button");
     			t8 = text(ctx.acceptLabel);
+    			attr(h2, "class", "cookieConsent__Title");
+    			attr(p, "class", "cookieConsent__Description");
     			attr(div0, "class", "cookieConsent__Content");
     			attr(button0, "type", "submit");
     			attr(button0, "class", "cookieConsent__Button cookieConsent__Button--Close");
@@ -376,8 +378,8 @@
     			append(div6, div5);
     			append(div5, div3);
     			append(div3, div0);
-    			append(div0, h1);
-    			append(h1, t0);
+    			append(div0, h2);
+    			append(h2, t0);
     			append(div0, t1);
     			append(div0, p);
     			p.innerHTML = ctx.description;
