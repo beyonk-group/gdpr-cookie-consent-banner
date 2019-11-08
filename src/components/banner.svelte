@@ -115,7 +115,6 @@
   }
 
   function choose() {
-    console.log(cookieChoices)
     setCookie(cookieChoices)
     execute(cookieChoices)
   }
@@ -126,8 +125,8 @@
     <div class="cookieConsent">
       <div class="cookieConsent__Left">
         <div class="cookieConsent__Content">
-          <h1>{heading}</h1>
-          <p>
+          <h2 class="cookieConsent__Title">{heading}</h2>
+          <p class="cookieConsent__Description">
             {@html description}
           </p>
         </div>
