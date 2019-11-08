@@ -7,12 +7,14 @@
   const cookies = Cookie()
   export let cookieName = null
 
-  let shown = false
   let settingsShown = false
 
   const showSettings = () => {
     settingsShown = !settingsShown
   }
+
+  export let showOnInit = true
+  let shown = showOnInit ? true : false
 
   export let heading = 'GDPR Notice'
   export let description =
@@ -62,7 +64,7 @@
     }
   })
   $: cookieChoices = choicesArr.reduce(function(result, item, index, array) {
-    result[item.id] = item.value
+    result[item.id] = item.value ? item.value : false
     return result
   }, {})
 
@@ -80,7 +82,6 @@
       execute(cookie.choices)
     } else {
       removeCookie()
-      shown = true
     }
   })
 
@@ -98,7 +99,7 @@
   }
 
   function chosenMatchesChoice(cookie) {
-    return validate(choices, cookie)
+    return validate(cookieChoices, cookie)
   }
 
   function execute(chosen) {
@@ -120,55 +121,53 @@
   }
 </script>
 
-{#if shown}
-  <div class="cookieConsentWrapper">
-    <div class="cookieConsent">
-      <div class="cookieConsent__Left">
-        <div class="cookieConsent__Content">
-          <h2 class="cookieConsent__Title">{heading}</h2>
-          <p class="cookieConsent__Description">
-            {@html description}
-          </p>
-        </div>
-        <div class="cookieConsent__Operations" class:active={settingsShown}>
-          <div class="cookieConsent__OperationsList">
-            {#each choicesArr as choice}
-              {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
-                <div
-                  class="cookieConsent__OperationsItem"
-                  class:disabled={choice.id === 'necessary'}>
-                  <input
-                    type="checkbox"
-                    id={`gdpr-check-${choice.id}`}
-                    bind:checked={choicesMerged[choice.id].value}
-                    disabled={choice.id === 'necessary'} />
-                  <label for={`gdpr-check-${choice.id}`}>{choice.label}</label>
-                  <span class="cookieConsent__OperationsItemLabel">
-                    {choice.description}
-                  </span>
-                </div>
-              {/if}
-            {/each}
-            <button
-              type="submit"
-              class="cookieConsent__Button cookieConsent__Button--Close"
-              on:click={showSettings}>
-              {closeLabel}
-            </button>
-          </div>
-        </div>
+<div class="cookieConsentWrapper" class:active={shown}>
+  <div class="cookieConsent">
+    <div class="cookieConsent__Left">
+      <div class="cookieConsent__Content">
+        <h2 class="cookieConsent__Title">{heading}</h2>
+        <p class="cookieConsent__Description">
+          {@html description}
+        </p>
       </div>
-      <div class="cookieConsent__Right">
-        <button
-          type="button"
-          class="cookieConsent__Button"
-          on:click={showSettings}>
-          {settingsLabel}
-        </button>
-        <button type="submit" class="cookieConsent__Button" on:click={choose}>
-          {acceptLabel}
-        </button>
+      <div class="cookieConsent__Operations" class:active={settingsShown}>
+        <div class="cookieConsent__OperationsList">
+          {#each choicesArr as choice}
+            {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
+              <div
+                class="cookieConsent__OperationsItem"
+                class:disabled={choice.id === 'necessary'}>
+                <input
+                  type="checkbox"
+                  id={`gdpr-check-${choice.id}`}
+                  bind:checked={choicesMerged[choice.id].value}
+                  disabled={choice.id === 'necessary'} />
+                <label for={`gdpr-check-${choice.id}`}>{choice.label}</label>
+                <span class="cookieConsent__OperationsItemLabel">
+                  {choice.description}
+                </span>
+              </div>
+            {/if}
+          {/each}
+          <button
+            type="submit"
+            class="cookieConsent__Button cookieConsent__Button--Close"
+            on:click={showSettings}>
+            {closeLabel}
+          </button>
+        </div>
       </div>
     </div>
+    <div class="cookieConsent__Right">
+      <button
+        type="button"
+        class="cookieConsent__Button"
+        on:click={showSettings}>
+        {settingsLabel}
+      </button>
+      <button type="submit" class="cookieConsent__Button" on:click={choose}>
+        {acceptLabel}
+      </button>
+    </div>
   </div>
-{/if}
+</div>

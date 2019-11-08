@@ -7,6 +7,14 @@
   background: black;
   color: white;
   padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 200ms;
+}
+
+.cookieConsentWrapper.active {
+  opacity: 1;
+  visibility: visible;
 }
 
 .cookieConsent {
