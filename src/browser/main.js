@@ -1,11 +1,9 @@
-'use strict'
-
 import Banner from '../components/banner.svelte'
 
-function attachBanner (target, data = {}) {
+function attachBanner(target, props = {}) {
   const banner = new Banner({
     target,
-    data
+    props
   })
 }
 
