@@ -1,4 +1,4 @@
-import Banner from '../components/banner.svelte'
+import Banner from '../components/Banner.svelte'
 
 function attachBanner(target, props = {}) {
   new Banner({
