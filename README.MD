@@ -50,8 +50,8 @@ attachBanner(document.body)
 ##### From a CDN
 
 ```html
-<link rel="stylesheet" href="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@5.1.0/dist/style.css">
-<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner@5.1.0/dist/browser/bundle.min.js"></script>
+<link rel="stylesheet" href="//unpkg.com/@beyonk/gdpr-cookie-consent-banner/dist/style.css">
+<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner/dist/browser/bundle.min.js"></script>
 ```
 
 ##### Storing a local copy

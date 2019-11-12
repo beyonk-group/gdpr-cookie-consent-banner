@@ -206,10 +206,11 @@
 
   .cookieConsent__Right {
     margin-top: 20px;
+    flex-wrap: wrap;
   }
 
   .cookieConsent__Button {
-    margin: 0 10px 0 0;
+    margin: 0 10px 10px 0;
   }
 
   .cookieConsent__Button--Close {

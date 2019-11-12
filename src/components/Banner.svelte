@@ -56,13 +56,16 @@
       value: true
     }
   }
+
   const choicesMerged = { ...choicesDefaults, ...choices }
+
   $: choicesArr = Object.values(choicesMerged).map((item, index) => {
     return {
       ...item,
       id: Object.keys(choicesMerged)[index]
     }
   })
+  
   $: cookieChoices = choicesArr.reduce(function(result, item, index, array) {
     result[item.id] = item.value ? item.value : false
     return result
@@ -85,7 +88,7 @@
     }
   })
 
-  function setCookie(choices) {
+  function setCookie (choices) {
     const expires = new Date()
     expires.setDate(expires.getDate() + 365)
 
@@ -93,16 +96,16 @@
     cookies.set(cookieName, { choices }, options)
   }
 
-  function removeCookie() {
+  function removeCookie () {
     const { path } = cookieConfig
     cookies.remove(cookieName, Object.assign({}, path ? { path } : {}))
   }
 
-  function chosenMatchesChoice(cookie) {
+  function chosenMatchesChoice (cookie) {
     return validate(cookieChoices, cookie)
   }
 
-  function execute(chosen) {
+  function execute (chosen) {
     const types = Object.keys(cookieChoices)
 
     types.forEach(t => {
@@ -116,7 +119,7 @@
     shown = false
   }
 
-  function choose() {
+  function choose () {
     setCookie(cookieChoices)
     execute(cookieChoices)
   }
