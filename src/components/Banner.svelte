@@ -151,7 +151,7 @@
   <div class="cookieConsent">
     <div class="cookieConsent__Left">
       <div class="cookieConsent__Content">
-        <h2 class="cookieConsent__Title">{heading}</h2>
+        <p class="cookieConsent__Title">{heading}</p>
         <p class="cookieConsent__Description">
           {@html description}
         </p>
