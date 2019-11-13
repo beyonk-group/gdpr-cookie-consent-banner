@@ -72,6 +72,23 @@ Because this banner was designed to work across three different technology stack
 
 I've documented our usage of it below:
 
+#### Svelte v3
+
+Just use it as a regular svelte component:
+
+```html
+<GdprBanner cookieName="foo" description="bar" on:analytics="this.someFunction()" />
+
+<script>
+  import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional
+  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+</script>
+```
+
+#### Svelte v2
+
+See the v4.x.x tag of this repository.
+
 #### Nuxt / Vue
 
 You can use the banner in NuxtJS application as follows:
@@ -101,23 +118,6 @@ Optionally, add this to your CSS array in your `nuxt.config.js` file:
  **/
 css: ['your_other_css_file.css', '@beyonk/gdpr-cookie-consent-banner/dist/style.css'],
 ```
-
-#### Svelte v3
-
-Just use it as a regular svelte component:
-
-```html
-<GdprBanner cookieName="foo" description="bar" on:analytics="this.someFunction()" />
-
-<script>
-  import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional
-  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
-</script>
-```
-
-#### Svelte v2
-
-See the v4.x.x tag of this repository.
 
 ### Configuration
 
@@ -171,9 +171,9 @@ const options = {
   },
 
   /**
-   * Show a button after users have confirmed their selection to finetune cookies at any time.
+   * Show an icon to edit cookies later, when banner is closed.
   **/
-  showOnInit: true,
+  showEditIcon: true,
 
   /**
    * These are the functions which are run if a user opts-in to that category.

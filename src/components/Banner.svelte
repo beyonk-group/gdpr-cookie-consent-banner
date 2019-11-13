@@ -13,8 +13,8 @@
     settingsShown = !settingsShown
   }
 
-  export let showOnInit = true
-  let shown = showOnInit ? true : false
+  export let showEditIcon = true
+  let shown = false
 
   export let heading = 'GDPR Notice'
   export let description =
@@ -29,9 +29,6 @@
 
   export let cookieConfig = {}
 
-  /**
-   * Sample messages
-   */
   export let choices = {}
   const choicesDefaults = {
     necessary: {
@@ -85,6 +82,7 @@
       execute(cookie.choices)
     } else {
       removeCookie()
+      shown = true
     }
   })
 
@@ -125,7 +123,7 @@
   }
 </script>
 
-{#if showOnInit}
+{#if showEditIcon}
   <button
     class="cookieConsentToggle"
     on:click={() => (shown = true)}
