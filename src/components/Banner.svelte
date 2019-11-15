@@ -1,20 +1,17 @@
 <script>
   import Cookie from 'cookie-universal'
   import { validate } from '../util'
+  import { fade } from 'svelte/transition'
   import { onMount, createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
   const cookies = Cookie()
+
   export let cookieName = null
-
-  let settingsShown = false
-
-  const showSettings = () => {
-    settingsShown = !settingsShown
-  }
-
   export let showEditIcon = true
+
   let shown = false
+  let settingsShown = false
 
   export let heading = 'GDPR Notice'
   export let description =
@@ -127,7 +124,7 @@
   <button
     class="cookieConsentToggle"
     on:click={() => (shown = true)}
-    class:active={!shown}>
+    transition:fade>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
       <path
         d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17
@@ -145,7 +142,8 @@
   </button>
 {/if}
 
-<div class="cookieConsentWrapper" class:active={shown}>
+{#if shown}
+<div class="cookieConsentWrapper" transition:fade>
   <div class="cookieConsent">
     <div class="cookieConsent__Left">
       <div class="cookieConsent__Content">
@@ -159,7 +157,7 @@
       <button
         type="button"
         class="cookieConsent__Button"
-        on:click={showSettings}>
+        on:click={() => settingsShown = true}>
         {settingsLabel}
       </button>
       <button type="submit" class="cookieConsent__Button" on:click={choose}>
@@ -168,8 +166,10 @@
     </div>
   </div>
 </div>
+{/if}
 
-<div class="cookieConsentOperations" class:active={settingsShown}>
+{#if settingsShown}
+<div class="cookieConsentOperations" transition:fade>
   <div class="cookieConsentOperations__List">
     {#each choicesArr as choice}
       {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
@@ -191,8 +191,9 @@
     <button
       type="submit"
       class="cookieConsent__Button cookieConsent__Button--Close"
-      on:click={showSettings}>
+      on:click={() => settingsShown = false}>
       {closeLabel}
     </button>
   </div>
 </div>
+{/if}

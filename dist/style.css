@@ -11,15 +11,8 @@
   bottom: 20px;
   right: 20px;
   transition: 200ms;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  z-index: 99980;
-}
-
-.cookieConsentToggle.active {
   opacity: 1;
-  visibility: visible;
+  z-index: 99980;
 }
 
 .cookieConsentToggle:hover {
@@ -40,14 +33,7 @@
   background: black;
   color: white;
   padding: 20px;
-  opacity: 0;
-  visibility: hidden;
   transition: 200ms;
-}
-
-.cookieConsentWrapper.active {
-  opacity: 1;
-  visibility: visible;
 }
 
 .cookieConsent {
@@ -85,12 +71,10 @@
 
 .cookieConsentOperations {
   position: fixed;
-  opacity: 0;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  visibility: hidden;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
   transition: 300ms;
@@ -98,12 +82,7 @@
   z-index: 99999;
 }
 
-.cookieConsentOperations.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.cookieConsentOperations.active .cookieConsentOperations__List {
+.cookieConsentOperations .cookieConsentOperations__List {
   transform: scale(1);
 }
 
