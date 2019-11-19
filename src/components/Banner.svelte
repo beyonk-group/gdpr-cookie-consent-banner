@@ -51,13 +51,14 @@
     }
   }
 
-  const choicesMerged = { ...choicesDefaults, ...choices }
+  const choicesMerged = Object.assign({}, choicesDefaults, choices)
 
   $: choicesArr = Object.values(choicesMerged).map((item, index) => {
-    return {
-      ...item,
-      id: Object.keys(choicesMerged)[index]
-    }
+    return Object.assign(
+      {},
+      item,
+      { id: Object.keys(choicesMerged)[index] }
+    )
   })
   
   $: cookieChoices = choicesArr.reduce(function(result, item, index, array) {
