@@ -30,7 +30,7 @@
   const choicesDefaults = {
     necessary: {
       label: 'Necessary cookies',
-      description: "Used for cookie control. Can't be turned off",
+      description: "Used for cookie control. Can't be turned off.",
       value: true
     },
     tracking: {
@@ -46,7 +46,7 @@
     },
     marketing: {
       label: 'Marketing cookies',
-      description: 'Used for marketing data',
+      description: 'Used for marketing data.',
       value: true
     }
   }
