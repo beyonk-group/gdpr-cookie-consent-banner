@@ -12,14 +12,17 @@
   right: 20px;
   transition: 200ms;
   opacity: 1;
-  z-index: 99980; }
+  z-index: 99980;
+}
 
 .cookieConsentToggle:hover {
   color: white;
-  background: black; }
+  background: black;
+}
 
 .cookieConsentToggle * {
-  fill: currentColor; }
+  fill: currentColor;
+}
 
 .cookieConsentWrapper {
   z-index: 99990;
@@ -30,33 +33,41 @@
   background: black;
   color: white;
   padding: 20px;
-  transition: 200ms; }
+  transition: 200ms;
+}
 
 .cookieConsent {
   margin: 0 auto;
   display: flex;
-  justify-content: space-between; }
+  justify-content: space-between;
+}
 
 .cookieConsent__Content {
-  margin-right: 40px; }
+  margin-right: 40px;
+}
 
 .cookieConsent__Title {
   margin: 0;
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .cookieConsent__Description {
-  margin: 10px 0 0; }
+  margin: 10px 0 0;
+}
 
 .cookieConsent__Description a {
   color: white;
-  text-decoration: underline; }
+  text-decoration: underline;
+}
 
 .cookieConsent__Description a:hover {
-  text-decoration: none; }
+  text-decoration: none;
+}
 
 .cookieConsent__Right {
   display: flex;
-  align-items: flex-end; }
+  align-items: flex-end;
+}
 
 .cookieConsentOperations {
   position: fixed;
@@ -68,10 +79,12 @@
   display: flex;
   transition: 300ms;
   will-change: transform;
-  z-index: 99999; }
+  z-index: 99999;
+}
 
 .cookieConsentOperations .cookieConsentOperations__List {
-  transform: scale(1); }
+  transform: scale(1);
+}
 
 .cookieConsentOperations__List {
   background: white;
@@ -84,28 +97,34 @@
   max-height: 100vh;
   transition: 200ms transform;
   will-change: transform;
-  transform: scale(0.95); }
+  transform: scale(0.95);
+}
 
 .cookieConsentOperations__Item {
   display: block;
   padding-left: 60px;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+}
 
 .cookieConsentOperations__Item.disabled {
-  color: #999; }
+  color: #999;
+}
 
 .cookieConsentOperations__Item.disabled label::after {
-  opacity: 0.3; }
+  opacity: 0.3;
+}
 
 .cookieConsentOperations__Item input {
-  display: none; }
+  display: none;
+}
 
 .cookieConsentOperations__Item label {
   align-items: center;
   font-size: 22px;
   font-weight: bold;
   display: block;
-  position: relative; }
+  position: relative;
+}
 
 .cookieConsentOperations__Item label::before {
   content: "";
@@ -117,7 +136,8 @@
   width: 40px;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%); }
+  transform: translateY(-50%);
+}
 
 .cookieConsentOperations__Item label::after {
   content: "";
@@ -130,10 +150,12 @@
   top: 50%;
   transform: translateY(-50%);
   left: -58px;
-  transition: 200ms; }
+  transition: 200ms;
+}
 
-.cookieConsentOperations__Item input:checked + label::after {
-  transform: translate(20px, -50%); }
+.cookieConsentOperations__Item input:checked+label::after {
+  transform: translate(20px, -50%);
+}
 
 .cookieConsent__Button {
   padding: 15px 40px;
@@ -144,23 +166,34 @@
   font-size: 16px;
   margin-left: 10px;
   cursor: pointer;
-  transition: 200ms; }
+  transition: 200ms;
+}
 
 .cookieConsent__Button--Close {
   background: black;
   color: white;
   margin: 40px 0 0 60px;
-  padding: 15px 60px; }
+  padding: 15px 60px;
+}
 
 .cookieConsent__Button:hover {
-  opacity: 0.6; }
+  opacity: 0.6;
+}
 
 @media only screen and (max-width: 900px) {
   .cookieConsent {
-    display: block; }
+    display: block;
+  }
+
   .cookieConsent__Right {
-    margin-top: 20px; }
+    margin-top: 20px;
+  }
+
   .cookieConsent__Button {
-    margin: 0 10px 10px 0; }
+    margin: 0 10px 10px 0;
+  }
+
   .cookieConsent__Button--Close {
-    margin: 40px 0 0; } }
+    margin: 40px 0 0;
+  }
+}
