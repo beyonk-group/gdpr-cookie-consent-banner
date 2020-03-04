@@ -80,7 +80,7 @@ Just use it as a regular svelte component:
 <GdprBanner cookieName="foo" description="bar" on:analytics="this.someFunction()" />
 
 <script>
-  import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional
+  import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional, you can also define your own styles
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 </script>
 ```

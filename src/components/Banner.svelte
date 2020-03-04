@@ -3,7 +3,6 @@
   import { validate } from '../util'
   import { fade } from 'svelte/transition'
   import { onMount, createEventDispatcher } from 'svelte'
-  import '../style.scss'
 
   const dispatch = createEventDispatcher()
   const cookies = Cookie()
