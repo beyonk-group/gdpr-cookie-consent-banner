@@ -51,7 +51,7 @@
     }
   }
 
-  const choicesMerged = Object.assign({}, choicesDefaults, choices)
+  $: choicesMerged = Object.assign({}, choicesDefaults, choices)
 
   $: choicesArr = Object.values(choicesMerged).map((item, index) => {
     return Object.assign(
