@@ -18,10 +18,10 @@
     'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.'
 
   export let categories = {
-    analytics: function() {},
-    tracking: function() {},
-    marketing: function() {},
-    necessary: function() {}
+    analytics: function () {},
+    tracking: function () {},
+    marketing: function () {},
+    necessary: function () {}
   }
 
   export let cookieConfig = {}
@@ -61,7 +61,7 @@
     )
   })
   
-  $: cookieChoices = choicesArr.reduce(function(result, item, index, array) {
+  $: cookieChoices = choicesArr.reduce((result, item, index, array) => {
     result[item.id] = item.value ? item.value : false
     return result
   }, {})
@@ -72,7 +72,7 @@
 
   onMount(() => {
     if (!cookieName) {
-      throw 'You must set gdpr cookie name'
+      throw new Error('You must set gdpr cookie name')
     }
 
     const cookie = cookies.get(cookieName)
@@ -106,9 +106,11 @@
 
     types.forEach(t => {
       const agreed = chosen[t]
-      choicesMerged[t] ? (choicesMerged[t].value = agreed) : false
+      if (choicesMerged[t]) {
+        choicesMerged[t].value = agreed
+      }
       if (agreed) {
-        categories[t]()
+        categories[t] && categories[t]()
         dispatch(`${t}`)
       }
     })
@@ -158,7 +160,7 @@
       <button
         type="button"
         class="cookieConsent__Button"
-        on:click={() => settingsShown = true}>
+        on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
       <button type="submit" class="cookieConsent__Button" on:click={choose}>
@@ -173,7 +175,7 @@
 <div class="cookieConsentOperations" transition:fade>
   <div class="cookieConsentOperations__List">
     {#each choicesArr as choice}
-      {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
+      {#if Object.hasOwnProperty.call(choicesMerged, (choice.id) && choicesMerged[choice.id])}
         <div
           class="cookieConsentOperations__Item"
           class:disabled={choice.id === 'necessary'}>
@@ -192,7 +194,7 @@
     <button
       type="submit"
       class="cookieConsent__Button cookieConsent__Button--Close"
-      on:click={() => settingsShown = false}>
+      on:click={() => { settingsShown = false } }>
       {closeLabel}
     </button>
   </div>

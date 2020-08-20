@@ -10,6 +10,7 @@
         margin: 0px;
       }
     </style>
+    <link rel="stylesheet" href="dist/style.css" />
   </head>
 
   <body>
@@ -27,7 +28,11 @@
           }
         },
         choices: {
-          necessary: true,
+          necessary: {
+            label: 'Necessary Things',
+            description: 'Super important',
+            value: true
+          },
           analytics: false
         }
       })
