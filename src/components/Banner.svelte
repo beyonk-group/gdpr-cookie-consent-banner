@@ -175,7 +175,7 @@
 <div class="cookieConsentOperations" transition:fade>
   <div class="cookieConsentOperations__List">
     {#each choicesArr as choice}
-      {#if Object.hasOwnProperty.call(choicesMerged, (choice.id) && choicesMerged[choice.id])}
+      {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
         <div
           class="cookieConsentOperations__Item"
           class:disabled={choice.id === 'necessary'}>
