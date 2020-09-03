@@ -77,11 +77,15 @@ I've documented our usage of it below:
 Just use it as a regular svelte component:
 
 ```html
-<GdprBanner cookieName="foo" description="bar" on:analytics="this.someFunction()" />
+<GdprBanner cookieName="foo" description="bar" on:analytics={initAnalytics} />
 
 <script>
   import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional, you can also define your own styles
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+  
+  function initAnalytics () {
+    // do something with segment.io or google analytics etc
+  }
 </script>
 ```
 
