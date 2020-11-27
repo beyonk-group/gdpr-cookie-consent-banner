@@ -1,4 +1,5 @@
 import Banner from '../components/Banner.svelte'
+import '../style.scss'
 
 function attachBanner (target, props = {}) {
   // eslint-disable-next-line no-new
