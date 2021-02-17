@@ -136,7 +136,7 @@ function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
         stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
     }
     const animation = node.style.animation || '';
-    node.style.animation = `${animation ? `${animation}, ` : ``}${name} ${duration}ms linear ${delay}ms 1 both`;
+    node.style.animation = `${animation ? `${animation}, ` : ''}${name} ${duration}ms linear ${delay}ms 1 both`;
     active += 1;
     return name;
 }
@@ -175,7 +175,7 @@ function set_current_component(component) {
 }
 function get_current_component() {
     if (!current_component)
-        throw new Error(`Function called outside component initialization`);
+        throw new Error('Function called outside component initialization');
     return current_component;
 }
 function onMount(fn) {
@@ -225,6 +225,7 @@ function flush() {
             set_current_component(component);
             update(component.$$);
         }
+        set_current_component(null);
         dirty_components.length = 0;
         while (binding_callbacks.length)
             binding_callbacks.pop()();
@@ -344,7 +345,7 @@ function create_bidirectional_transition(node, fn, params, intro) {
             program.group = outros;
             outros.r += 1;
         }
-        if (running_program) {
+        if (running_program || pending_program) {
             pending_program = program;
         }
         else {
@@ -455,7 +456,6 @@ function make_dirty(component, i) {
 function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
     const parent_component = current_component;
     set_current_component(component);
-    const prop_values = options.props || {};
     const $$ = component.$$ = {
         fragment: null,
         ctx: null,
@@ -477,7 +477,7 @@ function init(component, options, instance, create_fragment, not_equal, props, d
     };
     let ready = false;
     $$.ctx = instance
-        ? instance(component, prop_values, (i, ret, ...rest) => {
+        ? instance(component, options.props || {}, (i, ret, ...rest) => {
             const value = rest.length ? rest[0] : ret;
             if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
                 if (!$$.skip_bound && $$.bound[i])
@@ -511,6 +511,9 @@ function init(component, options, instance, create_fragment, not_equal, props, d
     }
     set_current_component(parent_component);
 }
+/**
+ * Base class for Svelte components. Used when dev=false.
+ */
 class SvelteComponent {
     $destroy() {
         destroy_component(this, 1);
@@ -534,35 +537,13 @@ class SvelteComponent {
     }
 }
 
-function getDefaultExportFromCjs (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
-
-function createCommonjsModule(fn, basedir, module) {
-	return module = {
-	  path: basedir,
-	  exports: {},
-	  require: function (path, base) {
-      return commonjsRequire(path, (base === undefined || base === null) ? module.path : base);
-    }
-	}, fn(module, module.exports), module.exports;
-}
-
-function commonjsRequire () {
-	throw new Error('Dynamic requires are not currently supported by @rollup/plugin-commonjs');
-}
-
-var cookieUniversalCommon = createCommonjsModule(function (module) {
-module.exports=function(e){function t(o){if(r[o])return r[o].exports;var n=r[o]={i:o,l:!1,exports:{}};return e[o].call(n.exports,n,n.exports,t),n.l=!0,n.exports}var r={};return t.m=e,t.c=r,t.d=function(e,r,o){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:o});},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,r){var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},n=r(1);e.exports=function(t,r){var i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],a="object"===("undefined"==typeof document?"undefined":o(document))&&"string"==typeof document.cookie,s="object"===(void 0===t?"undefined":o(t))&&"object"===(void 0===r?"undefined":o(r))&&void 0!==e,u=!a&&!s||a&&s,f=function(e){if(s){var o=t.headers.cookie||"";return e&&(o=r.getHeaders(),o=o["set-cookie"]?o["set-cookie"].map(function(e){return e.split(";")[0]}).join(";"):""),o}if(a)return document.cookie||""},c=function(){var e=r.getHeader("Set-Cookie");return (e="string"==typeof e?[e]:e)||[]},p=function(e){return r.setHeader("Set-Cookie",e)},d=function(e,t){if(!t)return e;try{return JSON.parse(e)}catch(t){return e}},l={parseJSON:i,set:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{path:"/"};if(!u)if(t="object"===(void 0===t?"undefined":o(t))?JSON.stringify(t):t,s){var i=c();i.push(n.serialize(e,t,r)),p(i);}else document.cookie=n.serialize(e,t,r);},setAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];u||Array.isArray(e)&&e.forEach(function(e){var t=e.name,r=void 0===t?"":t,o=e.value,n=void 0===o?"":o,i=e.opts,a=void 0===i?{path:"/"}:i;l.set(r,n,a);});},get:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return "";var r=n.parse(f(t.fromRes)),o=r[e];return d(o,t.parseJSON)},getAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return {};var t=n.parse(f(e.fromRes));for(var r in t)t[r]=d(t[r],e.parseJSON);return t},remove:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{path:"/"};if(!u){var r=l.get(e);t.expires=new Date(0),void 0!==r&&l.set(e,"",t);}},removeAll:function(){if(!u){var e=n.parse(f());for(var t in e)l.remove(t);}},nodeCookie:n};return l};},function(e,t,r){function o(e,t){if("string"!=typeof e)throw new TypeError("argument str must be a string");for(var r={},o=t||{},n=e.split(u),s=o.decode||a,f=0;f<n.length;f++){var c=n[f],p=c.indexOf("=");if(!(p<0)){var d=c.substr(0,p).trim(),l=c.substr(++p,c.length).trim();'"'==l[0]&&(l=l.slice(1,-1)),void 0==r[d]&&(r[d]=i(l,s));}}return r}function n(e,t,r){var o=r||{},n=o.encode||s;if("function"!=typeof n)throw new TypeError("option encode is invalid");if(!f.test(e))throw new TypeError("argument name is invalid");var i=n(t);if(i&&!f.test(i))throw new TypeError("argument val is invalid");var a=e+"="+i;if(null!=o.maxAge){var u=o.maxAge-0;if(isNaN(u))throw new Error("maxAge should be a Number");a+="; Max-Age="+Math.floor(u);}if(o.domain){if(!f.test(o.domain))throw new TypeError("option domain is invalid");a+="; Domain="+o.domain;}if(o.path){if(!f.test(o.path))throw new TypeError("option path is invalid");a+="; Path="+o.path;}if(o.expires){if("function"!=typeof o.expires.toUTCString)throw new TypeError("option expires is invalid");a+="; Expires="+o.expires.toUTCString();}if(o.httpOnly&&(a+="; HttpOnly"),o.secure&&(a+="; Secure"),o.sameSite){switch("string"==typeof o.sameSite?o.sameSite.toLowerCase():o.sameSite){case!0:a+="; SameSite=Strict";break;case"lax":a+="; SameSite=Lax";break;case"strict":a+="; SameSite=Strict";break;case"none":a+="; SameSite=None";break;default:throw new TypeError("option sameSite is invalid")}}return a}function i(e,t){try{return t(e)}catch(t){return e}}/*!
+var cookieUniversalCommon=function(e){function t(o){if(r[o])return r[o].exports;var n=r[o]={i:o,l:!1,exports:{}};return e[o].call(n.exports,n,n.exports,t),n.l=!0,n.exports}var r={};return t.m=e,t.c=r,t.d=function(e,r,o){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:o});},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,r){var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},n=r(1);e.exports=function(t,r){var i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],a="object"===("undefined"==typeof document?"undefined":o(document))&&"string"==typeof document.cookie,s="object"===(void 0===t?"undefined":o(t))&&"object"===(void 0===r?"undefined":o(r))&&void 0!==e,u=!a&&!s||a&&s,f=function(e){if(s){var o=t.headers.cookie||"";return e&&(o=r.getHeaders(),o=o["set-cookie"]?o["set-cookie"].map(function(e){return e.split(";")[0]}).join(";"):""),o}if(a)return document.cookie||""},c=function(){var e=r.getHeader("Set-Cookie");return (e="string"==typeof e?[e]:e)||[]},p=function(e){return r.setHeader("Set-Cookie",e)},d=function(e,t){if(!t)return e;try{return JSON.parse(e)}catch(t){return e}},l={parseJSON:i,set:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{path:"/"};if(!u)if(t="object"===(void 0===t?"undefined":o(t))?JSON.stringify(t):t,s){var i=c();i.push(n.serialize(e,t,r)),p(i);}else document.cookie=n.serialize(e,t,r);},setAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];u||Array.isArray(e)&&e.forEach(function(e){var t=e.name,r=void 0===t?"":t,o=e.value,n=void 0===o?"":o,i=e.opts,a=void 0===i?{path:"/"}:i;l.set(r,n,a);});},get:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return "";var r=n.parse(f(t.fromRes)),o=r[e];return d(o,t.parseJSON)},getAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return {};var t=n.parse(f(e.fromRes));for(var r in t)t[r]=d(t[r],e.parseJSON);return t},remove:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{path:"/"};if(!u){var r=l.get(e);t.expires=new Date(0),void 0!==r&&l.set(e,"",t);}},removeAll:function(){if(!u){var e=n.parse(f());for(var t in e)l.remove(t);}},nodeCookie:n};return l};},function(e,t,r){function o(e,t){if("string"!=typeof e)throw new TypeError("argument str must be a string");for(var r={},o=t||{},n=e.split(u),s=o.decode||a,f=0;f<n.length;f++){var c=n[f],p=c.indexOf("=");if(!(p<0)){var d=c.substr(0,p).trim(),l=c.substr(++p,c.length).trim();'"'==l[0]&&(l=l.slice(1,-1)),void 0==r[d]&&(r[d]=i(l,s));}}return r}function n(e,t,r){var o=r||{},n=o.encode||s;if("function"!=typeof n)throw new TypeError("option encode is invalid");if(!f.test(e))throw new TypeError("argument name is invalid");var i=n(t);if(i&&!f.test(i))throw new TypeError("argument val is invalid");var a=e+"="+i;if(null!=o.maxAge){var u=o.maxAge-0;if(isNaN(u))throw new Error("maxAge should be a Number");a+="; Max-Age="+Math.floor(u);}if(o.domain){if(!f.test(o.domain))throw new TypeError("option domain is invalid");a+="; Domain="+o.domain;}if(o.path){if(!f.test(o.path))throw new TypeError("option path is invalid");a+="; Path="+o.path;}if(o.expires){if("function"!=typeof o.expires.toUTCString)throw new TypeError("option expires is invalid");a+="; Expires="+o.expires.toUTCString();}if(o.httpOnly&&(a+="; HttpOnly"),o.secure&&(a+="; Secure"),o.sameSite){switch("string"==typeof o.sameSite?o.sameSite.toLowerCase():o.sameSite){case!0:a+="; SameSite=Strict";break;case"lax":a+="; SameSite=Lax";break;case"strict":a+="; SameSite=Strict";break;case"none":a+="; SameSite=None";break;default:throw new TypeError("option sameSite is invalid")}}return a}function i(e,t){try{return t(e)}catch(t){return e}}/*!
  * cookie
  * Copyright(c) 2012-2014 Roman Shtylman
  * Copyright(c) 2015 Douglas Christopher Wilson
  * MIT Licensed
  */
 t.parse=o,t.serialize=n;var a=decodeURIComponent,s=encodeURIComponent,u=/; */,f=/^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;}]);
-});
-
-var Cookie = /*@__PURE__*/getDefaultExportFromCjs(cookieUniversalCommon);
 
 var validate = function (choice, cookie) {
   const choices = Object.keys(choice);
@@ -575,7 +556,7 @@ var validate = function (choice, cookie) {
   return chosen.every(c => choices.includes(c))
 };
 
-function fade(node, { delay = 0, duration = 400, easing = identity }) {
+function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
     const o = +getComputedStyle(node).opacity;
     return {
         delay,
@@ -585,7 +566,7 @@ function fade(node, { delay = 0, duration = 400, easing = identity }) {
     };
 }
 
-/* src/components/Banner.svelte generated by Svelte v3.24.1 */
+/* src/components/Banner.svelte generated by Svelte v3.32.3 */
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
@@ -595,7 +576,7 @@ function get_each_context(ctx, list, i) {
 	return child_ctx;
 }
 
-// (124:0) {#if showEditIcon}
+// (130:0) {#if showEditIcon}
 function create_if_block_3(ctx) {
 	let button;
 	let button_transition;
@@ -626,7 +607,7 @@ function create_if_block_3(ctx) {
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(button, "click", /*click_handler*/ ctx[15]);
+				dispose = listen(button, "click", /*show*/ ctx[6]);
 				mounted = true;
 			}
 		},
@@ -655,7 +636,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (146:0) {#if shown}
+// (152:0) {#if shown}
 function create_if_block_2(ctx) {
 	let div4;
 	let div3;
@@ -727,8 +708,8 @@ function create_if_block_2(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(button0, "click", /*click_handler_1*/ ctx[16]),
-					listen(button1, "click", /*choose*/ ctx[10])
+					listen(button0, "click", /*click_handler*/ ctx[16]),
+					listen(button1, "click", /*choose*/ ctx[11])
 				];
 
 				mounted = true;
@@ -763,7 +744,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (172:0) {#if settingsShown}
+// (178:0) {#if settingsShown}
 function create_if_block(ctx) {
 	let div1;
 	let div0;
@@ -774,7 +755,7 @@ function create_if_block(ctx) {
 	let current;
 	let mounted;
 	let dispose;
-	let each_value = /*choicesArr*/ ctx[9];
+	let each_value = /*choicesArr*/ ctx[8];
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -812,13 +793,13 @@ function create_if_block(ctx) {
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(button, "click", /*click_handler_2*/ ctx[18]);
+				dispose = listen(button, "click", /*click_handler_1*/ ctx[18]);
 				mounted = true;
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty & /*choicesArr, choicesMerged*/ 768) {
-				each_value = /*choicesArr*/ ctx[9];
+			if (dirty & /*choicesArr, choicesMerged, Object*/ 384) {
+				each_value = /*choicesArr*/ ctx[8];
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -867,7 +848,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (176:6) {#if choicesMerged.hasOwnProperty(choice.id) && choicesMerged[choice.id]}
+// (182:6) {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
 function create_if_block_1(ctx) {
 	let div;
 	let input;
@@ -910,7 +891,7 @@ function create_if_block_1(ctx) {
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input);
-			input.checked = /*choicesMerged*/ ctx[8][/*choice*/ ctx[27].id].value;
+			input.checked = /*choicesMerged*/ ctx[7][/*choice*/ ctx[27].id].value;
 			append(div, t0);
 			append(div, label);
 			append(label, t1);
@@ -926,27 +907,27 @@ function create_if_block_1(ctx) {
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
 
-			if (dirty & /*choicesArr*/ 512 && input_id_value !== (input_id_value = `gdpr-check-${/*choice*/ ctx[27].id}`)) {
+			if (dirty & /*choicesArr*/ 256 && input_id_value !== (input_id_value = `gdpr-check-${/*choice*/ ctx[27].id}`)) {
 				attr(input, "id", input_id_value);
 			}
 
-			if (dirty & /*choicesArr*/ 512 && input_disabled_value !== (input_disabled_value = /*choice*/ ctx[27].id === "necessary")) {
+			if (dirty & /*choicesArr*/ 256 && input_disabled_value !== (input_disabled_value = /*choice*/ ctx[27].id === "necessary")) {
 				input.disabled = input_disabled_value;
 			}
 
-			if (dirty & /*choicesMerged, choicesArr*/ 768) {
-				input.checked = /*choicesMerged*/ ctx[8][/*choice*/ ctx[27].id].value;
+			if (dirty & /*choicesMerged, choicesArr*/ 384) {
+				input.checked = /*choicesMerged*/ ctx[7][/*choice*/ ctx[27].id].value;
 			}
 
-			if (dirty & /*choicesArr*/ 512 && t1_value !== (t1_value = /*choice*/ ctx[27].label + "")) set_data(t1, t1_value);
+			if (dirty & /*choicesArr*/ 256 && t1_value !== (t1_value = /*choice*/ ctx[27].label + "")) set_data(t1, t1_value);
 
-			if (dirty & /*choicesArr*/ 512 && label_for_value !== (label_for_value = `gdpr-check-${/*choice*/ ctx[27].id}`)) {
+			if (dirty & /*choicesArr*/ 256 && label_for_value !== (label_for_value = `gdpr-check-${/*choice*/ ctx[27].id}`)) {
 				attr(label, "for", label_for_value);
 			}
 
-			if (dirty & /*choicesArr*/ 512 && t3_value !== (t3_value = /*choice*/ ctx[27].description + "")) set_data(t3, t3_value);
+			if (dirty & /*choicesArr*/ 256 && t3_value !== (t3_value = /*choice*/ ctx[27].description + "")) set_data(t3, t3_value);
 
-			if (dirty & /*choicesArr*/ 512) {
+			if (dirty & /*choicesArr*/ 256) {
 				toggle_class(div, "disabled", /*choice*/ ctx[27].id === "necessary");
 			}
 		},
@@ -958,9 +939,9 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (175:4) {#each choicesArr as choice}
+// (181:4) {#each choicesArr as choice}
 function create_each_block(ctx) {
-	let show_if = /*choicesMerged*/ ctx[8].hasOwnProperty(/*choice*/ ctx[27].id) && /*choicesMerged*/ ctx[8][/*choice*/ ctx[27].id];
+	let show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[7], /*choice*/ ctx[27].id) && /*choicesMerged*/ ctx[7][/*choice*/ ctx[27].id];
 	let if_block_anchor;
 	let if_block = show_if && create_if_block_1(ctx);
 
@@ -974,7 +955,7 @@ function create_each_block(ctx) {
 			insert(target, if_block_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty & /*choicesMerged, choicesArr*/ 768) show_if = /*choicesMerged*/ ctx[8].hasOwnProperty(/*choice*/ ctx[27].id) && /*choicesMerged*/ ctx[8][/*choice*/ ctx[27].id];
+			if (dirty & /*choicesMerged, choicesArr*/ 384) show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[7], /*choice*/ ctx[27].id) && /*choicesMerged*/ ctx[7][/*choice*/ ctx[27].id];
 
 			if (show_if) {
 				if (if_block) {
@@ -1002,8 +983,8 @@ function create_fragment(ctx) {
 	let if_block2_anchor;
 	let current;
 	let if_block0 = /*showEditIcon*/ ctx[0] && create_if_block_3(ctx);
-	let if_block1 = /*shown*/ ctx[6] && create_if_block_2(ctx);
-	let if_block2 = /*settingsShown*/ ctx[7] && create_if_block(ctx);
+	let if_block1 = /*shown*/ ctx[9] && create_if_block_2(ctx);
+	let if_block2 = /*settingsShown*/ ctx[10] && create_if_block(ctx);
 
 	return {
 		c() {
@@ -1047,11 +1028,11 @@ function create_fragment(ctx) {
 				check_outros();
 			}
 
-			if (/*shown*/ ctx[6]) {
+			if (/*shown*/ ctx[9]) {
 				if (if_block1) {
 					if_block1.p(ctx, dirty);
 
-					if (dirty & /*shown*/ 64) {
+					if (dirty & /*shown*/ 512) {
 						transition_in(if_block1, 1);
 					}
 				} else {
@@ -1070,11 +1051,11 @@ function create_fragment(ctx) {
 				check_outros();
 			}
 
-			if (/*settingsShown*/ ctx[7]) {
+			if (/*settingsShown*/ ctx[10]) {
 				if (if_block2) {
 					if_block2.p(ctx, dirty);
 
-					if (dirty & /*settingsShown*/ 128) {
+					if (dirty & /*settingsShown*/ 1024) {
 						transition_in(if_block2, 1);
 					}
 				} else {
@@ -1118,8 +1099,11 @@ function create_fragment(ctx) {
 }
 
 function instance($$self, $$props, $$invalidate) {
+	let choicesMerged;
+	let choicesArr;
+	let cookieChoices;
 	const dispatch = createEventDispatcher();
-	const cookies = Cookie();
+	const cookies = cookieUniversalCommon();
 	let { cookieName = null } = $$props;
 	let { showEditIcon = true } = $$props;
 	let shown = false;
@@ -1172,9 +1156,13 @@ function instance($$self, $$props, $$invalidate) {
 	let { settingsLabel = "Cookie settings" } = $$props;
 	let { closeLabel = "Close settings" } = $$props;
 
+	function show() {
+		$$invalidate(9, shown = true);
+	}
+
 	onMount(() => {
 		if (!cookieName) {
-			throw "You must set gdpr cookie name";
+			throw new Error("You must set gdpr cookie name");
 		}
 
 		const cookie = cookies.get(cookieName);
@@ -1183,7 +1171,7 @@ function instance($$self, $$props, $$invalidate) {
 			execute(cookie.choices);
 		} else {
 			removeCookie();
-			$$invalidate(6, shown = true);
+			show();
 		}
 	});
 
@@ -1209,9 +1197,9 @@ function instance($$self, $$props, $$invalidate) {
 		types.forEach(t => {
 			const agreed = chosen[t];
 
-			choicesMerged[t]
-			? $$invalidate(8, choicesMerged[t].value = agreed, choicesMerged)
-			: false;
+			if (choicesMerged[t]) {
+				$$invalidate(7, choicesMerged[t].value = agreed, choicesMerged);
+			}
 
 			if (agreed) {
 				categories[t] && categories[t]();
@@ -1219,7 +1207,7 @@ function instance($$self, $$props, $$invalidate) {
 			}
 		});
 
-		$$invalidate(6, shown = false);
+		$$invalidate(9, shown = false);
 	}
 
 	function choose() {
@@ -1227,47 +1215,46 @@ function instance($$self, $$props, $$invalidate) {
 		execute(cookieChoices);
 	}
 
-	const click_handler = () => $$invalidate(6, shown = true);
-	const click_handler_1 = () => $$invalidate(7, settingsShown = true);
+	const click_handler = () => {
+		$$invalidate(10, settingsShown = true);
+	};
 
 	function input_change_handler(choice) {
 		choicesMerged[choice.id].value = this.checked;
-		($$invalidate(8, choicesMerged), $$invalidate(14, choices));
-		(($$invalidate(9, choicesArr), $$invalidate(8, choicesMerged)), $$invalidate(14, choices));
+		($$invalidate(7, choicesMerged), $$invalidate(15, choices));
+		(($$invalidate(8, choicesArr), $$invalidate(7, choicesMerged)), $$invalidate(15, choices));
 	}
 
-	const click_handler_2 = () => $$invalidate(7, settingsShown = false);
+	const click_handler_1 = () => {
+		$$invalidate(10, settingsShown = false);
+	};
 
 	$$self.$$set = $$props => {
-		if ("cookieName" in $$props) $$invalidate(11, cookieName = $$props.cookieName);
+		if ("cookieName" in $$props) $$invalidate(12, cookieName = $$props.cookieName);
 		if ("showEditIcon" in $$props) $$invalidate(0, showEditIcon = $$props.showEditIcon);
 		if ("heading" in $$props) $$invalidate(1, heading = $$props.heading);
 		if ("description" in $$props) $$invalidate(2, description = $$props.description);
-		if ("categories" in $$props) $$invalidate(12, categories = $$props.categories);
-		if ("cookieConfig" in $$props) $$invalidate(13, cookieConfig = $$props.cookieConfig);
-		if ("choices" in $$props) $$invalidate(14, choices = $$props.choices);
+		if ("categories" in $$props) $$invalidate(13, categories = $$props.categories);
+		if ("cookieConfig" in $$props) $$invalidate(14, cookieConfig = $$props.cookieConfig);
+		if ("choices" in $$props) $$invalidate(15, choices = $$props.choices);
 		if ("acceptLabel" in $$props) $$invalidate(3, acceptLabel = $$props.acceptLabel);
 		if ("settingsLabel" in $$props) $$invalidate(4, settingsLabel = $$props.settingsLabel);
 		if ("closeLabel" in $$props) $$invalidate(5, closeLabel = $$props.closeLabel);
 	};
 
-	let choicesMerged;
-	let choicesArr;
-	let cookieChoices;
-
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty & /*choices*/ 16384) {
-			 $$invalidate(8, choicesMerged = Object.assign({}, choicesDefaults, choices));
+		if ($$self.$$.dirty & /*choices*/ 32768) {
+			$$invalidate(7, choicesMerged = Object.assign({}, choicesDefaults, choices));
 		}
 
-		if ($$self.$$.dirty & /*choicesMerged*/ 256) {
-			 $$invalidate(9, choicesArr = Object.values(choicesMerged).map((item, index) => {
+		if ($$self.$$.dirty & /*choicesMerged*/ 128) {
+			$$invalidate(8, choicesArr = Object.values(choicesMerged).map((item, index) => {
 				return Object.assign({}, item, { id: Object.keys(choicesMerged)[index] });
 			}));
 		}
 
-		if ($$self.$$.dirty & /*choicesArr*/ 512) {
-			 cookieChoices = choicesArr.reduce(
+		if ($$self.$$.dirty & /*choicesArr*/ 256) {
+			cookieChoices = choicesArr.reduce(
 				(result, item, index, array) => {
 					result[item.id] = item.value ? item.value : false;
 					return result;
@@ -1284,19 +1271,19 @@ function instance($$self, $$props, $$invalidate) {
 		acceptLabel,
 		settingsLabel,
 		closeLabel,
-		shown,
-		settingsShown,
+		show,
 		choicesMerged,
 		choicesArr,
+		shown,
+		settingsShown,
 		choose,
 		cookieName,
 		categories,
 		cookieConfig,
 		choices,
 		click_handler,
-		click_handler_1,
 		input_change_handler,
-		click_handler_2
+		click_handler_1
 	];
 }
 
@@ -1305,21 +1292,27 @@ class Banner extends SvelteComponent {
 		super();
 
 		init(this, options, instance, create_fragment, safe_not_equal, {
-			cookieName: 11,
+			cookieName: 12,
 			showEditIcon: 0,
 			heading: 1,
 			description: 2,
-			categories: 12,
-			cookieConfig: 13,
-			choices: 14,
+			categories: 13,
+			cookieConfig: 14,
+			choices: 15,
 			acceptLabel: 3,
 			settingsLabel: 4,
-			closeLabel: 5
+			closeLabel: 5,
+			show: 6
 		});
+	}
+
+	get show() {
+		return this.$$.ctx[6];
 	}
 }
 
-function attachBanner(target, props = {}) {
+function attachBanner (target, props = {}) {
+  // eslint-disable-next-line no-new
   new Banner({
     target,
     props
