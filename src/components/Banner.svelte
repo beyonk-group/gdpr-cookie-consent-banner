@@ -70,6 +70,10 @@
   export let settingsLabel = 'Cookie settings'
   export let closeLabel = 'Close settings'
 
+  export function show () {
+    shown = true
+  }
+
   onMount(() => {
     if (!cookieName) {
       throw new Error('You must set gdpr cookie name')
@@ -80,7 +84,7 @@
       execute(cookie.choices)
     } else {
       removeCookie()
-      shown = true
+      show()
     }
   })
 
@@ -126,7 +130,7 @@
 {#if showEditIcon}
   <button
     class="cookieConsentToggle"
-    on:click={() => (shown = true)}
+    on:click={show}
     transition:fade>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
       <path

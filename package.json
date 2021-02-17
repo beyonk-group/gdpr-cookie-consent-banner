@@ -9,20 +9,20 @@
     "cookie-universal": "^2.1.4"
   },
   "devDependencies": {
-    "@beyonk/eslint-config": "^4.2.0",
+    "@beyonk/eslint-config": "^5.0.2",
     "@hapi/code": "^8.0.2",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-commonjs": "^17.1.0",
+    "@rollup/plugin-node-resolve": "^11.2.0",
     "eslint": "^7.7.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "http-server": "^0.12.3",
-    "mocha": "^8.1.1",
-    "rollup": "^2.26.4",
-    "rollup-plugin-scss": "^2.6.0",
-    "rollup-plugin-svelte": "^5.2.3",
-    "rollup-plugin-terser": "^7.0.0",
-    "sass": "^1.26.10",
-    "svelte": "^3.24.1"
+    "mocha": "^8.3.0",
+    "rollup": "^2.39.0",
+    "rollup-plugin-scss": "^2.6.1",
+    "rollup-plugin-svelte": "^7.1.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "sass": "^1.32.7",
+    "svelte": "^3.32.3"
   },
   "eslintConfig": {
     "extends": "@beyonk/eslint-config/svelte"
