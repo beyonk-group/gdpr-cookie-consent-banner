@@ -178,16 +178,29 @@ const options = {
    * These are the default opt-ins and their descriptions.
    * When value is set to true, the option will automatically be checked on load.
    *
-   * If you don't want to show a category, simply remove the specified key from this object.
+   * If you want to hide a category, simply set it to false, e.g. 'marketing: false'
    **/
   choices: {
-    necessary: {
-      label: 'Required cookies',
-      description:
-        "These can't be turned off as they are used to control all the other cookies",
-      value: true
-    },
-    analytics: false
+      necessary: {
+          label: "Necessary cookies",
+          description: "Used for cookie control. Can't be turned off.",
+          value: true
+      },
+      tracking: {
+          label: "Tracking cookies",
+          description: "Used for advertising purposes.",
+          value: true
+      },
+      analytics: {
+          label: "Analytics cookies",
+          description: "Used to control Google Analytics, a 3rd party tool offered by Google to track user behavior.",
+          value: true
+      },
+      marketing: {
+          label: "Marketing cookies",
+          description: "Used for marketing data.",
+          value: true
+      }
   },
 
   /**
