@@ -26,6 +26,10 @@
 
   export let cookieConfig = {}
 
+  const defaults = {
+    sameSite: 'strict',
+  }
+
   export let choices = {}
   const choicesDefaults = {
     necessary: {
@@ -92,7 +96,7 @@
     const expires = new Date()
     expires.setDate(expires.getDate() + 365)
 
-    const options = Object.assign({}, cookieConfig, { expires })
+    const options = Object.assign({}, defaults, cookieConfig, { expires })
     cookies.set(cookieName, { choices }, options)
   }
 
