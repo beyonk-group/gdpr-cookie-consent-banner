@@ -42,7 +42,7 @@ const browserMin = {
     format: 'iife',
     name: 'Banner'
   },
-  plugins: [].concat(plugins, [terser()])
+  plugins: [].concat(plugins, [ terser() ])
 }
 
-export default [esm, browser, browserMin]
+export default [ esm, browser, browserMin ]

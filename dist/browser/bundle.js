@@ -540,17 +540,141 @@
         }
     }
 
-    var cookieUniversalCommon=function(e){function t(o){if(r[o])return r[o].exports;var n=r[o]={i:o,l:!1,exports:{}};return e[o].call(n.exports,n,n.exports,t),n.l=!0,n.exports}var r={};return t.m=e,t.c=r,t.d=function(e,r,o){t.o(e,r)||Object.defineProperty(e,r,{configurable:!1,enumerable:!0,get:o});},t.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(r,"a",r),r},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=0)}([function(e,t,r){var o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(e){return typeof e}:function(e){return e&&"function"==typeof Symbol&&e.constructor===Symbol&&e!==Symbol.prototype?"symbol":typeof e},n=r(1);e.exports=function(t,r){var i=!(arguments.length>2&&void 0!==arguments[2])||arguments[2],a="object"===("undefined"==typeof document?"undefined":o(document))&&"string"==typeof document.cookie,s="object"===(void 0===t?"undefined":o(t))&&"object"===(void 0===r?"undefined":o(r))&&void 0!==e,u=!a&&!s||a&&s,f=function(e){if(s){var o=t.headers.cookie||"";return e&&(o=r.getHeaders(),o=o["set-cookie"]?o["set-cookie"].map(function(e){return e.split(";")[0]}).join(";"):""),o}if(a)return document.cookie||""},c=function(){var e=r.getHeader("Set-Cookie");return (e="string"==typeof e?[e]:e)||[]},p=function(e){return r.setHeader("Set-Cookie",e)},d=function(e,t){if(!t)return e;try{return JSON.parse(e)}catch(t){return e}},l={parseJSON:i,set:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:"",r=arguments.length>2&&void 0!==arguments[2]?arguments[2]:{path:"/"};if(!u)if(t="object"===(void 0===t?"undefined":o(t))?JSON.stringify(t):t,s){var i=c();i.push(n.serialize(e,t,r)),p(i);}else document.cookie=n.serialize(e,t,r);},setAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:[];u||Array.isArray(e)&&e.forEach(function(e){var t=e.name,r=void 0===t?"":t,o=e.value,n=void 0===o?"":o,i=e.opts,a=void 0===i?{path:"/"}:i;l.set(r,n,a);});},get:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return "";var r=n.parse(f(t.fromRes)),o=r[e];return d(o,t.parseJSON)},getAll:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{fromRes:!1,parseJSON:l.parseJSON};if(u)return {};var t=n.parse(f(e.fromRes));for(var r in t)t[r]=d(t[r],e.parseJSON);return t},remove:function(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:"",t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{path:"/"};if(!u){var r=l.get(e);t.expires=new Date(0),void 0!==r&&l.set(e,"",t);}},removeAll:function(){if(!u){var e=n.parse(f());for(var t in e)l.remove(t);}},nodeCookie:n};return l};},function(e,t,r){function o(e,t){if("string"!=typeof e)throw new TypeError("argument str must be a string");for(var r={},o=t||{},n=e.split(u),s=o.decode||a,f=0;f<n.length;f++){var c=n[f],p=c.indexOf("=");if(!(p<0)){var d=c.substr(0,p).trim(),l=c.substr(++p,c.length).trim();'"'==l[0]&&(l=l.slice(1,-1)),void 0==r[d]&&(r[d]=i(l,s));}}return r}function n(e,t,r){var o=r||{},n=o.encode||s;if("function"!=typeof n)throw new TypeError("option encode is invalid");if(!f.test(e))throw new TypeError("argument name is invalid");var i=n(t);if(i&&!f.test(i))throw new TypeError("argument val is invalid");var a=e+"="+i;if(null!=o.maxAge){var u=o.maxAge-0;if(isNaN(u))throw new Error("maxAge should be a Number");a+="; Max-Age="+Math.floor(u);}if(o.domain){if(!f.test(o.domain))throw new TypeError("option domain is invalid");a+="; Domain="+o.domain;}if(o.path){if(!f.test(o.path))throw new TypeError("option path is invalid");a+="; Path="+o.path;}if(o.expires){if("function"!=typeof o.expires.toUTCString)throw new TypeError("option expires is invalid");a+="; Expires="+o.expires.toUTCString();}if(o.httpOnly&&(a+="; HttpOnly"),o.secure&&(a+="; Secure"),o.sameSite){switch("string"==typeof o.sameSite?o.sameSite.toLowerCase():o.sameSite){case!0:a+="; SameSite=Strict";break;case"lax":a+="; SameSite=Lax";break;case"strict":a+="; SameSite=Strict";break;case"none":a+="; SameSite=None";break;default:throw new TypeError("option sameSite is invalid")}}return a}function i(e,t){try{return t(e)}catch(t){return e}}/*!
-     * cookie
-     * Copyright(c) 2012-2014 Roman Shtylman
-     * Copyright(c) 2015 Douglas Christopher Wilson
-     * MIT Licensed
-     */
-    t.parse=o,t.serialize=n;var a=decodeURIComponent,s=encodeURIComponent,u=/; */,f=/^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;}]);
+    /*! js-cookie v3.0.1 | MIT */
+    /* eslint-disable no-var */
+    function assign (target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          target[key] = source[key];
+        }
+      }
+      return target
+    }
+    /* eslint-enable no-var */
+
+    /* eslint-disable no-var */
+    var defaultConverter = {
+      read: function (value) {
+        if (value[0] === '"') {
+          value = value.slice(1, -1);
+        }
+        return value.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent)
+      },
+      write: function (value) {
+        return encodeURIComponent(value).replace(
+          /%(2[346BF]|3[AC-F]|40|5[BDE]|60|7[BCD])/g,
+          decodeURIComponent
+        )
+      }
+    };
+    /* eslint-enable no-var */
+
+    /* eslint-disable no-var */
+
+    function init$1 (converter, defaultAttributes) {
+      function set (key, value, attributes) {
+        if (typeof document === 'undefined') {
+          return
+        }
+
+        attributes = assign({}, defaultAttributes, attributes);
+
+        if (typeof attributes.expires === 'number') {
+          attributes.expires = new Date(Date.now() + attributes.expires * 864e5);
+        }
+        if (attributes.expires) {
+          attributes.expires = attributes.expires.toUTCString();
+        }
+
+        key = encodeURIComponent(key)
+          .replace(/%(2[346B]|5E|60|7C)/g, decodeURIComponent)
+          .replace(/[()]/g, escape);
+
+        var stringifiedAttributes = '';
+        for (var attributeName in attributes) {
+          if (!attributes[attributeName]) {
+            continue
+          }
+
+          stringifiedAttributes += '; ' + attributeName;
+
+          if (attributes[attributeName] === true) {
+            continue
+          }
+
+          // Considers RFC 6265 section 5.2:
+          // ...
+          // 3.  If the remaining unparsed-attributes contains a %x3B (";")
+          //     character:
+          // Consume the characters of the unparsed-attributes up to,
+          // not including, the first %x3B (";") character.
+          // ...
+          stringifiedAttributes += '=' + attributes[attributeName].split(';')[0];
+        }
+
+        return (document.cookie =
+          key + '=' + converter.write(value, key) + stringifiedAttributes)
+      }
+
+      function get (key) {
+        if (typeof document === 'undefined' || (arguments.length && !key)) {
+          return
+        }
+
+        // To prevent the for loop in the first place assign an empty array
+        // in case there are no cookies at all.
+        var cookies = document.cookie ? document.cookie.split('; ') : [];
+        var jar = {};
+        for (var i = 0; i < cookies.length; i++) {
+          var parts = cookies[i].split('=');
+          var value = parts.slice(1).join('=');
+
+          try {
+            var foundKey = decodeURIComponent(parts[0]);
+            jar[foundKey] = converter.read(value, foundKey);
+
+            if (key === foundKey) {
+              break
+            }
+          } catch (e) {}
+        }
+
+        return key ? jar[key] : jar
+      }
+
+      return Object.create(
+        {
+          set: set,
+          get: get,
+          remove: function (key, attributes) {
+            set(
+              key,
+              '',
+              assign({}, attributes, {
+                expires: -1
+              })
+            );
+          },
+          withAttributes: function (attributes) {
+            return init$1(this.converter, assign({}, this.attributes, attributes))
+          },
+          withConverter: function (converter) {
+            return init$1(assign({}, this.converter, converter), this.attributes)
+          }
+        },
+        {
+          attributes: { value: Object.freeze(defaultAttributes) },
+          converter: { value: Object.freeze(converter) }
+        }
+      )
+    }
+
+    var api = init$1(defaultConverter, { path: '/' });
 
     function validate (choice, cookie) {
       const choices = Object.keys(choice);
-      const chosen = Object.keys(cookie.choices);
+      const chosen = Object.keys(choices);
 
       if (chosen.length !== choices.length) {
         return false
@@ -569,17 +693,17 @@
         };
     }
 
-    /* src\components\Banner.svelte generated by Svelte v3.32.3 */
+    /* src/components/Banner.svelte generated by Svelte v3.32.3 */
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[28] = list[i];
-    	child_ctx[29] = list;
-    	child_ctx[30] = i;
+    	child_ctx[26] = list[i];
+    	child_ctx[27] = list;
+    	child_ctx[28] = i;
     	return child_ctx;
     }
 
-    // (134:0) {#if showEditIcon}
+    // (140:0) {#if showEditIcon}
     function create_if_block_3(ctx) {
     	let button;
     	let button_transition;
@@ -639,7 +763,7 @@
     	};
     }
 
-    // (156:0) {#if shown}
+    // (162:0) {#if shown}
     function create_if_block_2(ctx) {
     	let div4;
     	let div3;
@@ -747,7 +871,7 @@
     	};
     }
 
-    // (182:0) {#if settingsShown}
+    // (188:0) {#if settingsShown}
     function create_if_block(ctx) {
     	let div1;
     	let div0;
@@ -851,7 +975,7 @@
     	};
     }
 
-    // (186:6) {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
+    // (192:6) {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
     function create_if_block_1(ctx) {
     	let div;
     	let input;
@@ -859,18 +983,18 @@
     	let input_disabled_value;
     	let t0;
     	let label;
-    	let t1_value = /*choice*/ ctx[28].label + "";
+    	let t1_value = /*choice*/ ctx[26].label + "";
     	let t1;
     	let label_for_value;
     	let t2;
     	let span;
-    	let t3_value = /*choice*/ ctx[28].description + "";
+    	let t3_value = /*choice*/ ctx[26].description + "";
     	let t3;
     	let mounted;
     	let dispose;
 
     	function input_change_handler() {
-    		/*input_change_handler*/ ctx[17].call(input, /*choice*/ ctx[28]);
+    		/*input_change_handler*/ ctx[17].call(input, /*choice*/ ctx[26]);
     	}
 
     	return {
@@ -884,17 +1008,17 @@
     			span = element("span");
     			t3 = text(t3_value);
     			attr(input, "type", "checkbox");
-    			attr(input, "id", input_id_value = `gdpr-check-${/*choice*/ ctx[28].id}`);
-    			input.disabled = input_disabled_value = /*choice*/ ctx[28].id === "necessary";
-    			attr(label, "for", label_for_value = `gdpr-check-${/*choice*/ ctx[28].id}`);
+    			attr(input, "id", input_id_value = `gdpr-check-${/*choice*/ ctx[26].id}`);
+    			input.disabled = input_disabled_value = /*choice*/ ctx[26].id === "necessary";
+    			attr(label, "for", label_for_value = `gdpr-check-${/*choice*/ ctx[26].id}`);
     			attr(span, "class", "cookieConsentOperations__ItemLabel");
     			attr(div, "class", "cookieConsentOperations__Item");
-    			toggle_class(div, "disabled", /*choice*/ ctx[28].id === "necessary");
+    			toggle_class(div, "disabled", /*choice*/ ctx[26].id === "necessary");
     		},
     		m(target, anchor) {
     			insert(target, div, anchor);
     			append(div, input);
-    			input.checked = /*choicesMerged*/ ctx[7][/*choice*/ ctx[28].id].value;
+    			input.checked = /*choicesMerged*/ ctx[7][/*choice*/ ctx[26].id].value;
     			append(div, t0);
     			append(div, label);
     			append(label, t1);
@@ -910,28 +1034,28 @@
     		p(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*choicesArr*/ 256 && input_id_value !== (input_id_value = `gdpr-check-${/*choice*/ ctx[28].id}`)) {
+    			if (dirty & /*choicesArr*/ 256 && input_id_value !== (input_id_value = `gdpr-check-${/*choice*/ ctx[26].id}`)) {
     				attr(input, "id", input_id_value);
     			}
 
-    			if (dirty & /*choicesArr*/ 256 && input_disabled_value !== (input_disabled_value = /*choice*/ ctx[28].id === "necessary")) {
+    			if (dirty & /*choicesArr*/ 256 && input_disabled_value !== (input_disabled_value = /*choice*/ ctx[26].id === "necessary")) {
     				input.disabled = input_disabled_value;
     			}
 
     			if (dirty & /*choicesMerged, choicesArr*/ 384) {
-    				input.checked = /*choicesMerged*/ ctx[7][/*choice*/ ctx[28].id].value;
+    				input.checked = /*choicesMerged*/ ctx[7][/*choice*/ ctx[26].id].value;
     			}
 
-    			if (dirty & /*choicesArr*/ 256 && t1_value !== (t1_value = /*choice*/ ctx[28].label + "")) set_data(t1, t1_value);
+    			if (dirty & /*choicesArr*/ 256 && t1_value !== (t1_value = /*choice*/ ctx[26].label + "")) set_data(t1, t1_value);
 
-    			if (dirty & /*choicesArr*/ 256 && label_for_value !== (label_for_value = `gdpr-check-${/*choice*/ ctx[28].id}`)) {
+    			if (dirty & /*choicesArr*/ 256 && label_for_value !== (label_for_value = `gdpr-check-${/*choice*/ ctx[26].id}`)) {
     				attr(label, "for", label_for_value);
     			}
 
-    			if (dirty & /*choicesArr*/ 256 && t3_value !== (t3_value = /*choice*/ ctx[28].description + "")) set_data(t3, t3_value);
+    			if (dirty & /*choicesArr*/ 256 && t3_value !== (t3_value = /*choice*/ ctx[26].description + "")) set_data(t3, t3_value);
 
     			if (dirty & /*choicesArr*/ 256) {
-    				toggle_class(div, "disabled", /*choice*/ ctx[28].id === "necessary");
+    				toggle_class(div, "disabled", /*choice*/ ctx[26].id === "necessary");
     			}
     		},
     		d(detaching) {
@@ -942,9 +1066,9 @@
     	};
     }
 
-    // (185:4) {#each choicesArr as choice}
+    // (191:4) {#each choicesArr as choice}
     function create_each_block(ctx) {
-    	let show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[7], /*choice*/ ctx[28].id) && /*choicesMerged*/ ctx[7][/*choice*/ ctx[28].id];
+    	let show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[7], /*choice*/ ctx[26].id) && /*choicesMerged*/ ctx[7][/*choice*/ ctx[26].id];
     	let if_block_anchor;
     	let if_block = show_if && create_if_block_1(ctx);
 
@@ -958,7 +1082,7 @@
     			insert(target, if_block_anchor, anchor);
     		},
     		p(ctx, dirty) {
-    			if (dirty & /*choicesMerged, choicesArr*/ 384) show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[7], /*choice*/ ctx[28].id) && /*choicesMerged*/ ctx[7][/*choice*/ ctx[28].id];
+    			if (dirty & /*choicesMerged, choicesArr*/ 384) show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[7], /*choice*/ ctx[26].id) && /*choicesMerged*/ ctx[7][/*choice*/ ctx[26].id];
 
     			if (show_if) {
     				if (if_block) {
@@ -1106,7 +1230,6 @@
     	let choicesArr;
     	let cookieChoices;
     	const dispatch = createEventDispatcher();
-    	const cookies = cookieUniversalCommon();
     	let { cookieName = null } = $$props;
     	let { showEditIcon = true } = $$props;
     	let shown = false;
@@ -1169,11 +1292,22 @@
     			throw new Error("You must set gdpr cookie name");
     		}
 
-    		const cookie = cookies.get(cookieName);
+    		const cookie = api.get(cookieName);
 
-    		if (cookie && chosenMatchesChoice(cookie)) {
-    			execute(cookie.choices);
-    		} else {
+    		if (!cookie) {
+    			show();
+    		}
+
+    		try {
+    			const { choices } = JSON.parse(cookie);
+    			const valid = validate(cookieChoices, choices);
+
+    			if (!valid) {
+    				throw new Error("cookie consent has changed");
+    			}
+
+    			execute(choices);
+    		} catch(e) {
     			removeCookie();
     			show();
     		}
@@ -1183,16 +1317,12 @@
     		const expires = new Date();
     		expires.setDate(expires.getDate() + 365);
     		const options = Object.assign({}, defaults, cookieConfig, { expires });
-    		cookies.set(cookieName, { choices }, options);
+    		api.set(cookieName, JSON.stringify({ choices }), options);
     	}
 
     	function removeCookie() {
     		const { path } = cookieConfig;
-    		cookies.remove(cookieName, Object.assign({}, path ? { path } : {}));
-    	}
-
-    	function chosenMatchesChoice(cookie) {
-    		return validate(cookieChoices, cookie);
+    		api.remove(cookieName, Object.assign({}, path ? { path } : {}));
     	}
 
     	function execute(chosen) {

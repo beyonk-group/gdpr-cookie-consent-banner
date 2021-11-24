@@ -1,11 +1,10 @@
 <script>
-  import Cookie from 'cookie-universal'
+  import Cookies from 'js-cookie'
   import { validate } from '../util'
   import { fade } from 'svelte/transition'
   import { onMount, createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
-  const cookies = Cookie()
 
   export let cookieName = null
   export let showEditIcon = true
@@ -83,10 +82,21 @@
       throw new Error('You must set gdpr cookie name')
     }
 
-    const cookie = cookies.get(cookieName)
-    if (cookie && chosenMatchesChoice(cookie)) {
-      execute(cookie.choices)
-    } else {
+    const cookie = Cookies.get(cookieName)
+    if (!cookie) {
+      show()
+    }
+
+    try {
+      const { choices } = JSON.parse(cookie)
+      const valid = validate(cookieChoices, choices)
+
+      if (!valid) {
+        throw new Error('cookie consent has changed')
+      }
+
+      execute(choices)
+    } catch (e) {
       removeCookie()
       show()
     }
@@ -97,16 +107,12 @@
     expires.setDate(expires.getDate() + 365)
 
     const options = Object.assign({}, defaults, cookieConfig, { expires })
-    cookies.set(cookieName, { choices }, options)
+    Cookies.set(cookieName, JSON.stringify({ choices }), options)
   }
 
   function removeCookie () {
     const { path } = cookieConfig
-    cookies.remove(cookieName, Object.assign({}, path ? { path } : {}))
-  }
-
-  function chosenMatchesChoice (cookie) {
-    return validate(cookieChoices, cookie)
+    Cookies.remove(cookieName, Object.assign({}, path ? { path } : {}))
   }
 
   function execute (chosen) {

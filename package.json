@@ -13,14 +13,14 @@
     "eslint": "^7.7.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "http-server": "^0.12.3",
+    "js-cookie": "^3.0.1",
     "mocha": "^8.3.0",
     "rollup": "^2.39.0",
     "rollup-plugin-scss": "^3.0.0",
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "sass": "^1.39.0",
-    "svelte": "^3.32.3",
-    "cookie-universal": "^2.1.4"
+    "svelte": "^3.32.3"
   },
   "eslintConfig": {
     "extends": "@beyonk/eslint-config/svelte"
