@@ -27,7 +27,7 @@
   export let cookieConfig = {}
 
   const defaults = {
-    sameSite: 'strict',
+    sameSite: 'strict'
   }
 
   export let choices = {}
@@ -64,7 +64,7 @@
       { id: Object.keys(choicesMerged)[index] }
     )
   })
-  
+
   $: cookieChoices = choicesArr.reduce((result, item, index, array) => {
     result[item.id] = item.value ? item.value : false
     return result

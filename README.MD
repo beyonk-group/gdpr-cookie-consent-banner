@@ -82,12 +82,16 @@ Just use it as a regular svelte component:
 <script>
   import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional, you can also define your own styles
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
-  
+
   function initAnalytics () {
     // do something with segment.io or google analytics etc
   }
 </script>
 ```
+
+#### SvelteKit
+
+While this package should work with SvelteKit, the `cookie-universal` dependency is not yet ESM-compatible, so you'll need to add that package to the `vite/optimizeDeps/include` configuration in the Svelte config until it's migrated to ESM syntax. (See https://kit.svelte.dev/faq#packages.)
 
 #### Svelte v2
 
@@ -134,7 +138,7 @@ You can re-call the cookie banner from an external link by binding the component
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 
   let gdprBanner
-  
+
   gdprBanner.show()
 </script>
 ```

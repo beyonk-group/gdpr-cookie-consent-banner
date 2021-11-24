@@ -35,7 +35,7 @@
     "demo": "http-server",
     "dev": "rollup -cw",
     "build": "rollup -c",
-    "test": "mocha \"src/**/*.spec.js\"",
+    "test": "mocha \"src/**/*.spec.mjs\"",
     "lint": "eslint src"
   },
   "keywords": [
