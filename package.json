@@ -1,6 +1,6 @@
 {
   "name": "@beyonk/gdpr-cookie-consent-banner",
-  "version": "7.1.2",
+  "version": "8.0.0",
   "description": "GDPR Cookie Consent Banner in vanilla js",
   "main": "dist/esm/bundle.js",
   "browser": "dist/browser/bundle.min.js",
