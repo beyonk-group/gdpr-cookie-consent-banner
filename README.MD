@@ -4,11 +4,13 @@
   <img width="186" height="90" src="https://user-images.githubusercontent.com/218949/44782765-377e7c80-ab80-11e8-9dd8-fce0e37c235b.png" alt="Beyonk" />
 </p>
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![CircleCI](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner.svg?style=shield)](https://circleci.com/gh/beyonk-adventures/gdpr-cookie-consent-banner) [![Svelte v3](https://img.shields.io/badge/svelte-v2-orange.svg)](https://v2.svelte.dev) [![Svelte v3](https://img.shields.io/badge/svelte-v3-blueviolet.svg)](https://svelte.dev)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![actions](https://github.com/beyonk-adventures/gdpr-cookie-consent-banner/actions/workflows/publish.yml/badge.svg)](https://github.com/beyonk-adventures/gdpr-cookie-consent-banner/actions/workflows/publish.yml) [![SvelteKit](https://img.shields.io/badge/svelte-kit-orange.svg)](https://kit.svelte.dev) [![Svelte v3](https://img.shields.io/badge/svelte-v3-blueviolet.svg)](https://svelte.dev)
 
 ### What is it?
 
 This is a vanilla JS implementation (thanks to [Svelte](http://svelte.dev)) of a compliant GDPR banner. It allows the user granular opt-in and out of four different cookie categories.
+
+It now works with SvelteKit without any workarounds!
 
 ### What are its features?
 
