@@ -72,7 +72,7 @@ Because this banner was designed to work across three different technology stack
 
 I've documented our usage of it below:
 
-#### Svelte v3
+#### Svelte
 
 Just use it as a regular svelte component:
 
@@ -88,14 +88,6 @@ Just use it as a regular svelte component:
   }
 </script>
 ```
-
-#### SvelteKit
-
-While this package should work with SvelteKit, the `cookie-universal` dependency is not yet ESM-compatible, so you'll need to add that package to the `vite/optimizeDeps/include` configuration in the Svelte config until it's migrated to ESM syntax. (See https://kit.svelte.dev/faq#packages.)
-
-#### Svelte v2
-
-See the v4.x.x tag of this repository.
 
 #### Nuxt / Vue
 
