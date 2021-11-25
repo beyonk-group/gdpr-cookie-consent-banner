@@ -13,7 +13,6 @@
     "eslint": "^7.7.0",
     "eslint-plugin-svelte3": "^2.7.3",
     "http-server": "^0.12.3",
-    "js-cookie": "^3.0.1",
     "mocha": "^8.3.0",
     "rollup": "^2.39.0",
     "rollup-plugin-scss": "^3.0.0",
@@ -50,5 +49,8 @@
     "beyonk"
   ],
   "author": "Antony Jones",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "js-cookie": "^3.0.1"
+  }
 }
