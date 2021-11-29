@@ -672,9 +672,9 @@
 
     var api = init$1(defaultConverter, { path: '/' });
 
-    function validate (choice, cookie) {
+    function validate (choice, cookieChoices) {
       const choices = Object.keys(choice);
-      const chosen = Object.keys(choices);
+      const chosen = Object.keys(cookieChoices);
 
       if (chosen.length !== choices.length) {
         return false

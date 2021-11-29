@@ -7,9 +7,6 @@ import scss from 'rollup-plugin-scss'
 const plugins = [
   resolve(),
   commonjs(),
-  scss({
-    output: 'dist/style.css'
-  }),
   svelte({
     include: 'src/components/**/*.svelte'
   })
@@ -45,4 +42,14 @@ const browserMin = {
   plugins: [].concat(plugins, [ terser() ])
 }
 
-export default [ esm, browser, browserMin ]
+const styles = {
+  input: 'src/style.scss',
+  output: {
+    file: '/tmp/nullfile'
+  },
+  plugins: [
+    scss()
+  ]
+}
+
+export default [ esm, browser, browserMin, styles ]
