@@ -158,6 +158,7 @@
 }
 
 .cookieConsent__Button {
+  font-family: inherit;
   padding: 15px 40px;
   display: block;
   background: white;
