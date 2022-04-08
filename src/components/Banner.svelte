@@ -69,7 +69,13 @@
     return result
   }, {})
 
+  $: necessaryCookieChoices = choicesArr.reduce((result, item, index, array) => {
+    result[item.id] = item.id === 'necessary'
+    return result
+  }, {});
+
   export let acceptLabel = 'Accept cookies'
+  export let rejectLabel = 'Reject cookies'
   export let settingsLabel = 'Cookie settings'
   export let closeLabel = 'Close settings'
 
@@ -131,6 +137,11 @@
     shown = false
   }
 
+  function reject () {
+    setCookie(necessaryCookieChoices)
+    execute(necessaryCookieChoices)
+  }
+
   function choose () {
     setCookie(cookieChoices)
     execute(cookieChoices)
@@ -176,6 +187,9 @@
         class="cookieConsent__Button"
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
+      </button>
+      <button type="submit" class="cookieConsent__Button" on:click={reject}>
+        {rejectLabel}
       </button>
       <button type="submit" class="cookieConsent__Button" on:click={choose}>
         {acceptLabel}

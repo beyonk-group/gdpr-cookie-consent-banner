@@ -173,6 +173,7 @@ const options = {
    * All the button labels
    **/
   acceptLabel: 'Confirm all',
+  rejectLabel: 'Reject all',
   settingsLabel: 'Preferences',
   closeLabel: 'Close window',
 
