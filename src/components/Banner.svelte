@@ -72,7 +72,7 @@
   $: necessaryCookieChoices = choicesArr.reduce((result, item, index, array) => {
     result[item.id] = item.id === 'necessary'
     return result
-  }, {});
+  }, {})
 
   export let acceptLabel = 'Accept cookies'
   export let rejectLabel = 'Reject cookies'
