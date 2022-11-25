@@ -78,6 +78,7 @@
   export let rejectLabel = 'Reject cookies'
   export let settingsLabel = 'Cookie settings'
   export let closeLabel = 'Close settings'
+  export let editLabel = 'Edit cookie settings'
 
   export function show () {
     shown = true
@@ -151,6 +152,7 @@
 {#if showEditIcon}
   <button
     class="cookieConsentToggle"
+    aria-label={editLabel}
     on:click={show}
     transition:fade>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -187,11 +189,12 @@
         class="cookieConsent__Button"
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
+        aria-label={settingsLabel}
       </button>
-      <button type="submit" class="cookieConsent__Button" on:click={reject}>
+      <button type="submit" class="cookieConsent__Button" on:click={reject} aria-label={rejectLabel}>
         {rejectLabel}
       </button>
-      <button type="submit" class="cookieConsent__Button" on:click={choose}>
+      <button type="submit" class="cookieConsent__Button" on:click={choose} aria-label={acceptLabel}>
         {acceptLabel}
       </button>
     </div>
@@ -222,6 +225,7 @@
     <button
       type="submit"
       class="cookieConsent__Button cookieConsent__Button--Close"
+      aria-label={closeLabel}
       on:click={() => { settingsShown = false } }>
       {closeLabel}
     </button>

@@ -170,12 +170,13 @@ const options = {
   description: 'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our <a href="/privacy-policy">privacy policy page</a>. By clicking accept, you consent to our privacy policy & use of cookies.',
 
   /**
-   * All the button labels
+   * All the button labels and aria-label content.
    **/
   acceptLabel: 'Confirm all',
   rejectLabel: 'Reject all',
   settingsLabel: 'Preferences',
   closeLabel: 'Close window',
+  editLabel: 'Edit settings',
 
   /**
    * These are the default opt-ins and their descriptions.
