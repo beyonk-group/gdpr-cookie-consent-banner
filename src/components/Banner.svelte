@@ -187,9 +187,9 @@
       <button
         type="button"
         class="cookieConsent__Button"
+        aria-label={settingsLabel}
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
-        aria-label={settingsLabel}
       </button>
       <button type="submit" class="cookieConsent__Button" on:click={reject} aria-label={rejectLabel}>
         {rejectLabel}
