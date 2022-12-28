@@ -7,34 +7,34 @@ import { validate } from './util.mjs'
 describe('util', () => {
   describe('#validate(choice, cookie)', () => {
     it('choices made match available choices', () => {
-      const cookie = { choices: { foo: true, bar: false, baz: true } }
+      const choicesFromCookie = { foo: true, bar: false, baz: true }
       const choice = { foo: true, bar: true, baz: true }
       expect(
-        validate(choice, cookie)
+        validate(choice, choicesFromCookie)
       ).to.equal(true)
     })
 
     it('user has fewer choices', () => {
-      const cookie = { choices: { foo: true, bar: false } }
+      const choicesFromCookie = { foo: true, bar: false }
       const choice = { foo: true, bar: true, baz: true }
       expect(
-        validate(choice, cookie)
+        validate(choice, choicesFromCookie)
       ).to.equal(false)
     })
 
     it('user has more choices', () => {
-      const cookie = { choices: { foo: true, bar: false, baz: true, qux: false } }
+      const choicesFromCookie = { foo: true, bar: false, baz: true, qux: false }
       const choice = { foo: true, bar: true, baz: true }
       expect(
-        validate(choice, cookie)
+        validate(choice, choicesFromCookie)
       ).to.equal(false)
     })
 
     it('user has different choices', () => {
-      const cookie = { choices: { foo: true, bar: false, baz: true } }
+      const choicesFromCookie = { foo: true, bar: false, baz: true }
       const choice = { qux: true, quux: true, quuz: true }
       expect(
-        validate(choice, cookie)
+        validate(choice, choicesFromCookie)
       ).to.equal(false)
     })
   })

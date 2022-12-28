@@ -53,15 +53,34 @@ function loop(callback) {
         }
     };
 }
-
 function append(target, node) {
     target.appendChild(node);
+}
+function get_root_for_style(node) {
+    if (!node)
+        return document;
+    const root = node.getRootNode ? node.getRootNode() : node.ownerDocument;
+    if (root && root.host) {
+        return root;
+    }
+    return node.ownerDocument;
+}
+function append_empty_stylesheet(node) {
+    const style_element = element('style');
+    append_stylesheet(get_root_for_style(node), style_element);
+    return style_element.sheet;
+}
+function append_stylesheet(node, style) {
+    append(node.head || node, style);
+    return style.sheet;
 }
 function insert(target, node, anchor) {
     target.insertBefore(node, anchor || null);
 }
 function detach(node) {
-    node.parentNode.removeChild(node);
+    if (node.parentNode) {
+        node.parentNode.removeChild(node);
+    }
 }
 function destroy_each(iterations, detaching) {
     for (let i = 0; i < iterations.length; i += 1) {
@@ -71,6 +90,9 @@ function destroy_each(iterations, detaching) {
 }
 function element(name) {
     return document.createElement(name);
+}
+function svg_element(name) {
+    return document.createElementNS('http://www.w3.org/2000/svg', name);
 }
 function text(data) {
     return document.createTextNode(data);
@@ -102,13 +124,15 @@ function set_data(text, data) {
 function toggle_class(element, name, toggle) {
     element.classList[toggle ? 'add' : 'remove'](name);
 }
-function custom_event(type, detail) {
+function custom_event(type, detail, { bubbles = false, cancelable = false } = {}) {
     const e = document.createEvent('CustomEvent');
-    e.initCustomEvent(type, false, false, detail);
+    e.initCustomEvent(type, bubbles, cancelable, detail);
     return e;
 }
 
-const active_docs = new Set();
+// we need to store the information for multiple documents because a Svelte application could also contain iframes
+// https://github.com/sveltejs/svelte/issues/3624
+const managed_styles = new Map();
 let active = 0;
 // https://github.com/darkskyapp/string-hash/blob/master/index.js
 function hash(str) {
@@ -117,6 +141,11 @@ function hash(str) {
     while (i--)
         hash = ((hash << 5) - hash) ^ str.charCodeAt(i);
     return hash >>> 0;
+}
+function create_style_information(doc, node) {
+    const info = { stylesheet: append_empty_stylesheet(node), rules: {} };
+    managed_styles.set(doc, info);
+    return info;
 }
 function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
     const step = 16.666 / duration;
@@ -127,12 +156,10 @@ function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
     }
     const rule = keyframes + `100% {${fn(b, 1 - b)}}\n}`;
     const name = `__svelte_${hash(rule)}_${uid}`;
-    const doc = node.ownerDocument;
-    active_docs.add(doc);
-    const stylesheet = doc.__svelte_stylesheet || (doc.__svelte_stylesheet = doc.head.appendChild(element('style')).sheet);
-    const current_rules = doc.__svelte_rules || (doc.__svelte_rules = {});
-    if (!current_rules[name]) {
-        current_rules[name] = true;
+    const doc = get_root_for_style(node);
+    const { stylesheet, rules } = managed_styles.get(doc) || create_style_information(doc, node);
+    if (!rules[name]) {
+        rules[name] = true;
         stylesheet.insertRule(`@keyframes ${name} ${rule}`, stylesheet.cssRules.length);
     }
     const animation = node.style.animation || '';
@@ -158,14 +185,13 @@ function clear_rules() {
     raf(() => {
         if (active)
             return;
-        active_docs.forEach(doc => {
-            const stylesheet = doc.__svelte_stylesheet;
-            let i = stylesheet.cssRules.length;
-            while (i--)
-                stylesheet.deleteRule(i);
-            doc.__svelte_rules = {};
+        managed_styles.forEach(info => {
+            const { ownerNode } = info.stylesheet;
+            // there is no ownerNode if it runs on jsdom.
+            if (ownerNode)
+                detach(ownerNode);
         });
-        active_docs.clear();
+        managed_styles.clear();
     });
 }
 
@@ -178,21 +204,44 @@ function get_current_component() {
         throw new Error('Function called outside component initialization');
     return current_component;
 }
+/**
+ * The `onMount` function schedules a callback to run as soon as the component has been mounted to the DOM.
+ * It must be called during the component's initialisation (but doesn't need to live *inside* the component;
+ * it can be called from an external module).
+ *
+ * `onMount` does not run inside a [server-side component](/docs#run-time-server-side-component-api).
+ *
+ * https://svelte.dev/docs#run-time-svelte-onmount
+ */
 function onMount(fn) {
     get_current_component().$$.on_mount.push(fn);
 }
+/**
+ * Creates an event dispatcher that can be used to dispatch [component events](/docs#template-syntax-component-directives-on-eventname).
+ * Event dispatchers are functions that can take two arguments: `name` and `detail`.
+ *
+ * Component events created with `createEventDispatcher` create a
+ * [CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent).
+ * These events do not [bubble](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture).
+ * The `detail` argument corresponds to the [CustomEvent.detail](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/detail)
+ * property and can contain any type of data.
+ *
+ * https://svelte.dev/docs#run-time-svelte-createeventdispatcher
+ */
 function createEventDispatcher() {
     const component = get_current_component();
-    return (type, detail) => {
+    return (type, detail, { cancelable = false } = {}) => {
         const callbacks = component.$$.callbacks[type];
         if (callbacks) {
             // TODO are there situations where events could be dispatched
             // in a server (non-DOM) environment?
-            const event = custom_event(type, detail);
+            const event = custom_event(type, detail, { cancelable });
             callbacks.slice().forEach(fn => {
                 fn.call(component, event);
             });
+            return !event.defaultPrevented;
         }
+        return true;
     };
 }
 
@@ -211,22 +260,40 @@ function schedule_update() {
 function add_render_callback(fn) {
     render_callbacks.push(fn);
 }
-let flushing = false;
+// flush() calls callbacks in this order:
+// 1. All beforeUpdate callbacks, in order: parents before children
+// 2. All bind:this callbacks, in reverse order: children before parents.
+// 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
+//    for afterUpdates called during the initial onMount, which are called in
+//    reverse order: children before parents.
+// Since callbacks might update component values, which could trigger another
+// call to flush(), the following steps guard against this:
+// 1. During beforeUpdate, any updated components will be added to the
+//    dirty_components array and will cause a reentrant call to flush(). Because
+//    the flush index is kept outside the function, the reentrant call will pick
+//    up where the earlier call left off and go through all dirty components. The
+//    current_component value is saved and restored so that the reentrant call will
+//    not interfere with the "parent" flush() call.
+// 2. bind:this callbacks cannot trigger new flush() calls.
+// 3. During afterUpdate, any updated components will NOT have their afterUpdate
+//    callback called a second time; the seen_callbacks set, outside the flush()
+//    function, guarantees this behavior.
 const seen_callbacks = new Set();
+let flushidx = 0; // Do *not* move this inside the flush() function
 function flush() {
-    if (flushing)
-        return;
-    flushing = true;
+    const saved_component = current_component;
     do {
         // first, call beforeUpdate functions
         // and update components
-        for (let i = 0; i < dirty_components.length; i += 1) {
-            const component = dirty_components[i];
+        while (flushidx < dirty_components.length) {
+            const component = dirty_components[flushidx];
+            flushidx++;
             set_current_component(component);
             update(component.$$);
         }
         set_current_component(null);
         dirty_components.length = 0;
+        flushidx = 0;
         while (binding_callbacks.length)
             binding_callbacks.pop()();
         // then, once components are updated, call
@@ -246,8 +313,8 @@ function flush() {
         flush_callbacks.pop()();
     }
     update_scheduled = false;
-    flushing = false;
     seen_callbacks.clear();
+    set_current_component(saved_component);
 }
 function update($$) {
     if ($$.fragment !== null) {
@@ -309,10 +376,14 @@ function transition_out(block, local, detach, callback) {
         });
         block.o(local);
     }
+    else if (callback) {
+        callback();
+    }
 }
 const null_transition = { duration: 0 };
 function create_bidirectional_transition(node, fn, params, intro) {
-    let config = fn(node, params);
+    const options = { direction: 'both' };
+    let config = fn(node, params, options);
     let t = intro ? 0 : 1;
     let running_program = null;
     let pending_program = null;
@@ -322,7 +393,7 @@ function create_bidirectional_transition(node, fn, params, intro) {
             delete_rule(node, animation_name);
     }
     function init(program, duration) {
-        const d = program.b - t;
+        const d = (program.b - t);
         duration *= Math.abs(d);
         return {
             a: t,
@@ -402,7 +473,7 @@ function create_bidirectional_transition(node, fn, params, intro) {
             if (is_function(config)) {
                 wait().then(() => {
                     // @ts-ignore
-                    config = config();
+                    config = config(options);
                     go(b);
                 });
             }
@@ -416,22 +487,27 @@ function create_bidirectional_transition(node, fn, params, intro) {
         }
     };
 }
-function mount_component(component, target, anchor) {
-    const { fragment, on_mount, on_destroy, after_update } = component.$$;
+function mount_component(component, target, anchor, customElement) {
+    const { fragment, after_update } = component.$$;
     fragment && fragment.m(target, anchor);
-    // onMount happens before the initial afterUpdate
-    add_render_callback(() => {
-        const new_on_destroy = on_mount.map(run).filter(is_function);
-        if (on_destroy) {
-            on_destroy.push(...new_on_destroy);
-        }
-        else {
-            // Edge case - component was destroyed immediately,
-            // most likely as a result of a binding initialising
-            run_all(new_on_destroy);
-        }
-        component.$$.on_mount = [];
-    });
+    if (!customElement) {
+        // onMount happens before the initial afterUpdate
+        add_render_callback(() => {
+            const new_on_destroy = component.$$.on_mount.map(run).filter(is_function);
+            // if the component was destroyed immediately
+            // it will update the `$$.on_destroy` reference to `null`.
+            // the destructured on_destroy may still reference to the old array
+            if (component.$$.on_destroy) {
+                component.$$.on_destroy.push(...new_on_destroy);
+            }
+            else {
+                // Edge case - component was destroyed immediately,
+                // most likely as a result of a binding initialising
+                run_all(new_on_destroy);
+            }
+            component.$$.on_mount = [];
+        });
+    }
     after_update.forEach(add_render_callback);
 }
 function destroy_component(component, detaching) {
@@ -453,12 +529,12 @@ function make_dirty(component, i) {
     }
     component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 }
-function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+function init$1(component, options, instance, create_fragment, not_equal, props, append_styles, dirty = [-1]) {
     const parent_component = current_component;
     set_current_component(component);
     const $$ = component.$$ = {
         fragment: null,
-        ctx: null,
+        ctx: [],
         // state
         props,
         update: noop,
@@ -467,14 +543,17 @@ function init(component, options, instance, create_fragment, not_equal, props, d
         // lifecycle
         on_mount: [],
         on_destroy: [],
+        on_disconnect: [],
         before_update: [],
         after_update: [],
-        context: new Map(parent_component ? parent_component.$$.context : []),
+        context: new Map(options.context || (parent_component ? parent_component.$$.context : [])),
         // everything else
         callbacks: blank_object(),
         dirty,
-        skip_bound: false
+        skip_bound: false,
+        root: options.target || parent_component.$$.root
     };
+    append_styles && append_styles($$.root);
     let ready = false;
     $$.ctx = instance
         ? instance(component, options.props || {}, (i, ret, ...rest) => {
@@ -506,7 +585,7 @@ function init(component, options, instance, create_fragment, not_equal, props, d
         }
         if (options.intro)
             transition_in(component.$$.fragment);
-        mount_component(component, options.target, options.anchor);
+        mount_component(component, options.target, options.anchor, options.customElement);
         flush();
     }
     set_current_component(parent_component);
@@ -520,6 +599,9 @@ class SvelteComponent {
         this.$destroy = noop;
     }
     $on(type, callback) {
+        if (!is_function(callback)) {
+            return noop;
+        }
         const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
         callbacks.push(callback);
         return () => {
@@ -569,7 +651,7 @@ var defaultConverter = {
 
 /* eslint-disable no-var */
 
-function init$1 (converter, defaultAttributes) {
+function init (converter, defaultAttributes) {
   function set (key, value, attributes) {
     if (typeof document === 'undefined') {
       return
@@ -654,10 +736,10 @@ function init$1 (converter, defaultAttributes) {
         );
       },
       withAttributes: function (attributes) {
-        return init$1(this.converter, assign({}, this.attributes, attributes))
+        return init(this.converter, assign({}, this.attributes, attributes))
       },
       withConverter: function (converter) {
-        return init$1(assign({}, this.converter, converter), this.attributes)
+        return init(assign({}, this.converter, converter), this.attributes)
       }
     },
     {
@@ -667,7 +749,7 @@ function init$1 (converter, defaultAttributes) {
   )
 }
 
-var api = init$1(defaultConverter, { path: '/' });
+var api = init(defaultConverter, { path: '/' });
 
 function validate (choice, cookieChoices) {
   const choices = Object.keys(choice);
@@ -690,19 +772,21 @@ function fade(node, { delay = 0, duration = 400, easing = identity } = {}) {
     };
 }
 
-/* src/components/Banner.svelte generated by Svelte v3.32.3 */
+/* src/components/Banner.svelte generated by Svelte v3.55.0 */
 
 function get_each_context(ctx, list, i) {
 	const child_ctx = ctx.slice();
-	child_ctx[29] = list[i];
-	child_ctx[30] = list;
-	child_ctx[31] = i;
+	child_ctx[30] = list[i];
+	child_ctx[31] = list;
+	child_ctx[32] = i;
 	return child_ctx;
 }
 
-// (151:0) {#if showEditIcon}
+// (152:0) {#if showEditIcon}
 function create_if_block_3(ctx) {
 	let button;
+	let svg;
+	let path;
 	let button_transition;
 	let current;
 	let mounted;
@@ -711,31 +795,30 @@ function create_if_block_3(ctx) {
 	return {
 		c() {
 			button = element("button");
-
-			button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17
-        0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13
-        35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0
-        0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77
-        54.76a132.036 132.036 0 0 0 72.71 37.06l76.71 12.15c27.51 4.36 55.7-.11
-        80.53-12.76l69.13-35.21a132.273 132.273 0 0 0
-        57.79-57.81l35.1-68.88c12.56-24.64 17.01-52.58 12.91-79.91zM176
-        368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32
-        32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33
-        32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32
-        32-14.33 32-32 32z"></path></svg>`;
-
+			svg = svg_element("svg");
+			path = svg_element("path");
+			attr(path, "d", "M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17\n        0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13\n        35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0\n        0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77\n        54.76a132.036 132.036 0 0 0 72.71 37.06l76.71 12.15c27.51 4.36 55.7-.11\n        80.53-12.76l69.13-35.21a132.273 132.273 0 0 0\n        57.79-57.81l35.1-68.88c12.56-24.64 17.01-52.58 12.91-79.91zM176\n        368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32\n        32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33\n        32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32\n        32-14.33 32-32 32z");
+			attr(svg, "xmlns", "http://www.w3.org/2000/svg");
+			attr(svg, "viewBox", "0 0 512 512");
 			attr(button, "class", "cookieConsentToggle");
+			attr(button, "aria-label", /*editLabel*/ ctx[7]);
 		},
 		m(target, anchor) {
 			insert(target, button, anchor);
+			append(button, svg);
+			append(svg, path);
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(button, "click", /*show*/ ctx[7]);
+				dispose = listen(button, "click", /*show*/ ctx[8]);
 				mounted = true;
 			}
 		},
-		p: noop,
+		p(ctx, dirty) {
+			if (!current || dirty[0] & /*editLabel*/ 128) {
+				attr(button, "aria-label", /*editLabel*/ ctx[7]);
+			}
+		},
 		i(local) {
 			if (current) return;
 
@@ -760,7 +843,7 @@ function create_if_block_3(ctx) {
 	};
 }
 
-// (173:0) {#if shown}
+// (175:0) {#if shown}
 function create_if_block_2(ctx) {
 	let div4;
 	let div3;
@@ -811,10 +894,13 @@ function create_if_block_2(ctx) {
 			attr(div1, "class", "cookieConsent__Left");
 			attr(button0, "type", "button");
 			attr(button0, "class", "cookieConsent__Button");
+			attr(button0, "aria-label", /*settingsLabel*/ ctx[5]);
 			attr(button1, "type", "submit");
 			attr(button1, "class", "cookieConsent__Button");
+			attr(button1, "aria-label", /*rejectLabel*/ ctx[4]);
 			attr(button2, "type", "submit");
 			attr(button2, "class", "cookieConsent__Button");
+			attr(button2, "aria-label", /*acceptLabel*/ ctx[3]);
 			attr(div2, "class", "cookieConsent__Right");
 			attr(div3, "class", "cookieConsent");
 			attr(div4, "class", "cookieConsentWrapper");
@@ -843,9 +929,9 @@ function create_if_block_2(ctx) {
 
 			if (!mounted) {
 				dispose = [
-					listen(button0, "click", /*click_handler*/ ctx[18]),
-					listen(button1, "click", /*reject*/ ctx[12]),
-					listen(button2, "click", /*choose*/ ctx[13])
+					listen(button0, "click", /*click_handler*/ ctx[19]),
+					listen(button1, "click", /*reject*/ ctx[13]),
+					listen(button2, "click", /*choose*/ ctx[14])
 				];
 
 				mounted = true;
@@ -854,8 +940,22 @@ function create_if_block_2(ctx) {
 		p(ctx, dirty) {
 			if (!current || dirty[0] & /*heading*/ 2) set_data(t0, /*heading*/ ctx[1]);
 			if (!current || dirty[0] & /*description*/ 4) p1.innerHTML = /*description*/ ctx[2];			if (!current || dirty[0] & /*settingsLabel*/ 32) set_data(t3, /*settingsLabel*/ ctx[5]);
+
+			if (!current || dirty[0] & /*settingsLabel*/ 32) {
+				attr(button0, "aria-label", /*settingsLabel*/ ctx[5]);
+			}
+
 			if (!current || dirty[0] & /*rejectLabel*/ 16) set_data(t5, /*rejectLabel*/ ctx[4]);
+
+			if (!current || dirty[0] & /*rejectLabel*/ 16) {
+				attr(button1, "aria-label", /*rejectLabel*/ ctx[4]);
+			}
+
 			if (!current || dirty[0] & /*acceptLabel*/ 8) set_data(t7, /*acceptLabel*/ ctx[3]);
+
+			if (!current || dirty[0] & /*acceptLabel*/ 8) {
+				attr(button2, "aria-label", /*acceptLabel*/ ctx[3]);
+			}
 		},
 		i(local) {
 			if (current) return;
@@ -881,7 +981,7 @@ function create_if_block_2(ctx) {
 	};
 }
 
-// (202:0) {#if settingsShown}
+// (205:0) {#if settingsShown}
 function create_if_block(ctx) {
 	let div1;
 	let div0;
@@ -892,7 +992,7 @@ function create_if_block(ctx) {
 	let current;
 	let mounted;
 	let dispose;
-	let each_value = /*choicesArr*/ ctx[9];
+	let each_value = /*choicesArr*/ ctx[10];
 	let each_blocks = [];
 
 	for (let i = 0; i < each_value.length; i += 1) {
@@ -913,6 +1013,7 @@ function create_if_block(ctx) {
 			t1 = text(/*closeLabel*/ ctx[6]);
 			attr(button, "type", "submit");
 			attr(button, "class", "cookieConsent__Button cookieConsent__Button--Close");
+			attr(button, "aria-label", /*closeLabel*/ ctx[6]);
 			attr(div0, "class", "cookieConsentOperations__List");
 			attr(div1, "class", "cookieConsentOperations");
 		},
@@ -930,13 +1031,13 @@ function create_if_block(ctx) {
 			current = true;
 
 			if (!mounted) {
-				dispose = listen(button, "click", /*click_handler_1*/ ctx[20]);
+				dispose = listen(button, "click", /*click_handler_1*/ ctx[21]);
 				mounted = true;
 			}
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*choicesArr, choicesMerged*/ 768) {
-				each_value = /*choicesArr*/ ctx[9];
+			if (dirty[0] & /*choicesArr, choicesMerged*/ 1536) {
+				each_value = /*choicesArr*/ ctx[10];
 				let i;
 
 				for (i = 0; i < each_value.length; i += 1) {
@@ -959,6 +1060,10 @@ function create_if_block(ctx) {
 			}
 
 			if (!current || dirty[0] & /*closeLabel*/ 64) set_data(t1, /*closeLabel*/ ctx[6]);
+
+			if (!current || dirty[0] & /*closeLabel*/ 64) {
+				attr(button, "aria-label", /*closeLabel*/ ctx[6]);
+			}
 		},
 		i(local) {
 			if (current) return;
@@ -985,7 +1090,7 @@ function create_if_block(ctx) {
 	};
 }
 
-// (206:6) {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
+// (209:6) {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
 function create_if_block_1(ctx) {
 	let div;
 	let input;
@@ -993,18 +1098,18 @@ function create_if_block_1(ctx) {
 	let input_disabled_value;
 	let t0;
 	let label;
-	let t1_value = /*choice*/ ctx[29].label + "";
+	let t1_value = /*choice*/ ctx[30].label + "";
 	let t1;
 	let label_for_value;
 	let t2;
 	let span;
-	let t3_value = /*choice*/ ctx[29].description + "";
+	let t3_value = /*choice*/ ctx[30].description + "";
 	let t3;
 	let mounted;
 	let dispose;
 
 	function input_change_handler() {
-		/*input_change_handler*/ ctx[19].call(input, /*choice*/ ctx[29]);
+		/*input_change_handler*/ ctx[20].call(input, /*choice*/ ctx[30]);
 	}
 
 	return {
@@ -1018,17 +1123,17 @@ function create_if_block_1(ctx) {
 			span = element("span");
 			t3 = text(t3_value);
 			attr(input, "type", "checkbox");
-			attr(input, "id", input_id_value = `gdpr-check-${/*choice*/ ctx[29].id}`);
-			input.disabled = input_disabled_value = /*choice*/ ctx[29].id === "necessary";
-			attr(label, "for", label_for_value = `gdpr-check-${/*choice*/ ctx[29].id}`);
+			attr(input, "id", input_id_value = `gdpr-check-${/*choice*/ ctx[30].id}`);
+			input.disabled = input_disabled_value = /*choice*/ ctx[30].id === 'necessary';
+			attr(label, "for", label_for_value = `gdpr-check-${/*choice*/ ctx[30].id}`);
 			attr(span, "class", "cookieConsentOperations__ItemLabel");
 			attr(div, "class", "cookieConsentOperations__Item");
-			toggle_class(div, "disabled", /*choice*/ ctx[29].id === "necessary");
+			toggle_class(div, "disabled", /*choice*/ ctx[30].id === 'necessary');
 		},
 		m(target, anchor) {
 			insert(target, div, anchor);
 			append(div, input);
-			input.checked = /*choicesMerged*/ ctx[8][/*choice*/ ctx[29].id].value;
+			input.checked = /*choicesMerged*/ ctx[9][/*choice*/ ctx[30].id].value;
 			append(div, t0);
 			append(div, label);
 			append(label, t1);
@@ -1044,28 +1149,28 @@ function create_if_block_1(ctx) {
 		p(new_ctx, dirty) {
 			ctx = new_ctx;
 
-			if (dirty[0] & /*choicesArr*/ 512 && input_id_value !== (input_id_value = `gdpr-check-${/*choice*/ ctx[29].id}`)) {
+			if (dirty[0] & /*choicesArr*/ 1024 && input_id_value !== (input_id_value = `gdpr-check-${/*choice*/ ctx[30].id}`)) {
 				attr(input, "id", input_id_value);
 			}
 
-			if (dirty[0] & /*choicesArr*/ 512 && input_disabled_value !== (input_disabled_value = /*choice*/ ctx[29].id === "necessary")) {
+			if (dirty[0] & /*choicesArr*/ 1024 && input_disabled_value !== (input_disabled_value = /*choice*/ ctx[30].id === 'necessary')) {
 				input.disabled = input_disabled_value;
 			}
 
-			if (dirty[0] & /*choicesMerged, choicesArr*/ 768) {
-				input.checked = /*choicesMerged*/ ctx[8][/*choice*/ ctx[29].id].value;
+			if (dirty[0] & /*choicesMerged, choicesArr*/ 1536) {
+				input.checked = /*choicesMerged*/ ctx[9][/*choice*/ ctx[30].id].value;
 			}
 
-			if (dirty[0] & /*choicesArr*/ 512 && t1_value !== (t1_value = /*choice*/ ctx[29].label + "")) set_data(t1, t1_value);
+			if (dirty[0] & /*choicesArr*/ 1024 && t1_value !== (t1_value = /*choice*/ ctx[30].label + "")) set_data(t1, t1_value);
 
-			if (dirty[0] & /*choicesArr*/ 512 && label_for_value !== (label_for_value = `gdpr-check-${/*choice*/ ctx[29].id}`)) {
+			if (dirty[0] & /*choicesArr*/ 1024 && label_for_value !== (label_for_value = `gdpr-check-${/*choice*/ ctx[30].id}`)) {
 				attr(label, "for", label_for_value);
 			}
 
-			if (dirty[0] & /*choicesArr*/ 512 && t3_value !== (t3_value = /*choice*/ ctx[29].description + "")) set_data(t3, t3_value);
+			if (dirty[0] & /*choicesArr*/ 1024 && t3_value !== (t3_value = /*choice*/ ctx[30].description + "")) set_data(t3, t3_value);
 
-			if (dirty[0] & /*choicesArr*/ 512) {
-				toggle_class(div, "disabled", /*choice*/ ctx[29].id === "necessary");
+			if (dirty[0] & /*choicesArr*/ 1024) {
+				toggle_class(div, "disabled", /*choice*/ ctx[30].id === 'necessary');
 			}
 		},
 		d(detaching) {
@@ -1076,9 +1181,9 @@ function create_if_block_1(ctx) {
 	};
 }
 
-// (205:4) {#each choicesArr as choice}
+// (208:4) {#each choicesArr as choice}
 function create_each_block(ctx) {
-	let show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[8], /*choice*/ ctx[29].id) && /*choicesMerged*/ ctx[8][/*choice*/ ctx[29].id];
+	let show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[9], /*choice*/ ctx[30].id) && /*choicesMerged*/ ctx[9][/*choice*/ ctx[30].id];
 	let if_block_anchor;
 	let if_block = show_if && create_if_block_1(ctx);
 
@@ -1092,7 +1197,7 @@ function create_each_block(ctx) {
 			insert(target, if_block_anchor, anchor);
 		},
 		p(ctx, dirty) {
-			if (dirty[0] & /*choicesMerged, choicesArr*/ 768) show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[8], /*choice*/ ctx[29].id) && /*choicesMerged*/ ctx[8][/*choice*/ ctx[29].id];
+			if (dirty[0] & /*choicesMerged, choicesArr*/ 1536) show_if = Object.hasOwnProperty.call(/*choicesMerged*/ ctx[9], /*choice*/ ctx[30].id) && /*choicesMerged*/ ctx[9][/*choice*/ ctx[30].id];
 
 			if (show_if) {
 				if (if_block) {
@@ -1120,8 +1225,8 @@ function create_fragment(ctx) {
 	let if_block2_anchor;
 	let current;
 	let if_block0 = /*showEditIcon*/ ctx[0] && create_if_block_3(ctx);
-	let if_block1 = /*shown*/ ctx[10] && create_if_block_2(ctx);
-	let if_block2 = /*settingsShown*/ ctx[11] && create_if_block(ctx);
+	let if_block1 = /*shown*/ ctx[11] && create_if_block_2(ctx);
+	let if_block2 = /*settingsShown*/ ctx[12] && create_if_block(ctx);
 
 	return {
 		c() {
@@ -1165,11 +1270,11 @@ function create_fragment(ctx) {
 				check_outros();
 			}
 
-			if (/*shown*/ ctx[10]) {
+			if (/*shown*/ ctx[11]) {
 				if (if_block1) {
 					if_block1.p(ctx, dirty);
 
-					if (dirty[0] & /*shown*/ 1024) {
+					if (dirty[0] & /*shown*/ 2048) {
 						transition_in(if_block1, 1);
 					}
 				} else {
@@ -1188,11 +1293,11 @@ function create_fragment(ctx) {
 				check_outros();
 			}
 
-			if (/*settingsShown*/ ctx[11]) {
+			if (/*settingsShown*/ ctx[12]) {
 				if (if_block2) {
 					if_block2.p(ctx, dirty);
 
-					if (dirty[0] & /*settingsShown*/ 2048) {
+					if (dirty[0] & /*settingsShown*/ 4096) {
 						transition_in(if_block2, 1);
 					}
 				} else {
@@ -1245,8 +1350,8 @@ function instance($$self, $$props, $$invalidate) {
 	let { showEditIcon = true } = $$props;
 	let shown = false;
 	let settingsShown = false;
-	let { heading = "GDPR Notice" } = $$props;
-	let { description = "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies." } = $$props;
+	let { heading = 'GDPR Notice' } = $$props;
+	let { description = 'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.' } = $$props;
 
 	let { categories = {
 		analytics() {
@@ -1264,44 +1369,45 @@ function instance($$self, $$props, $$invalidate) {
 	} } = $$props;
 
 	let { cookieConfig = {} } = $$props;
-	const defaults = { sameSite: "strict" };
+	const defaults = { sameSite: 'strict' };
 	let { choices = {} } = $$props;
 
 	const choicesDefaults = {
 		necessary: {
-			label: "Necessary cookies",
+			label: 'Necessary cookies',
 			description: "Used for cookie control. Can't be turned off.",
 			value: true
 		},
 		tracking: {
-			label: "Tracking cookies",
-			description: "Used for advertising purposes.",
+			label: 'Tracking cookies',
+			description: 'Used for advertising purposes.',
 			value: true
 		},
 		analytics: {
-			label: "Analytics cookies",
-			description: "Used to control Google Analytics, a 3rd party tool offered by Google to track user behavior.",
+			label: 'Analytics cookies',
+			description: 'Used to control Google Analytics, a 3rd party tool offered by Google to track user behavior.',
 			value: true
 		},
 		marketing: {
-			label: "Marketing cookies",
-			description: "Used for marketing data.",
+			label: 'Marketing cookies',
+			description: 'Used for marketing data.',
 			value: true
 		}
 	};
 
-	let { acceptLabel = "Accept cookies" } = $$props;
-	let { rejectLabel = "Reject cookies" } = $$props;
-	let { settingsLabel = "Cookie settings" } = $$props;
-	let { closeLabel = "Close settings" } = $$props;
+	let { acceptLabel = 'Accept cookies' } = $$props;
+	let { rejectLabel = 'Reject cookies' } = $$props;
+	let { settingsLabel = 'Cookie settings' } = $$props;
+	let { closeLabel = 'Close settings' } = $$props;
+	let { editLabel = 'Edit cookie settings' } = $$props;
 
 	function show() {
-		$$invalidate(10, shown = true);
+		$$invalidate(11, shown = true);
 	}
 
 	onMount(() => {
 		if (!cookieName) {
-			throw new Error("You must set gdpr cookie name");
+			throw new Error('You must set gdpr cookie name');
 		}
 
 		const cookie = api.get(cookieName);
@@ -1315,7 +1421,7 @@ function instance($$self, $$props, $$invalidate) {
 			const valid = validate(cookieChoices, choices);
 
 			if (!valid) {
-				throw new Error("cookie consent has changed");
+				throw new Error('cookie consent has changed');
 			}
 
 			execute(choices);
@@ -1344,7 +1450,7 @@ function instance($$self, $$props, $$invalidate) {
 			const agreed = chosen[t];
 
 			if (choicesMerged[t]) {
-				$$invalidate(8, choicesMerged[t].value = agreed, choicesMerged);
+				$$invalidate(9, choicesMerged[t].value = agreed, choicesMerged);
 			}
 
 			if (agreed) {
@@ -1353,7 +1459,7 @@ function instance($$self, $$props, $$invalidate) {
 			}
 		});
 
-		$$invalidate(10, shown = false);
+		$$invalidate(11, shown = false);
 	}
 
 	function reject() {
@@ -1367,47 +1473,47 @@ function instance($$self, $$props, $$invalidate) {
 	}
 
 	const click_handler = () => {
-		$$invalidate(11, settingsShown = true);
+		$$invalidate(12, settingsShown = true);
 	};
 
 	function input_change_handler(choice) {
 		choicesMerged[choice.id].value = this.checked;
-		($$invalidate(8, choicesMerged), $$invalidate(17, choices));
-		(($$invalidate(9, choicesArr), $$invalidate(8, choicesMerged)), $$invalidate(17, choices));
+		($$invalidate(9, choicesMerged), $$invalidate(18, choices));
 	}
 
 	const click_handler_1 = () => {
-		$$invalidate(11, settingsShown = false);
+		$$invalidate(12, settingsShown = false);
 	};
 
 	$$self.$$set = $$props => {
-		if ("cookieName" in $$props) $$invalidate(14, cookieName = $$props.cookieName);
-		if ("showEditIcon" in $$props) $$invalidate(0, showEditIcon = $$props.showEditIcon);
-		if ("heading" in $$props) $$invalidate(1, heading = $$props.heading);
-		if ("description" in $$props) $$invalidate(2, description = $$props.description);
-		if ("categories" in $$props) $$invalidate(15, categories = $$props.categories);
-		if ("cookieConfig" in $$props) $$invalidate(16, cookieConfig = $$props.cookieConfig);
-		if ("choices" in $$props) $$invalidate(17, choices = $$props.choices);
-		if ("acceptLabel" in $$props) $$invalidate(3, acceptLabel = $$props.acceptLabel);
-		if ("rejectLabel" in $$props) $$invalidate(4, rejectLabel = $$props.rejectLabel);
-		if ("settingsLabel" in $$props) $$invalidate(5, settingsLabel = $$props.settingsLabel);
-		if ("closeLabel" in $$props) $$invalidate(6, closeLabel = $$props.closeLabel);
+		if ('cookieName' in $$props) $$invalidate(15, cookieName = $$props.cookieName);
+		if ('showEditIcon' in $$props) $$invalidate(0, showEditIcon = $$props.showEditIcon);
+		if ('heading' in $$props) $$invalidate(1, heading = $$props.heading);
+		if ('description' in $$props) $$invalidate(2, description = $$props.description);
+		if ('categories' in $$props) $$invalidate(16, categories = $$props.categories);
+		if ('cookieConfig' in $$props) $$invalidate(17, cookieConfig = $$props.cookieConfig);
+		if ('choices' in $$props) $$invalidate(18, choices = $$props.choices);
+		if ('acceptLabel' in $$props) $$invalidate(3, acceptLabel = $$props.acceptLabel);
+		if ('rejectLabel' in $$props) $$invalidate(4, rejectLabel = $$props.rejectLabel);
+		if ('settingsLabel' in $$props) $$invalidate(5, settingsLabel = $$props.settingsLabel);
+		if ('closeLabel' in $$props) $$invalidate(6, closeLabel = $$props.closeLabel);
+		if ('editLabel' in $$props) $$invalidate(7, editLabel = $$props.editLabel);
 	};
 
 	$$self.$$.update = () => {
-		if ($$self.$$.dirty[0] & /*choices*/ 131072) {
-			$$invalidate(8, choicesMerged = Object.assign({}, choicesDefaults, choices));
+		if ($$self.$$.dirty[0] & /*choices*/ 262144) {
+			$$invalidate(9, choicesMerged = Object.assign({}, choicesDefaults, choices));
 		}
 
-		if ($$self.$$.dirty[0] & /*choicesMerged*/ 256) {
-			$$invalidate(9, choicesArr = Object.values(choicesMerged).map((item, index) => {
+		if ($$self.$$.dirty[0] & /*choicesMerged*/ 512) {
+			$$invalidate(10, choicesArr = Object.values(choicesMerged).map((item, index) => {
 				return Object.assign({}, item, { id: Object.keys(choicesMerged)[index] });
 			}));
 		}
 
-		if ($$self.$$.dirty[0] & /*choicesArr*/ 512) {
+		if ($$self.$$.dirty[0] & /*choicesArr*/ 1024) {
 			cookieChoices = choicesArr.reduce(
-				(result, item, index, array) => {
+				(result, item) => {
 					result[item.id] = item.value ? item.value : false;
 					return result;
 				},
@@ -1415,10 +1521,10 @@ function instance($$self, $$props, $$invalidate) {
 			);
 		}
 
-		if ($$self.$$.dirty[0] & /*choicesArr*/ 512) {
+		if ($$self.$$.dirty[0] & /*choicesArr*/ 1024) {
 			necessaryCookieChoices = choicesArr.reduce(
-				(result, item, index, array) => {
-					result[item.id] = item.id === "necessary";
+				(result, item) => {
+					result[item.id] = item.id === 'necessary';
 					return result;
 				},
 				{}
@@ -1434,6 +1540,7 @@ function instance($$self, $$props, $$invalidate) {
 		rejectLabel,
 		settingsLabel,
 		closeLabel,
+		editLabel,
 		show,
 		choicesMerged,
 		choicesArr,
@@ -1455,32 +1562,34 @@ class Banner extends SvelteComponent {
 	constructor(options) {
 		super();
 
-		init(
+		init$1(
 			this,
 			options,
 			instance,
 			create_fragment,
 			safe_not_equal,
 			{
-				cookieName: 14,
+				cookieName: 15,
 				showEditIcon: 0,
 				heading: 1,
 				description: 2,
-				categories: 15,
-				cookieConfig: 16,
-				choices: 17,
+				categories: 16,
+				cookieConfig: 17,
+				choices: 18,
 				acceptLabel: 3,
 				rejectLabel: 4,
 				settingsLabel: 5,
 				closeLabel: 6,
-				show: 7
+				editLabel: 7,
+				show: 8
 			},
+			null,
 			[-1, -1]
 		);
 	}
 
 	get show() {
-		return this.$$.ctx[7];
+		return this.$$.ctx[8];
 	}
 }
 
@@ -1492,4 +1601,4 @@ function attachBanner (target, props = {}) {
   });
 }
 
-export default attachBanner;
+export { attachBanner as default };

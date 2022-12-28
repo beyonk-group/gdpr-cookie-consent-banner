@@ -64,12 +64,12 @@
     )
   })
 
-  $: cookieChoices = choicesArr.reduce((result, item, index, array) => {
+  $: cookieChoices = choicesArr.reduce((result, item) => {
     result[item.id] = item.value ? item.value : false
     return result
   }, {})
 
-  $: necessaryCookieChoices = choicesArr.reduce((result, item, index, array) => {
+  $: necessaryCookieChoices = choicesArr.reduce((result, item) => {
     result[item.id] = item.id === 'necessary'
     return result
   }, {})

@@ -1,7 +1,7 @@
 import svelte from 'rollup-plugin-svelte'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import { terser } from 'rollup-plugin-terser'
+import terser from '@rollup/plugin-terser'
 import scss from 'rollup-plugin-scss'
 
 const plugins = [
@@ -43,12 +43,14 @@ const browserMin = {
 }
 
 const styles = {
-  input: 'src/style.scss',
+  input: 'src/style.js',
   output: {
-    file: '/tmp/nullfile'
+    file: 'dist/style.tmp'
   },
   plugins: [
-    scss()
+    scss({
+      fileName: 'style.css'
+    })
   ]
 }
 

@@ -185,15 +185,12 @@
   .cookieConsent {
     display: block;
   }
-
   .cookieConsent__Right {
     margin-top: 20px;
   }
-
   .cookieConsent__Button {
     margin: 0 10px 10px 0;
   }
-
   .cookieConsent__Button--Close {
     margin: 40px 0 0;
   }
