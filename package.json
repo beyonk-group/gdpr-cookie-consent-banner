@@ -1,40 +1,57 @@
 {
   "name": "@beyonk/gdpr-cookie-consent-banner",
   "version": "9.1.1",
-  "description": "GDPR Cookie Consent Banner in vanilla js",
-  "main": "dist/esm/bundle.js",
-  "browser": "dist/browser/bundle.min.js",
-  "svelte": "src/components/Banner.svelte",
-  "devDependencies": {
-    "@beyonk/eslint-config": "^5.0.2",
-    "@hapi/code": "^8.0.2",
-    "@rollup/plugin-commonjs": "^17.1.0",
-    "@rollup/plugin-node-resolve": "^11.2.0",
-    "@rollup/plugin-terser": "^0.2.1",
-    "eslint": "^7.7.0",
-    "eslint-plugin-svelte3": "^2.7.3",
-    "http-server": "^14.1.1",
-    "mocha": "^8.3.0",
-    "rollup": "^2.39.0",
-    "rollup-plugin-scss": "^4.0.0",
-    "rollup-plugin-svelte": "^7.1.0",
-    "sass": "^1.39.0",
-    "svelte": "^3.32.3"
-  },
-  "eslintConfig": {
-    "extends": "@beyonk/eslint-config/svelte"
-  },
-  "repository": {
-    "type": "git",
-    "repository": "beyonk-adventures/gdpr-cookie-consent-banner"
-  },
+  "description": "GDPR Cookie Consent Banner for Svelte/Kit",
+  "author": "Antony Jones",
+  "license": "MIT",
   "scripts": {
-    "demo": "http-server",
-    "dev": "rollup -cw",
-    "build": "rollup -c",
-    "test": "mocha \"src/**/*.spec.mjs\"",
-    "lint": "eslint src"
+    "dev": "vite dev",
+    "build": "vite build && npm run package",
+    "preview": "vite preview",
+    "package": "svelte-kit sync && svelte-package && publint",
+    "prepublishOnly": "npm run package",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+    "lint": "eslint .",
+    "test": "mocha \"src/**/*.spec.js\""
   },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "svelte": "./dist/index.js"
+    },
+    "./Banner.svelte": "./dist/Banner.svelte",
+    "./style.css": "./dist/style.css"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.spec.*"
+  ],
+  "peerDependencies": {
+    "svelte": "^3.54.0"
+  },
+  "dependencies": {
+    "js-cookie": "^3.0.1"
+  },
+  "devDependencies": {
+    "@beyonk/eslint-config": "^7.1.1",
+    "@hapi/code": "^8.0.2",
+    "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/kit": "^1.5.0",
+    "@sveltejs/package": "^2.0.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-svelte3": "^4.0.0",
+    "mocha": "^8.3.0",
+    "publint": "^0.1.9",
+    "svelte": "^3.54.0",
+    "svelte-check": "^3.0.1",
+    "tslib": "^2.4.1",
+    "typescript": "^5.0.0",
+    "vite": "^4.2.0"
+  },
+  "svelte": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
   "keywords": [
     "gdpr",
     "cookie consent",
@@ -46,13 +63,5 @@
     "svelte",
     "vanilla",
     "beyonk"
-  ],
-  "author": "Antony Jones",
-  "license": "MIT",
-  "dependencies": {
-    "js-cookie": "^3.0.1"
-  },
-  "volta": {
-    "node": "18.12.1"
-  }
+  ]
 }

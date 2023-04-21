@@ -1,12 +1,13 @@
 <script>
   import Cookies from 'js-cookie'
-  import { validate } from '../util'
+  import { validate } from './util.js'
   import { fade } from 'svelte/transition'
   import { onMount, createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
 
   export let cookieName = null
+  export let canRejectCookies = false
   export let showEditIcon = true
 
   let shown = false
@@ -191,9 +192,11 @@
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
+      {#if canRejectCookies}
       <button type="submit" class="cookieConsent__Button" on:click={reject} aria-label={rejectLabel}>
         {rejectLabel}
       </button>
+      {/if}
       <button type="submit" class="cookieConsent__Button" on:click={choose} aria-label={acceptLabel}>
         {acceptLabel}
       </button>

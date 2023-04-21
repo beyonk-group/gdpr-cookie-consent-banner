@@ -1,8 +1,5 @@
-'use strict'
-
 import { expect } from '@hapi/code'
-
-import { validate } from './util.mjs'
+import { validate } from './util.js'
 
 describe('util', () => {
   describe('#validate(choice, cookie)', () => {

@@ -1,4 +1,4 @@
-export function validate (choice, cookieChoices) {
+function validate (choice, cookieChoices) {
   const choices = Object.keys(choice)
   const chosen = Object.keys(cookieChoices)
 
@@ -7,4 +7,8 @@ export function validate (choice, cookieChoices) {
   }
 
   return chosen.every(c => choices.includes(c))
+}
+
+export {
+  validate
 }

@@ -12,7 +12,7 @@
 
 ### What is it?
 
-This is a vanilla JS implementation (thanks to [Svelte](http://svelte.dev)) of a compliant GDPR banner. It allows the user granular opt-in and out of four different cookie categories.
+Svelte implementation of a compliant GDPR banner. It allows the user granular opt-in and out of four different cookie categories.
 
 It now works with SvelteKit without any workarounds!
 
@@ -25,7 +25,6 @@ It now works with SvelteKit without any workarounds!
 * Runs any function on opting-in
 * Runs opted-in functions on each visit
 * Changing the choices requires the user to opt-in again.
-* Vanilla JS
 * Svelte Ready
 * No dependencies
 * Choices expire yearly
@@ -42,41 +41,7 @@ Simply install the node module into your codebase.
 npm install --save-dev @beyonk/gdpr-cookie-consent-banner
 ```
 
-then import the banner into your code:
-
-```js
-import attachBanner from '@beyonk/gdpr-cookie-consent-banner'
-import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // import optional styles
-
-attachBanner(document.body)
-```
-
-#### Using raw javascript
-
-##### From a CDN
-
-```html
-<link rel="stylesheet" href="//unpkg.com/@beyonk/gdpr-cookie-consent-banner/dist/style.css">
-<script src="//unpkg.com/@beyonk/gdpr-cookie-consent-banner/dist/browser/bundle.min.js"></script>
-```
-
-##### Storing a local copy
-
-Download the contents of `dist/browser/bundle.js` and `dist/style.css` to your codebase, and include it in your html:
-
-```html
-<link rel="stylesheet" href="path/to/style.css">
-<script src="path/to/bundle.js"></script>
-<script>
-  GdprConsent.attachBanner(document.body)
-</script>
-```
-
 ### Usage
-
-Because this banner was designed to work across three different technology stacks, usage is a bit different to a regular es module.
-
-I've documented our usage of it below:
 
 #### Svelte
 
@@ -86,43 +51,13 @@ Just use it as a regular svelte component:
 <GdprBanner cookieName="foo" description="bar" on:analytics={initAnalytics} />
 
 <script>
-  import '@beyonk/gdpr-cookie-consent-banner/dist/style.css' // optional, you can also define your own styles
-  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+  import '@beyonk/gdpr-cookie-consent-banner/style.css' // optional, you can also define your own styles
+  import { Banner as GdprBanner } from '@beyonk/gdpr-cookie-consent-banner'
 
   function initAnalytics () {
     // do something with segment.io or google analytics etc
   }
 </script>
-```
-
-#### Nuxt / Vue
-
-You can use the banner in NuxtJS application as follows:
-
-Create a component which uses the library, and mounts it during the render stage:
-```js
-<template>
-  <div ref="gdprBanner"></div>
-</template>
-
-<script>
-  export default {
-    mounted () {
-      const { attachBanner } = require('@beyonk/gdpr-cookie-consent-banner/dist/esm/bundle.js')
-      attachBanner(this.$refs.gdprBanner, {
-        heading: 'Cookie policy'
-      })
-    }
-  }
-</script>
-```
-
-Optionally, add this to your CSS array in your `nuxt.config.js` file:
-```js
-/**
- * Global CSS
- **/
-css: ['your_other_css_file.css', '@beyonk/gdpr-cookie-consent-banner/dist/style.css'],
 ```
 
 ### Methods
@@ -133,7 +68,7 @@ You can re-call the cookie banner from an external link by binding the component
 <GdprBanner bind:this={gdprBanner} cookieName="foo" description="bar" on:analytics={initAnalytics} />
 
 <script>
-  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+  import { GdprBanner } from '@beyonk/gdpr-cookie-consent-banner'
 
   let gdprBanner
 
@@ -141,14 +76,14 @@ You can re-call the cookie banner from an external link by binding the component
 </script>
 ```
 
-### Configuration
+### Props
 
-The defaults are shown below, simply put modified versions of as many of the below into an options object, and pass it to attachBanner.
+The defaults are shown below.
 
 It is not possible to opt-out of 'necessary' cookies.
 
 ```js
-const options = {
+const props = {
   /**
    * You must set the cookie name.
    **/
@@ -233,5 +168,4 @@ const options = {
     }
   }
 }
-GdprConsent.attachBanner(document.body, options)
 ```
