@@ -6,6 +6,9 @@
 
   const dispatch = createEventDispatcher()
 
+  /**
+   * @type {string|undefined|null}
+   */
   export let cookieName = null
   export let canRejectCookies = false
   export let showEditIcon = true
