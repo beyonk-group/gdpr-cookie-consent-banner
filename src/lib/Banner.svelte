@@ -15,7 +15,7 @@
 
   /**
    * Whether to show the cookie banner if the user has not yet accepted or rejected your choices.
-   * 
+   *
    * @type {boolean|undefined|null}
    */
   export let visible = true
