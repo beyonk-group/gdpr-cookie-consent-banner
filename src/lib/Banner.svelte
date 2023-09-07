@@ -13,6 +13,13 @@
   export let canRejectCookies = false
   export let showEditIcon = true
 
+  /**
+   * Whether to show the cookie banner if the user has not yet accepted or rejected your choices.
+   * 
+   * @type {boolean|undefined|null}
+   */
+  export let visible = true
+
   let shown = false
   let settingsShown = false
 
@@ -85,7 +92,7 @@
   export let editLabel = 'Edit cookie settings'
 
   export function show () {
-    shown = true
+    shown = visible
   }
 
   onMount(() => {
@@ -96,6 +103,7 @@
     const cookie = Cookies.get(cookieName)
     if (!cookie) {
       show()
+      return
     }
 
     try {

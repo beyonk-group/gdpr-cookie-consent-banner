@@ -90,6 +90,15 @@ const props = {
   cookieName: 'beyonk_gdpr',
 
   /**
+   * Whether to display the banner to the user or not. This can be because you're in an iframe
+   * and there is no room to show it if they haven't already consented, but, if they have already
+   * consented, you want to action the "enableAnalytics" and similar handlers if they *have*.
+   * 
+   * Default is true
+   **/
+  visible: true,
+
+  /**
    * The cookie configuration, such as domain and path.
    **/
   cookieConfig: {
