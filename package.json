@@ -23,7 +23,6 @@
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {
-    "@beyonk/url-generator": "^8.2.1",
     "@sveltejs/adapter-vercel": "^2.4.3",
     "@sveltejs/kit": "^1.22.4",
     "@sveltejs/vite-plugin-svelte": "^2.4.4",

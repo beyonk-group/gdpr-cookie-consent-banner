@@ -10,9 +10,6 @@ dependencies:
     version: 3.0.1
 
 devDependencies:
-  '@beyonk/url-generator':
-    specifier: ^8.2.1
-    version: 8.2.1
   '@sveltejs/adapter-vercel':
     specifier: ^2.4.3
     version: 2.4.3(@sveltejs/kit@1.24.1)
@@ -50,12 +47,6 @@ packages:
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.14.0
-    dev: true
-
-  /@beyonk/url-generator@8.2.1:
-    resolution: {integrity: sha512-5KpMmV08aINUkY7v/jJDLGNsRKGDiHl27R7UcJvFh/kgPqMWfpzsr5P6m6OLhrgZYKZyyvIyJwTIqVYwXDOqpA==}
-    dependencies:
-      striptags: 3.2.0
     dev: true
 
   /@esbuild/android-arm64@0.17.19:
@@ -1380,10 +1371,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       ansi-regex: 5.0.1
-    dev: true
-
-  /striptags@3.2.0:
-    resolution: {integrity: sha512-g45ZOGzHDMe2bdYMdIvdAfCQkCTDMGBazSw1ypMowwGIee7ZQ5dU0rBJ8Jqgl+jAKIv4dbeE1jscZq9wid1Tkw==}
     dev: true
 
   /supports-color@7.2.0:
