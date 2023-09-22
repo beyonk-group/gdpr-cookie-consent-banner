@@ -1,7 +1,4 @@
 <script>
-  import '$lib/style.css'
-  import Banner from '$lib/Banner.svelte'
-
   const categories = {
     analytics: function () {
       console.info('Dropped analytics cookies')
@@ -10,6 +7,7 @@
       console.info('Dropped necessary cookies')
     }
   }
+
   const choices = {
     analytics: function () {
       console.info('Dropped analytics cookies')
@@ -20,4 +18,4 @@
   }
 </script>
 
-<Banner cookieName="test_gdpr" {categories} {choices} />
+<cookie-consent-banner cookieName="test_gdpr" {categories} {choices} />
