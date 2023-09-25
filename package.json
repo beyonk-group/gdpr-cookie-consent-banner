@@ -21,7 +21,7 @@
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {
-    "@sveltejs/adapter-vercel": "^2.4.3",
+    "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.22.4",
     "@sveltejs/vite-plugin-svelte": "^2.4.4",
     "svelte": "^4.0.5",
