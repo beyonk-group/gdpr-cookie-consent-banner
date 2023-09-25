@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
-import bundleCss from 'vite-plugin-css-injected-by-js'
 
 export default defineConfig({
   envPrefix: 'PUBLIC_',
@@ -18,14 +17,12 @@ export default defineConfig({
       include: /\.svelte$/,
       compilerOptions: {
         customElement: true
-      },
-      emitCss: true
-    }),
-    bundleCss()
+      }
+    })
   ],
   build: {
     target: 'modules',
-    outDir: 'static/v1/sdk',
+    outDir: 'dist/v1/sdk',
     lib: {
       entry: 'src/lib/sdk/index.js',
       fileName: 'index',
