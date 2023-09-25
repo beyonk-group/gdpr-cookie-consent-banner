@@ -22,11 +22,11 @@ export default defineConfig({
   ],
   build: {
     target: 'modules',
-    outDir: 'dist/v1/sdk',
+    outDir: 'dist',
     lib: {
-      entry: 'src/lib/sdk/index.js',
+      entry: 'src/lib/index.js',
       fileName: 'index',
-      name: 'sdk'
+      name: 'lib'
     }
   }
 })
