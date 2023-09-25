@@ -116,12 +116,12 @@ cookie-consent-banner::part(operations--list-item),
   margin-bottom: 20px;
 }
 
-cookie-consent-banner::part(operations--list-item).disabled,
+cookie-consent-banner::part(operations--list-item--disabled),
 .cookieConsentOperations__Item.disabled {
   color: #999;
 }
 
-cookie-consent-banner::part(operations--list-item).disabled
+cookie-consent-banner::part(operations--list-item--disabled)
 cookie-consent-banner::part(operations--list-item-label)::after,
 .cookieConsentOperations__Item.disabled label::after {
   opacity: 0.3;

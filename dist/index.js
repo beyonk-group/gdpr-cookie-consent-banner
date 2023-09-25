@@ -1,6 +1,6 @@
 var Ye = Object.defineProperty;
 var Qe = (t, e, n) => e in t ? Ye(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
-var N = (t, e, n) => (Qe(t, typeof e != "symbol" ? e + "" : e, n), n);
+var R = (t, e, n) => (Qe(t, typeof e != "symbol" ? e + "" : e, n), n);
 function Z() {
 }
 const Ie = (t) => t;
@@ -41,7 +41,7 @@ function xe(t) {
     }
   };
 }
-function p(t, e) {
+function b(t, e) {
   t.appendChild(e);
 }
 function Me(t) {
@@ -55,40 +55,40 @@ function Me(t) {
   ) : t.ownerDocument;
 }
 function et(t) {
-  const e = L("style");
+  const e = C("style");
   return e.textContent = "/* empty */", tt(Me(t), e), e.sheet;
 }
 function tt(t, e) {
-  return p(
+  return b(
     /** @type {Document} */
     t.head || t,
     e
   ), e.sheet;
 }
-function B(t, e, n) {
+function I(t, e, n) {
   t.insertBefore(e, n || null);
 }
-function R(t) {
+function A(t) {
   t.parentNode && t.parentNode.removeChild(t);
 }
 function nt(t, e) {
   for (let n = 0; n < t.length; n += 1)
     t[n] && t[n].d(e);
 }
-function L(t) {
+function C(t) {
   return document.createElement(t);
 }
 function ke(t) {
   return document.createElementNS("http://www.w3.org/2000/svg", t);
 }
-function D(t) {
+function M(t) {
   return document.createTextNode(t);
 }
-function S() {
-  return D(" ");
+function P() {
+  return M(" ");
 }
 function Ue() {
-  return D("");
+  return M("");
 }
 function W(t, e, n, s) {
   return t.addEventListener(e, n, s), () => t.removeEventListener(e, n, s);
@@ -135,15 +135,15 @@ function ve(t, e, n, s, i, o, c, r = 0) {
   let f = `{
 `;
   for (let $ = 0; $ <= 1; $ += l) {
-    const y = e + (n - e) * o($);
-    f += $ * 100 + `%{${c(y, 1 - y)}}
+    const k = e + (n - e) * o($);
+    f += $ * 100 + `%{${c(k, 1 - k)}}
 `;
   }
   const g = f + `100% {${c(n, 1 - n)}}
 }`, u = `__svelte_${ot(g)}_${r}`, _ = Me(t), { stylesheet: m, rules: d } = ne.get(_) || ct(_, t);
   d[u] || (d[u] = !0, m.insertRule(`@keyframes ${u} ${g}`, m.cssRules.length));
-  const b = t.style.animation || "";
-  return t.style.animation = `${b ? `${b}, ` : ""}${u} ${s}ms linear ${i}ms 1 both`, ie += 1, u;
+  const p = t.style.animation || "";
+  return t.style.animation = `${p ? `${p}, ` : ""}${u} ${s}ms linear ${i}ms 1 both`, ie += 1, u;
 }
 function rt(t, e) {
   const n = (t.style.animation || "").split(", "), s = n.filter(
@@ -156,7 +156,7 @@ function lt() {
   _e(() => {
     ie || (ne.forEach((t) => {
       const { ownerNode: e } = t.stylesheet;
-      e && R(e);
+      e && A(e);
     }), ne.clear());
   });
 }
@@ -195,14 +195,14 @@ let V = [];
 const Ce = [], ft = /* @__PURE__ */ Promise.resolve();
 let fe = !1;
 function dt() {
-  fe || (fe = !0, ft.then(E));
+  fe || (fe = !0, ft.then(O));
 }
 function z(t) {
   V.push(t);
 }
 const ce = /* @__PURE__ */ new Set();
 let F = 0;
-function E() {
+function O() {
   if (F !== 0)
     return;
   const t = K;
@@ -248,79 +248,79 @@ function re(t, e, n) {
   t.dispatchEvent(ze(`${e ? "intro" : "outro"}${n}`));
 }
 const ee = /* @__PURE__ */ new Set();
-let P;
+let D;
 function le() {
-  P = {
+  D = {
     r: 0,
     c: [],
-    p: P
+    p: D
     // parent group
   };
 }
 function ae() {
-  P.r || T(P.c), P = P.p;
+  D.r || T(D.c), D = D.p;
 }
-function A(t, e) {
+function B(t, e) {
   t && t.i && (ee.delete(t), t.i(e));
 }
 function H(t, e, n, s) {
   if (t && t.o) {
     if (ee.has(t))
       return;
-    ee.add(t), P.c.push(() => {
+    ee.add(t), D.c.push(() => {
       ee.delete(t), s && (n && t.d(1), s());
     }), t.o(e);
   } else
     s && s();
 }
-const bt = { duration: 0 };
+const pt = { duration: 0 };
 function q(t, e, n, s) {
   let o = e(t, n, { direction: "both" }), c = s ? 0 : 1, r = null, l = null, f = null, g;
   function u() {
     f && rt(t, f);
   }
-  function _(d, b) {
+  function _(d, p) {
     const $ = (
       /** @type {Program['d']} */
       d.b - c
     );
-    return b *= Math.abs($), {
+    return p *= Math.abs($), {
       a: c,
       b: d.b,
       d: $,
-      duration: b,
+      duration: p,
       start: d.start,
-      end: d.start + b,
+      end: d.start + p,
       group: d.group
     };
   }
   function m(d) {
     const {
-      delay: b = 0,
+      delay: p = 0,
       duration: $ = 300,
-      easing: y = Ie,
-      tick: k = Z,
-      css: w
-    } = o || bt, M = {
-      start: Ke() + b,
+      easing: k = Ie,
+      tick: L = Z,
+      css: j
+    } = o || pt, y = {
+      start: Ke() + p,
       b: d
     };
-    d || (M.group = P, P.r += 1), "inert" in t && (d ? g !== void 0 && (t.inert = g) : (g = /** @type {HTMLElement} */
-    t.inert, t.inert = !0)), r || l ? l = M : (w && (u(), f = ve(t, c, d, $, b, y, w)), d && k(0, 1), r = _(M, $), z(() => re(t, d, "start")), xe((C) => {
-      if (l && C > l.start && (r = _(l, $), l = null, re(t, r.b, "start"), w && (u(), f = ve(
+    d || (y.group = D, D.r += 1), "inert" in t && (d ? g !== void 0 && (t.inert = g) : (g = /** @type {HTMLElement} */
+    t.inert, t.inert = !0)), r || l ? l = y : (j && (u(), f = ve(t, c, d, $, p, k, j)), d && L(0, 1), r = _(y, $), z(() => re(t, d, "start")), xe((v) => {
+      if (l && v > l.start && (r = _(l, $), l = null, re(t, r.b, "start"), j && (u(), f = ve(
         t,
         c,
         r.b,
         r.duration,
         0,
-        y,
+        k,
         o.css
       ))), r) {
-        if (C >= r.end)
-          k(c = r.b, 1 - c), re(t, r.b, "end"), l || (r.b ? u() : --r.group.r || T(r.group.c)), r = null;
-        else if (C >= r.start) {
-          const v = C - r.start;
-          c = r.a + r.d * y(v / r.duration), k(c, 1 - c);
+        if (v >= r.end)
+          L(c = r.b, 1 - c), re(t, r.b, "end"), l || (r.b ? u() : --r.group.r || T(r.group.c)), r = null;
+        else if (v >= r.start) {
+          const w = v - r.start;
+          c = r.a + r.d * k(w / r.duration), L(c, 1 - c);
         }
       }
       return !!(r || l);
@@ -340,7 +340,7 @@ function q(t, e, n, s) {
 function Le(t) {
   return (t == null ? void 0 : t.length) !== void 0 ? t : Array.from(t);
 }
-function pt(t, e, n) {
+function bt(t, e, n) {
   const { fragment: s, after_update: i } = t.$$;
   s && s.m(e, n), z(() => {
     const o = t.$$.on_mount.map(Se).filter(he);
@@ -386,10 +386,10 @@ function kt(t, e, n, s, i, o, c = null, r = [-1]) {
   }) : [], f.update(), g = !0, T(f.before_update), f.fragment = s ? s(f.ctx) : !1, e.target) {
     if (e.hydrate) {
       const u = it(e.target);
-      f.fragment && f.fragment.l(u), u.forEach(R);
+      f.fragment && f.fragment.l(u), u.forEach(A);
     } else
       f.fragment && f.fragment.c();
-    e.intro && A(t.$$.fragment), pt(t, e.target, e.anchor), E();
+    e.intro && B(t.$$.fragment), bt(t, e.target, e.anchor), O();
   }
   X(l);
 }
@@ -398,23 +398,23 @@ typeof HTMLElement == "function" && (Fe = class extends HTMLElement {
   constructor(e, n, s) {
     super();
     /** The Svelte component constructor */
-    N(this, "$$ctor");
+    R(this, "$$ctor");
     /** Slots */
-    N(this, "$$s");
+    R(this, "$$s");
     /** The Svelte component instance */
-    N(this, "$$c");
+    R(this, "$$c");
     /** Whether or not the custom element is connected */
-    N(this, "$$cn", !1);
+    R(this, "$$cn", !1);
     /** Component props data */
-    N(this, "$$d", {});
+    R(this, "$$d", {});
     /** `true` if currently in the process of reflecting component props back to attributes */
-    N(this, "$$r", !1);
+    R(this, "$$r", !1);
     /** @type {Record<string, CustomElementPropDefinition>} Props definition (name, reflected, type etc) */
-    N(this, "$$p_d", {});
+    R(this, "$$p_d", {});
     /** @type {Record<string, Function[]>} Event listeners */
-    N(this, "$$l", {});
+    R(this, "$$l", {});
     /** @type {Map<Function, Function>} Event listener unsubscribe functions */
-    N(this, "$$l_u", /* @__PURE__ */ new Map());
+    R(this, "$$l_u", /* @__PURE__ */ new Map());
     this.$$ctor = e, this.$$s = n, s && this.attachShadow({ mode: "open" });
   }
   addEventListener(e, n, s) {
@@ -437,17 +437,17 @@ typeof HTMLElement == "function" && (Fe = class extends HTMLElement {
           let c;
           return {
             c: function() {
-              c = L("slot"), o !== "default" && a(c, "name", o);
+              c = C("slot"), o !== "default" && a(c, "name", o);
             },
             /**
              * @param {HTMLElement} target
              * @param {HTMLElement} [anchor]
              */
             m: function(f, g) {
-              B(f, c, g);
+              I(f, c, g);
             },
             d: function(f) {
-              f && R(c);
+              f && A(c);
             }
           };
         };
@@ -581,7 +581,7 @@ class vt {
      *
      * @type {any}
      */
-    N(this, "$$");
+    R(this, "$$");
     /**
      * ### PRIVATE API
      *
@@ -589,7 +589,7 @@ class vt {
      *
      * @type {any}
      */
-    N(this, "$$set");
+    R(this, "$$set");
   }
   /** @returns {void} */
   $destroy() {
@@ -712,7 +712,7 @@ function Ee(t) {
   let e, n, s, i, o, c, r;
   return {
     c() {
-      e = L("button"), n = ke("svg"), s = ke("path"), a(s, "d", `M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17
+      e = C("button"), n = ke("svg"), s = ke("path"), a(s, "d", `M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17
         0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13
         35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0
         0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77
@@ -730,7 +730,7 @@ function Ee(t) {
       );
     },
     m(l, f) {
-      B(l, e, f), p(e, n), p(n, s), o = !0, c || (r = W(
+      I(l, e, f), b(e, n), b(n, s), o = !0, c || (r = W(
         e,
         "click",
         /*show*/
@@ -755,24 +755,24 @@ function Ee(t) {
       l && (i || (i = q(e, Y, {}, !1)), i.run(0)), o = !1;
     },
     d(l) {
-      l && R(e), l && i && i.end(), c = !1, r();
+      l && A(e), l && i && i.end(), c = !1, r();
     }
   };
 }
 function Oe(t) {
-  let e, n, s, i, o, c, r, l, f, g, u, _, m, d, b, $, y, k, w, M, C = (
+  let e, n, s, i, o, c, r, l, f, g, u, _, m, d, p, $, k, L, j, y, v = (
     /*canRejectCookies*/
     t[0] && Ne(t)
   );
   return {
     c() {
-      e = L("div"), n = L("div"), s = L("div"), i = L("div"), o = L("p"), c = D(
+      e = C("div"), n = C("div"), s = C("div"), i = C("div"), o = C("p"), c = M(
         /*heading*/
         t[2]
-      ), r = S(), l = L("p"), f = S(), g = L("div"), u = L("button"), _ = D(
+      ), r = P(), l = C("p"), f = P(), g = C("div"), u = C("button"), _ = M(
         /*settingsLabel*/
         t[6]
-      ), m = S(), C && C.c(), d = S(), b = L("button"), $ = D(
+      ), m = P(), v && v.c(), d = P(), p = C("button"), $ = M(
         /*acceptLabel*/
         t[4]
       ), a(o, "class", "cookieConsent__Title"), a(o, "part", "consent--title"), a(l, "class", "cookieConsent__Description"), a(l, "part", "consent--description"), a(i, "class", "cookieConsent__Content"), a(i, "part", "consent--content"), a(s, "class", "cookieConsent__Left"), a(s, "part", "consent--left"), a(u, "type", "button"), a(u, "class", "cookieConsent__Button"), a(u, "part", "button"), a(
@@ -780,16 +780,16 @@ function Oe(t) {
         "aria-label",
         /*settingsLabel*/
         t[6]
-      ), a(b, "type", "submit"), a(b, "class", "cookieConsent__Button"), a(b, "part", "button"), a(
-        b,
+      ), a(p, "type", "submit"), a(p, "class", "cookieConsent__Button"), a(p, "part", "button"), a(
+        p,
         "aria-label",
         /*acceptLabel*/
         t[4]
       ), a(g, "class", "cookieConsent__Right"), a(g, "part", "consent--right"), a(n, "class", "cookieConsent"), a(n, "part", "consent"), a(e, "class", "cookieConsentWrapper"), a(e, "part", "wrapper");
     },
-    m(v, O) {
-      B(v, e, O), p(e, n), p(n, s), p(s, i), p(i, o), p(o, c), p(i, r), p(i, l), l.innerHTML = /*description*/
-      t[3], p(n, f), p(n, g), p(g, u), p(u, _), p(g, m), C && C.m(g, null), p(g, d), p(g, b), p(b, $), k = !0, w || (M = [
+    m(w, N) {
+      I(w, e, N), b(e, n), b(n, s), b(s, i), b(i, o), b(o, c), b(i, r), b(i, l), l.innerHTML = /*description*/
+      t[3], b(n, f), b(n, g), b(g, u), b(u, _), b(g, m), v && v.m(g, null), b(g, d), b(g, p), b(p, $), L = !0, j || (y = [
         W(
           u,
           "click",
@@ -797,56 +797,56 @@ function Oe(t) {
           t[21]
         ),
         W(
-          b,
+          p,
           "click",
           /*choose*/
           t[15]
         )
-      ], w = !0);
+      ], j = !0);
     },
-    p(v, O) {
-      (!k || O[0] & /*heading*/
+    p(w, N) {
+      (!L || N[0] & /*heading*/
       4) && U(
         c,
         /*heading*/
-        v[2]
-      ), (!k || O[0] & /*description*/
+        w[2]
+      ), (!L || N[0] & /*description*/
       8) && (l.innerHTML = /*description*/
-      v[3]), (!k || O[0] & /*settingsLabel*/
+      w[3]), (!L || N[0] & /*settingsLabel*/
       64) && U(
         _,
         /*settingsLabel*/
-        v[6]
-      ), (!k || O[0] & /*settingsLabel*/
+        w[6]
+      ), (!L || N[0] & /*settingsLabel*/
       64) && a(
         u,
         "aria-label",
         /*settingsLabel*/
-        v[6]
+        w[6]
       ), /*canRejectCookies*/
-      v[0] ? C ? C.p(v, O) : (C = Ne(v), C.c(), C.m(g, d)) : C && (C.d(1), C = null), (!k || O[0] & /*acceptLabel*/
+      w[0] ? v ? v.p(w, N) : (v = Ne(w), v.c(), v.m(g, d)) : v && (v.d(1), v = null), (!L || N[0] & /*acceptLabel*/
       16) && U(
         $,
         /*acceptLabel*/
-        v[4]
-      ), (!k || O[0] & /*acceptLabel*/
+        w[4]
+      ), (!L || N[0] & /*acceptLabel*/
       16) && a(
-        b,
+        p,
         "aria-label",
         /*acceptLabel*/
-        v[4]
+        w[4]
       );
     },
-    i(v) {
-      k || (v && z(() => {
-        k && (y || (y = q(e, Y, {}, !0)), y.run(1));
-      }), k = !0);
+    i(w) {
+      L || (w && z(() => {
+        L && (k || (k = q(e, Y, {}, !0)), k.run(1));
+      }), L = !0);
     },
-    o(v) {
-      v && (y || (y = q(e, Y, {}, !1)), y.run(0)), k = !1;
+    o(w) {
+      w && (k || (k = q(e, Y, {}, !1)), k.run(0)), L = !1;
     },
-    d(v) {
-      v && R(e), C && C.d(), v && y && y.end(), w = !1, T(M);
+    d(w) {
+      w && A(e), v && v.d(), w && k && k.end(), j = !1, T(y);
     }
   };
 }
@@ -854,7 +854,7 @@ function Ne(t) {
   let e, n, s, i;
   return {
     c() {
-      e = L("button"), n = D(
+      e = C("button"), n = M(
         /*rejectLabel*/
         t[5]
       ), a(e, "type", "submit"), a(e, "class", "cookieConsent__Button"), a(e, "part", "button"), a(
@@ -865,7 +865,7 @@ function Ne(t) {
       );
     },
     m(o, c) {
-      B(o, e, c), p(e, n), s || (i = W(
+      I(o, e, c), b(e, n), s || (i = W(
         e,
         "click",
         /*reject*/
@@ -887,7 +887,7 @@ function Ne(t) {
       );
     },
     d(o) {
-      o && R(e), s = !1, i();
+      o && A(e), s = !1, i();
     }
   };
 }
@@ -900,10 +900,10 @@ function Re(t) {
     u[_] = Be(je(t, g, _));
   return {
     c() {
-      e = L("div"), n = L("div");
+      e = C("div"), n = C("div");
       for (let _ = 0; _ < u.length; _ += 1)
         u[_].c();
-      s = S(), i = L("button"), o = D(
+      s = P(), i = C("button"), o = M(
         /*closeLabel*/
         t[7]
       ), a(i, "type", "submit"), a(i, "class", "cookieConsent__Button cookieConsent__Button--Close"), a(i, "part", "button button--close"), a(
@@ -914,10 +914,10 @@ function Re(t) {
       ), a(n, "class", "cookieConsentOperations__List"), a(n, "part", "operations--list"), a(e, "class", "cookieConsentOperations"), a(e, "part", "operations");
     },
     m(_, m) {
-      B(_, e, m), p(e, n);
+      I(_, e, m), b(e, n);
       for (let d = 0; d < u.length; d += 1)
         u[d] && u[d].m(n, null);
-      p(n, s), p(n, i), p(i, o), r = !0, l || (f = W(
+      b(n, s), b(n, i), b(i, o), r = !0, l || (f = W(
         i,
         "click",
         /*click_handler_1*/
@@ -933,8 +933,8 @@ function Re(t) {
         );
         let d;
         for (d = 0; d < g.length; d += 1) {
-          const b = je(_, g, d);
-          u[d] ? u[d].p(b, m) : (u[d] = Be(b), u[d].c(), u[d].m(n, s));
+          const p = je(_, g, d);
+          u[d] ? u[d].p(p, m) : (u[d] = Be(p), u[d].c(), u[d].m(n, s));
         }
         for (; d < u.length; d += 1)
           u[d].d(1);
@@ -962,7 +962,7 @@ function Re(t) {
       _ && (c || (c = q(e, Y, {}, !1)), c.run(0)), r = !1;
     },
     d(_) {
-      _ && R(e), nt(u, _), _ && c && c.end(), l = !1, f();
+      _ && A(e), nt(u, _), _ && c && c.end(), l = !1, f();
     }
   };
 }
@@ -973,8 +973,8 @@ function Ae(t) {
   ), l, f, g, u, _, m = (
     /*choice*/
     t[32].description + ""
-  ), d, b, $;
-  function y() {
+  ), d, p, $, k;
+  function L() {
     t[22].call(
       n,
       /*choice*/
@@ -983,49 +983,52 @@ function Ae(t) {
   }
   return {
     c() {
-      e = L("div"), n = L("input"), o = S(), c = L("label"), l = D(r), u = S(), _ = L("span"), d = D(m), a(n, "type", "checkbox"), a(n, "id", s = `gdpr-check-${/*choice*/
+      e = C("div"), n = C("input"), o = P(), c = C("label"), l = M(r), u = P(), _ = C("span"), d = M(m), a(n, "type", "checkbox"), a(n, "id", s = `gdpr-check-${/*choice*/
       t[32].id}`), a(n, "part", "operations--list-item-input"), n.disabled = i = /*choice*/
       t[32].id === "necessary", a(c, "for", f = `gdpr-check-${/*choice*/
       t[32].id}`), a(c, "part", g = `operations--list-item-label ${/*choicesMerged*/
       t[10][
         /*choice*/
         t[32].id
-      ].value ? "operations--list-item-label--checked" : ""}`), a(_, "class", "cookieConsentOperations__ItemLabel"), a(_, "part", "operations--list-item-description"), a(e, "class", "cookieConsentOperations__Item"), a(e, "part", "operations--list-item"), we(
+      ].value ? "operations--list-item-label--checked" : ""}`), a(_, "class", "cookieConsentOperations__ItemLabel"), a(_, "part", "operations--list-item-description"), a(e, "class", "cookieConsentOperations__Item"), a(e, "part", p = `operations--list-item ${/*choice*/
+      t[32].id === "necessary" ? "operations--list-item--disabled" : ""}`), we(
         e,
         "disabled",
         /*choice*/
         t[32].id === "necessary"
       );
     },
-    m(k, w) {
-      B(k, e, w), p(e, n), n.checked = /*choicesMerged*/
+    m(j, y) {
+      I(j, e, y), b(e, n), n.checked = /*choicesMerged*/
       t[10][
         /*choice*/
         t[32].id
-      ].value, p(e, o), p(e, c), p(c, l), p(e, u), p(e, _), p(_, d), b || ($ = W(n, "change", y), b = !0);
+      ].value, b(e, o), b(e, c), b(c, l), b(e, u), b(e, _), b(_, d), $ || (k = W(n, "change", L), $ = !0);
     },
-    p(k, w) {
-      t = k, w[0] & /*choicesArr*/
+    p(j, y) {
+      t = j, y[0] & /*choicesArr*/
       2048 && s !== (s = `gdpr-check-${/*choice*/
-      t[32].id}`) && a(n, "id", s), w[0] & /*choicesArr*/
+      t[32].id}`) && a(n, "id", s), y[0] & /*choicesArr*/
       2048 && i !== (i = /*choice*/
-      t[32].id === "necessary") && (n.disabled = i), w[0] & /*choicesMerged, choicesArr*/
+      t[32].id === "necessary") && (n.disabled = i), y[0] & /*choicesMerged, choicesArr*/
       3072 && (n.checked = /*choicesMerged*/
       t[10][
         /*choice*/
         t[32].id
-      ].value), w[0] & /*choicesArr*/
+      ].value), y[0] & /*choicesArr*/
       2048 && r !== (r = /*choice*/
-      t[32].label + "") && U(l, r), w[0] & /*choicesArr*/
+      t[32].label + "") && U(l, r), y[0] & /*choicesArr*/
       2048 && f !== (f = `gdpr-check-${/*choice*/
-      t[32].id}`) && a(c, "for", f), w[0] & /*choicesMerged, choicesArr*/
+      t[32].id}`) && a(c, "for", f), y[0] & /*choicesMerged, choicesArr*/
       3072 && g !== (g = `operations--list-item-label ${/*choicesMerged*/
       t[10][
         /*choice*/
         t[32].id
-      ].value ? "operations--list-item-label--checked" : ""}`) && a(c, "part", g), w[0] & /*choicesArr*/
+      ].value ? "operations--list-item-label--checked" : ""}`) && a(c, "part", g), y[0] & /*choicesArr*/
       2048 && m !== (m = /*choice*/
-      t[32].description + "") && U(d, m), w[0] & /*choicesArr*/
+      t[32].description + "") && U(d, m), y[0] & /*choicesArr*/
+      2048 && p !== (p = `operations--list-item ${/*choice*/
+      t[32].id === "necessary" ? "operations--list-item--disabled" : ""}`) && a(e, "part", p), y[0] & /*choicesArr*/
       2048 && we(
         e,
         "disabled",
@@ -1033,8 +1036,8 @@ function Ae(t) {
         t[32].id === "necessary"
       );
     },
-    d(k) {
-      k && R(e), b = !1, $();
+    d(j) {
+      j && A(e), $ = !1, k();
     }
   };
 }
@@ -1054,7 +1057,7 @@ function Be(t) {
       s && s.c(), n = Ue();
     },
     m(i, o) {
-      s && s.m(i, o), B(i, n, o);
+      s && s.m(i, o), I(i, n, o);
     },
     p(i, o) {
       o[0] & /*choicesMerged, choicesArr*/
@@ -1070,7 +1073,7 @@ function Be(t) {
       ]), e ? s ? s.p(i, o) : (s = Ae(i), s.c(), s.m(n.parentNode, n)) : s && (s.d(1), s = null);
     },
     d(i) {
-      i && R(n), s && s.d(i);
+      i && A(n), s && s.d(i);
     }
   };
 }
@@ -1087,41 +1090,41 @@ function jt(t) {
   );
   return {
     c() {
-      i && i.c(), e = S(), o && o.c(), n = S(), c && c.c(), s = Ue();
+      i && i.c(), e = P(), o && o.c(), n = P(), c && c.c(), s = Ue();
     },
     m(r, l) {
-      i && i.m(r, l), B(r, e, l), o && o.m(r, l), B(r, n, l), c && c.m(r, l), B(r, s, l);
+      i && i.m(r, l), I(r, e, l), o && o.m(r, l), I(r, n, l), c && c.m(r, l), I(r, s, l);
     },
     p(r, l) {
       /*showEditIcon*/
       r[1] ? i ? (i.p(r, l), l[0] & /*showEditIcon*/
-      2 && A(i, 1)) : (i = Ee(r), i.c(), A(i, 1), i.m(e.parentNode, e)) : i && (le(), H(i, 1, 1, () => {
+      2 && B(i, 1)) : (i = Ee(r), i.c(), B(i, 1), i.m(e.parentNode, e)) : i && (le(), H(i, 1, 1, () => {
         i = null;
       }), ae()), /*shown*/
       r[12] ? o ? (o.p(r, l), l[0] & /*shown*/
-      4096 && A(o, 1)) : (o = Oe(r), o.c(), A(o, 1), o.m(n.parentNode, n)) : o && (le(), H(o, 1, 1, () => {
+      4096 && B(o, 1)) : (o = Oe(r), o.c(), B(o, 1), o.m(n.parentNode, n)) : o && (le(), H(o, 1, 1, () => {
         o = null;
       }), ae()), /*settingsShown*/
       r[13] ? c ? (c.p(r, l), l[0] & /*settingsShown*/
-      8192 && A(c, 1)) : (c = Re(r), c.c(), A(c, 1), c.m(s.parentNode, s)) : c && (le(), H(c, 1, 1, () => {
+      8192 && B(c, 1)) : (c = Re(r), c.c(), B(c, 1), c.m(s.parentNode, s)) : c && (le(), H(c, 1, 1, () => {
         c = null;
       }), ae());
     },
     i(r) {
-      A(i), A(o), A(c);
+      B(i), B(o), B(c);
     },
     o(r) {
       H(i), H(o), H(c);
     },
     d(r) {
-      r && (R(e), R(n), R(s)), i && i.d(r), o && o.d(r), c && c.d(r);
+      r && (A(e), A(n), A(s)), i && i.d(r), o && o.d(r), c && c.d(r);
     }
   };
 }
 function Et(t, e, n) {
   let s, i, o, c;
   const r = ut();
-  let { cookieName: l = null } = e, { canRejectCookies: f = !1 } = e, { showEditIcon: g = !0 } = e, { visible: u = !0 } = e, _ = !1, m = !1, { heading: d = "GDPR Notice" } = e, { description: b = "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies." } = e, { categories: $ = {
+  let { cookieName: l = null } = e, { canRejectCookies: f = !1 } = e, { showEditIcon: g = !0 } = e, { visible: u = !0 } = e, _ = !1, m = !1, { heading: d = "GDPR Notice" } = e, { description: p = "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies." } = e, { categories: $ = {
     analytics() {
     },
     tracking() {
@@ -1130,10 +1133,10 @@ function Et(t, e, n) {
     },
     necessary() {
     }
-  } } = e, { cookieConfig: y = {} } = e;
-  const k = { sameSite: "strict" };
-  let { choices: w = {} } = e;
-  const M = {
+  } } = e, { cookieConfig: k = {} } = e;
+  const L = { sameSite: "strict" };
+  let { choices: j = {} } = e;
+  const y = {
     necessary: {
       label: "Necessary cookies",
       description: "Used for cookie control. Can't be turned off.",
@@ -1155,7 +1158,7 @@ function Et(t, e, n) {
       value: !0
     }
   };
-  let { acceptLabel: C = "Accept cookies" } = e, { rejectLabel: v = "Reject cookies" } = e, { settingsLabel: O = "Cookie settings" } = e, { closeLabel: ge = "Close settings" } = e, { editLabel: be = "Edit cookie settings" } = e;
+  let { acceptLabel: v = "Accept cookies" } = e, { rejectLabel: w = "Reject cookies" } = e, { settingsLabel: N = "Cookie settings" } = e, { closeLabel: ge = "Close settings" } = e, { editLabel: pe = "Edit cookie settings" } = e;
   function se() {
     n(12, _ = u);
   }
@@ -1168,69 +1171,69 @@ function Et(t, e, n) {
       return;
     }
     try {
-      const { choices: j } = JSON.parse(h);
-      if (!Lt(o, j))
+      const { choices: E } = JSON.parse(h);
+      if (!Lt(o, E))
         throw new Error("cookie consent has changed");
-      oe(j);
+      oe(E);
     } catch {
       He(), se();
     }
   });
-  function pe(h) {
-    const j = /* @__PURE__ */ new Date();
-    j.setDate(j.getDate() + 365);
-    const I = Object.assign({}, k, y, { expires: j });
-    ue.set(l, JSON.stringify({ choices: h }), I);
+  function be(h) {
+    const E = /* @__PURE__ */ new Date();
+    E.setDate(E.getDate() + 365);
+    const S = Object.assign({}, L, k, { expires: E });
+    ue.set(l, JSON.stringify({ choices: h }), S);
   }
   function He() {
-    const { path: h } = y;
+    const { path: h } = k;
     ue.remove(l, Object.assign({}, h ? { path: h } : {}));
   }
   function oe(h) {
-    Object.keys(o).forEach((I) => {
-      const me = h[I];
-      s[I] && n(10, s[I].value = me, s), me && ($[I] && $[I](), r(`${I}`));
+    Object.keys(o).forEach((S) => {
+      const me = h[S];
+      s[S] && n(10, s[S].value = me, s), me && ($[S] && $[S](), r(`${S}`));
     }), n(12, _ = !1);
   }
   function Je() {
-    pe(c), oe(c);
+    be(c), oe(c);
   }
   function Ge() {
-    pe(o), oe(o);
+    be(o), oe(o);
   }
   const Ve = () => {
     n(13, m = !0);
   };
   function We(h) {
-    s[h.id].value = this.checked, n(10, s), n(20, w);
+    s[h.id].value = this.checked, n(10, s), n(20, j);
   }
   const qe = () => {
     n(13, m = !1);
   };
   return t.$$set = (h) => {
-    "cookieName" in h && n(16, l = h.cookieName), "canRejectCookies" in h && n(0, f = h.canRejectCookies), "showEditIcon" in h && n(1, g = h.showEditIcon), "visible" in h && n(17, u = h.visible), "heading" in h && n(2, d = h.heading), "description" in h && n(3, b = h.description), "categories" in h && n(18, $ = h.categories), "cookieConfig" in h && n(19, y = h.cookieConfig), "choices" in h && n(20, w = h.choices), "acceptLabel" in h && n(4, C = h.acceptLabel), "rejectLabel" in h && n(5, v = h.rejectLabel), "settingsLabel" in h && n(6, O = h.settingsLabel), "closeLabel" in h && n(7, ge = h.closeLabel), "editLabel" in h && n(8, be = h.editLabel);
+    "cookieName" in h && n(16, l = h.cookieName), "canRejectCookies" in h && n(0, f = h.canRejectCookies), "showEditIcon" in h && n(1, g = h.showEditIcon), "visible" in h && n(17, u = h.visible), "heading" in h && n(2, d = h.heading), "description" in h && n(3, p = h.description), "categories" in h && n(18, $ = h.categories), "cookieConfig" in h && n(19, k = h.cookieConfig), "choices" in h && n(20, j = h.choices), "acceptLabel" in h && n(4, v = h.acceptLabel), "rejectLabel" in h && n(5, w = h.rejectLabel), "settingsLabel" in h && n(6, N = h.settingsLabel), "closeLabel" in h && n(7, ge = h.closeLabel), "editLabel" in h && n(8, pe = h.editLabel);
   }, t.$$.update = () => {
     t.$$.dirty[0] & /*choices*/
-    1048576 && n(10, s = Object.assign({}, M, w)), t.$$.dirty[0] & /*choicesMerged*/
-    1024 && n(11, i = Object.values(s).map((h, j) => Object.assign({}, h, { id: Object.keys(s)[j] }))), t.$$.dirty[0] & /*choicesArr*/
+    1048576 && n(10, s = Object.assign({}, y, j)), t.$$.dirty[0] & /*choicesMerged*/
+    1024 && n(11, i = Object.values(s).map((h, E) => Object.assign({}, h, { id: Object.keys(s)[E] }))), t.$$.dirty[0] & /*choicesArr*/
     2048 && (o = i.reduce(
-      (h, j) => (h[j.id] = j.value ? j.value : !1, h),
+      (h, E) => (h[E.id] = E.value ? E.value : !1, h),
       {}
     )), t.$$.dirty[0] & /*choicesArr*/
     2048 && (c = i.reduce(
-      (h, j) => (h[j.id] = j.id === "necessary", h),
+      (h, E) => (h[E.id] = E.id === "necessary", h),
       {}
     ));
   }, [
     f,
     g,
     d,
-    b,
-    C,
+    p,
     v,
-    O,
+    w,
+    N,
     ge,
-    be,
+    pe,
     se,
     s,
     i,
@@ -1241,8 +1244,8 @@ function Et(t, e, n) {
     l,
     u,
     $,
-    y,
-    w,
+    k,
+    j,
     Ve,
     We,
     qe
@@ -1281,85 +1284,85 @@ class Ot extends vt {
     return this.$$.ctx[16];
   }
   set cookieName(e) {
-    this.$$set({ cookieName: e }), E();
+    this.$$set({ cookieName: e }), O();
   }
   get canRejectCookies() {
     return this.$$.ctx[0];
   }
   set canRejectCookies(e) {
-    this.$$set({ canRejectCookies: e }), E();
+    this.$$set({ canRejectCookies: e }), O();
   }
   get showEditIcon() {
     return this.$$.ctx[1];
   }
   set showEditIcon(e) {
-    this.$$set({ showEditIcon: e }), E();
+    this.$$set({ showEditIcon: e }), O();
   }
   get visible() {
     return this.$$.ctx[17];
   }
   set visible(e) {
-    this.$$set({ visible: e }), E();
+    this.$$set({ visible: e }), O();
   }
   get heading() {
     return this.$$.ctx[2];
   }
   set heading(e) {
-    this.$$set({ heading: e }), E();
+    this.$$set({ heading: e }), O();
   }
   get description() {
     return this.$$.ctx[3];
   }
   set description(e) {
-    this.$$set({ description: e }), E();
+    this.$$set({ description: e }), O();
   }
   get categories() {
     return this.$$.ctx[18];
   }
   set categories(e) {
-    this.$$set({ categories: e }), E();
+    this.$$set({ categories: e }), O();
   }
   get cookieConfig() {
     return this.$$.ctx[19];
   }
   set cookieConfig(e) {
-    this.$$set({ cookieConfig: e }), E();
+    this.$$set({ cookieConfig: e }), O();
   }
   get choices() {
     return this.$$.ctx[20];
   }
   set choices(e) {
-    this.$$set({ choices: e }), E();
+    this.$$set({ choices: e }), O();
   }
   get acceptLabel() {
     return this.$$.ctx[4];
   }
   set acceptLabel(e) {
-    this.$$set({ acceptLabel: e }), E();
+    this.$$set({ acceptLabel: e }), O();
   }
   get rejectLabel() {
     return this.$$.ctx[5];
   }
   set rejectLabel(e) {
-    this.$$set({ rejectLabel: e }), E();
+    this.$$set({ rejectLabel: e }), O();
   }
   get settingsLabel() {
     return this.$$.ctx[6];
   }
   set settingsLabel(e) {
-    this.$$set({ settingsLabel: e }), E();
+    this.$$set({ settingsLabel: e }), O();
   }
   get closeLabel() {
     return this.$$.ctx[7];
   }
   set closeLabel(e) {
-    this.$$set({ closeLabel: e }), E();
+    this.$$set({ closeLabel: e }), O();
   }
   get editLabel() {
     return this.$$.ctx[8];
   }
   set editLabel(e) {
-    this.$$set({ editLabel: e }), E();
+    this.$$set({ editLabel: e }), O();
   }
   get show() {
     return this.$$.ctx[9];

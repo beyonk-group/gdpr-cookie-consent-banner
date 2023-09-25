@@ -245,7 +245,7 @@
         <div
           class="cookieConsentOperations__Item"
           class:disabled={choice.id === 'necessary'}
-          part="operations--list-item"
+          part={`operations--list-item ${choice.id === 'necessary' ? 'operations--list-item--disabled' : ''}`}
         >
           <input
             type="checkbox"
