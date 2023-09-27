@@ -42,6 +42,9 @@ npm install --save-dev @beyonk/gdpr-cookie-consent-banner
 ```
 
 #### Via CDN
+
+Tap into either [unpkg](https://unpkg.com) or [jsdelivr](https://jsdelivr.net):
+
 ```html
 <script
   type="module"
@@ -70,7 +73,7 @@ Just use it as a regular svelte component:
 
 #### HTML
 
-Tap into either [unpkg](https://unpkg.com) or [jsdelivr](https://jsdelivr.net):
+Use the custom HTML element `cookie-consent-banner`:
 
 ```html
 <!-- optional, you can also define your own styles -->
