@@ -37,6 +37,7 @@
     "@sveltejs/kit": "^1.22.4",
     "@sveltejs/vite-plugin-svelte": "^2.4.4",
     "eslint": "^8.50.0",
+    "eslint-plugin-svelte3": "^4.0.0",
     "mocha": "^10.2.0",
     "svelte": "^4.0.5",
     "svelte-check": "^3.5.2",
