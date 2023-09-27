@@ -11,7 +11,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
     "lint": "eslint .",
-    "test": "mocha \"src/**/*.spec.js\""
+    "test": "mocha \"src/**/*.spec.js\"",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "src/lib",
@@ -30,6 +31,7 @@
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {
+    "@beyonk/eslint-config": "^7.1.1",
     "@hapi/code": "^9.0.3",
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/kit": "^1.22.4",
