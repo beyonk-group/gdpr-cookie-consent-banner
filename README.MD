@@ -60,7 +60,7 @@ Just use it as a regular svelte component:
 
 <script>
   import '@beyonk/gdpr-cookie-consent-banner/banner.css' // optional, you can also define your own styles
-  import { Banner as GdprBanner } from '@beyonk/gdpr-cookie-consent-banner'
+  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 
   function initAnalytics () {
     // do something with segment.io or google analytics etc
@@ -95,7 +95,7 @@ You can re-call the cookie banner from an external link by binding the component
 <GdprBanner bind:this={gdprBanner} cookieName="foo" description="bar" on:analytics={initAnalytics} />
 
 <script>
-  import { GdprBanner } from '@beyonk/gdpr-cookie-consent-banner'
+  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 
   let gdprBanner
 
