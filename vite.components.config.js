@@ -5,7 +5,7 @@ export default defineConfig({
   envPrefix: 'PUBLIC_',
   resolve: {
     alias: {
-      '$lib': './src/lib'
+      $lib: './src/lib'
     }
   },
   plugins: [
