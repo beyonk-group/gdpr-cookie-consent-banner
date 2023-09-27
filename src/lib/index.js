@@ -1,5 +1,5 @@
 import Banner from './Banner.svelte'
 
-export {
+export default {
   Banner
 }

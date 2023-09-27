@@ -1,6 +1,6 @@
-var Ye = Object.defineProperty;
-var Qe = (t, e, n) => e in t ? Ye(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
-var R = (t, e, n) => (Qe(t, typeof e != "symbol" ? e + "" : e, n), n);
+var Qe = Object.defineProperty;
+var Xe = (t, e, n) => e in t ? Qe(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
+var R = (t, e, n) => (Xe(t, typeof e != "symbol" ? e + "" : e, n), n);
 function Z() {
 }
 const Ie = (t) => t;
@@ -16,21 +16,21 @@ function T(t) {
 function he(t) {
   return typeof t == "function";
 }
-function Xe(t, e) {
+function Ze(t, e) {
   return t != t ? e == e : t !== e || t && typeof t == "object" || typeof t == "function";
 }
-function Ze(t) {
+function Ke(t) {
   return Object.keys(t).length === 0;
 }
 const Pe = typeof window < "u";
-let Ke = Pe ? () => window.performance.now() : () => Date.now(), _e = Pe ? (t) => requestAnimationFrame(t) : Z;
+let xe = Pe ? () => window.performance.now() : () => Date.now(), _e = Pe ? (t) => requestAnimationFrame(t) : Z;
 const G = /* @__PURE__ */ new Set();
 function De(t) {
   G.forEach((e) => {
     e.c(t) || (G.delete(e), e.f());
   }), G.size !== 0 && _e(De);
 }
-function xe(t) {
+function et(t) {
   let e;
   return G.size === 0 && _e(De), {
     promise: new Promise((n) => {
@@ -54,11 +54,11 @@ function Me(t) {
     e
   ) : t.ownerDocument;
 }
-function et(t) {
+function tt(t) {
   const e = C("style");
-  return e.textContent = "/* empty */", tt(Me(t), e), e.sheet;
+  return e.textContent = "/* empty */", nt(Me(t), e), e.sheet;
 }
-function tt(t, e) {
+function nt(t, e) {
   return b(
     /** @type {Document} */
     t.head || t,
@@ -71,7 +71,7 @@ function I(t, e, n) {
 function A(t) {
   t.parentNode && t.parentNode.removeChild(t);
 }
-function nt(t, e) {
+function it(t, e) {
   for (let n = 0; n < t.length; n += 1)
     t[n] && t[n].d(e);
 }
@@ -96,7 +96,7 @@ function W(t, e, n, s) {
 function a(t, e, n) {
   n == null ? t.removeAttribute(e) : t.getAttribute(e) !== n && t.setAttribute(e, n);
 }
-function it(t) {
+function st(t) {
   return Array.from(t.childNodes);
 }
 function U(t, e) {
@@ -109,7 +109,7 @@ function we(t, e, n) {
 function ze(t, e, { bubbles: n = !1, cancelable: s = !1 } = {}) {
   return new CustomEvent(t, { detail: e, bubbles: n, cancelable: s });
 }
-function st(t) {
+function ot(t) {
   const e = {};
   return t.childNodes.forEach(
     /** @param {Element} node */
@@ -120,14 +120,14 @@ function st(t) {
 }
 const ne = /* @__PURE__ */ new Map();
 let ie = 0;
-function ot(t) {
+function ct(t) {
   let e = 5381, n = t.length;
   for (; n--; )
     e = (e << 5) - e ^ t.charCodeAt(n);
   return e >>> 0;
 }
-function ct(t, e) {
-  const n = { stylesheet: et(e), rules: {} };
+function rt(t, e) {
+  const n = { stylesheet: tt(e), rules: {} };
   return ne.set(t, n), n;
 }
 function ve(t, e, n, s, i, o, c, r = 0) {
@@ -140,19 +140,19 @@ function ve(t, e, n, s, i, o, c, r = 0) {
 `;
   }
   const g = f + `100% {${c(n, 1 - n)}}
-}`, u = `__svelte_${ot(g)}_${r}`, _ = Me(t), { stylesheet: m, rules: d } = ne.get(_) || ct(_, t);
+}`, u = `__svelte_${ct(g)}_${r}`, _ = Me(t), { stylesheet: m, rules: d } = ne.get(_) || rt(_, t);
   d[u] || (d[u] = !0, m.insertRule(`@keyframes ${u} ${g}`, m.cssRules.length));
   const p = t.style.animation || "";
   return t.style.animation = `${p ? `${p}, ` : ""}${u} ${s}ms linear ${i}ms 1 both`, ie += 1, u;
 }
-function rt(t, e) {
+function lt(t, e) {
   const n = (t.style.animation || "").split(", "), s = n.filter(
     e ? (o) => o.indexOf(e) < 0 : (o) => o.indexOf("__svelte") === -1
     // remove all Svelte animations
   ), i = n.length - s.length;
-  i && (t.style.animation = s.join(", "), ie -= i, ie || lt());
+  i && (t.style.animation = s.join(", "), ie -= i, ie || at());
 }
-function lt() {
+function at() {
   _e(() => {
     ie || (ne.forEach((t) => {
       const { ownerNode: e } = t.stylesheet;
@@ -169,10 +169,10 @@ function Te() {
     throw new Error("Function called outside component initialization");
   return K;
 }
-function at(t) {
+function ut(t) {
   Te().$$.on_mount.push(t);
 }
-function ut() {
+function ft() {
   const t = Te();
   return (e, n, { cancelable: s = !1 } = {}) => {
     const i = t.$$.callbacks[e];
@@ -192,10 +192,10 @@ function ut() {
 }
 const J = [], ye = [];
 let V = [];
-const Ce = [], ft = /* @__PURE__ */ Promise.resolve();
+const Ce = [], dt = /* @__PURE__ */ Promise.resolve();
 let fe = !1;
-function dt() {
-  fe || (fe = !0, ft.then(O));
+function ht() {
+  fe || (fe = !0, dt.then(O));
 }
 function z(t) {
   V.push(t);
@@ -210,7 +210,7 @@ function O() {
     try {
       for (; F < J.length; ) {
         const e = J[F];
-        F++, X(e), ht(e.$$);
+        F++, X(e), _t(e.$$);
       }
     } catch (e) {
       throw J.length = 0, F = 0, e;
@@ -227,19 +227,19 @@ function O() {
     Ce.pop()();
   fe = !1, ce.clear(), X(t);
 }
-function ht(t) {
+function _t(t) {
   if (t.fragment !== null) {
     t.update(), T(t.before_update);
     const e = t.dirty;
     t.dirty = [-1], t.fragment && t.fragment.p(t.ctx, e), t.after_update.forEach(z);
   }
 }
-function _t(t) {
+function gt(t) {
   const e = [], n = [];
   V.forEach((s) => t.indexOf(s) === -1 ? e.push(s) : n.push(s)), n.forEach((s) => s()), V = e;
 }
 let Q;
-function gt() {
+function pt() {
   return Q || (Q = Promise.resolve(), Q.then(() => {
     Q = null;
   })), Q;
@@ -273,11 +273,11 @@ function H(t, e, n, s) {
   } else
     s && s();
 }
-const pt = { duration: 0 };
+const bt = { duration: 0 };
 function q(t, e, n, s) {
   let o = e(t, n, { direction: "both" }), c = s ? 0 : 1, r = null, l = null, f = null, g;
   function u() {
-    f && rt(t, f);
+    f && lt(t, f);
   }
   function _(d, p) {
     const $ = (
@@ -301,12 +301,12 @@ function q(t, e, n, s) {
       easing: k = Ie,
       tick: L = Z,
       css: j
-    } = o || pt, y = {
-      start: Ke() + p,
+    } = o || bt, y = {
+      start: xe() + p,
       b: d
     };
     d || (y.group = D, D.r += 1), "inert" in t && (d ? g !== void 0 && (t.inert = g) : (g = /** @type {HTMLElement} */
-    t.inert, t.inert = !0)), r || l ? l = y : (j && (u(), f = ve(t, c, d, $, p, k, j)), d && L(0, 1), r = _(y, $), z(() => re(t, d, "start")), xe((v) => {
+    t.inert, t.inert = !0)), r || l ? l = y : (j && (u(), f = ve(t, c, d, $, p, k, j)), d && L(0, 1), r = _(y, $), z(() => re(t, d, "start")), et((v) => {
       if (l && v > l.start && (r = _(l, $), l = null, re(t, r.b, "start"), j && (u(), f = ve(
         t,
         c,
@@ -328,7 +328,7 @@ function q(t, e, n, s) {
   }
   return {
     run(d) {
-      he(o) ? gt().then(() => {
+      he(o) ? pt().then(() => {
         o = o({ direction: d ? "in" : "out" }), m(d);
       }) : m(d);
     },
@@ -340,21 +340,21 @@ function q(t, e, n, s) {
 function Le(t) {
   return (t == null ? void 0 : t.length) !== void 0 ? t : Array.from(t);
 }
-function bt(t, e, n) {
+function mt(t, e, n) {
   const { fragment: s, after_update: i } = t.$$;
   s && s.m(e, n), z(() => {
     const o = t.$$.on_mount.map(Se).filter(he);
     t.$$.on_destroy ? t.$$.on_destroy.push(...o) : T(o), t.$$.on_mount = [];
   }), i.forEach(z);
 }
-function mt(t, e) {
-  const n = t.$$;
-  n.fragment !== null && (_t(n.after_update), T(n.on_destroy), n.fragment && n.fragment.d(e), n.on_destroy = n.fragment = null, n.ctx = []);
-}
 function $t(t, e) {
-  t.$$.dirty[0] === -1 && (J.push(t), dt(), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31;
+  const n = t.$$;
+  n.fragment !== null && (gt(n.after_update), T(n.on_destroy), n.fragment && n.fragment.d(e), n.on_destroy = n.fragment = null, n.ctx = []);
 }
-function kt(t, e, n, s, i, o, c = null, r = [-1]) {
+function kt(t, e) {
+  t.$$.dirty[0] === -1 && (J.push(t), ht(), t.$$.dirty.fill(0)), t.$$.dirty[e / 31 | 0] |= 1 << e % 31;
+}
+function wt(t, e, n, s, i, o, c = null, r = [-1]) {
   const l = K;
   X(t);
   const f = t.$$ = {
@@ -382,14 +382,14 @@ function kt(t, e, n, s, i, o, c = null, r = [-1]) {
   let g = !1;
   if (f.ctx = n ? n(t, e.props || {}, (u, _, ...m) => {
     const d = m.length ? m[0] : _;
-    return f.ctx && i(f.ctx[u], f.ctx[u] = d) && (!f.skip_bound && f.bound[u] && f.bound[u](d), g && $t(t, u)), _;
+    return f.ctx && i(f.ctx[u], f.ctx[u] = d) && (!f.skip_bound && f.bound[u] && f.bound[u](d), g && kt(t, u)), _;
   }) : [], f.update(), g = !0, T(f.before_update), f.fragment = s ? s(f.ctx) : !1, e.target) {
     if (e.hydrate) {
-      const u = it(e.target);
+      const u = st(e.target);
       f.fragment && f.fragment.l(u), u.forEach(A);
     } else
       f.fragment && f.fragment.c();
-    e.intro && B(t.$$.fragment), bt(t, e.target, e.anchor), O();
+    e.intro && B(t.$$.fragment), mt(t, e.target, e.anchor), O();
   }
   X(l);
 }
@@ -454,7 +454,7 @@ typeof HTMLElement == "function" && (Fe = class extends HTMLElement {
       };
       if (await Promise.resolve(), !this.$$cn)
         return;
-      const n = {}, s = st(this);
+      const n = {}, s = ot(this);
       for (const o of this.$$s)
         o in s && (n[o] = [e(o)]);
       for (const o of this.attributes) {
@@ -541,7 +541,7 @@ function te(t, e, n, s) {
         return e;
     }
 }
-function wt(t, e, n, s, i, o) {
+function vt(t, e, n, s, i, o) {
   let c = class extends Fe {
     constructor() {
       super(t, n, i), this.$$p_d = e;
@@ -572,7 +572,7 @@ function wt(t, e, n, s, i, o) {
   }), o && (c = o(c)), t.element = /** @type {any} */
   c, c;
 }
-class vt {
+class yt {
   constructor() {
     /**
      * ### PRIVATE API
@@ -593,7 +593,7 @@ class vt {
   }
   /** @returns {void} */
   $destroy() {
-    mt(this, 1), this.$destroy = Z;
+    $t(this, 1), this.$destroy = Z;
   }
   /**
    * @template {Extract<keyof Events, string>} K
@@ -615,11 +615,11 @@ class vt {
    * @returns {void}
    */
   $set(e) {
-    this.$$set && !Ze(e) && (this.$$.skip_bound = !0, this.$$set(e), this.$$.skip_bound = !1);
+    this.$$set && !Ke(e) && (this.$$.skip_bound = !0, this.$$set(e), this.$$.skip_bound = !1);
   }
 }
-const yt = "4";
-typeof window < "u" && (window.__svelte || (window.__svelte = { v: /* @__PURE__ */ new Set() })).v.add(yt);
+const Ct = "4";
+typeof window < "u" && (window.__svelte || (window.__svelte = { v: /* @__PURE__ */ new Set() })).v.add(Ct);
 /*! js-cookie v3.0.1 | MIT */
 function x(t) {
   for (var e = 1; e < arguments.length; e++) {
@@ -629,7 +629,7 @@ function x(t) {
   }
   return t;
 }
-var Ct = {
+var Lt = {
   read: function(t) {
     return t[0] === '"' && (t = t.slice(1, -1)), t.replace(/(%[\dA-F]{2})+/gi, decodeURIComponent);
   },
@@ -690,8 +690,8 @@ function de(t, e) {
     }
   );
 }
-var ue = de(Ct, { path: "/" });
-function Lt(t, e) {
+var ue = de(Lt, { path: "/" });
+function jt(t, e) {
   const n = Object.keys(t), s = Object.keys(e);
   return s.length !== n.length ? !1 : s.every((i) => n.includes(i));
 }
@@ -962,7 +962,7 @@ function Re(t) {
       _ && (c || (c = q(e, Y, {}, !1)), c.run(0)), r = !1;
     },
     d(_) {
-      _ && A(e), nt(u, _), _ && c && c.end(), l = !1, f();
+      _ && A(e), it(u, _), _ && c && c.end(), l = !1, f();
     }
   };
 }
@@ -1077,7 +1077,7 @@ function Be(t) {
     }
   };
 }
-function jt(t) {
+function Et(t) {
   let e, n, s, i = (
     /*showEditIcon*/
     t[1] && Ee(t)
@@ -1121,9 +1121,9 @@ function jt(t) {
     }
   };
 }
-function Et(t, e, n) {
+function Ot(t, e, n) {
   let s, i, o, c;
-  const r = ut();
+  const r = ft();
   let { cookieName: l = null } = e, { canRejectCookies: f = !1 } = e, { showEditIcon: g = !0 } = e, { visible: u = !0 } = e, _ = !1, m = !1, { heading: d = "GDPR Notice" } = e, { description: p = "We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies." } = e, { categories: $ = {
     analytics() {
     },
@@ -1162,7 +1162,7 @@ function Et(t, e, n) {
   function se() {
     n(12, _ = u);
   }
-  at(() => {
+  ut(() => {
     if (!l)
       throw new Error("You must set gdpr cookie name");
     const h = ue.get(l);
@@ -1172,11 +1172,11 @@ function Et(t, e, n) {
     }
     try {
       const { choices: E } = JSON.parse(h);
-      if (!Lt(o, E))
+      if (!jt(o, E))
         throw new Error("cookie consent has changed");
       oe(E);
     } catch {
-      He(), se();
+      Je(), se();
     }
   });
   function be(h) {
@@ -1185,7 +1185,7 @@ function Et(t, e, n) {
     const S = Object.assign({}, L, k, { expires: E });
     ue.set(l, JSON.stringify({ choices: h }), S);
   }
-  function He() {
+  function Je() {
     const { path: h } = k;
     ue.remove(l, Object.assign({}, h ? { path: h } : {}));
   }
@@ -1195,19 +1195,19 @@ function Et(t, e, n) {
       s[S] && n(10, s[S].value = me, s), me && ($[S] && $[S](), r(`${S}`));
     }), n(12, _ = !1);
   }
-  function Je() {
+  function Ge() {
     be(c), oe(c);
   }
-  function Ge() {
+  function Ve() {
     be(o), oe(o);
   }
-  const Ve = () => {
+  const We = () => {
     n(13, m = !0);
   };
-  function We(h) {
+  function qe(h) {
     s[h.id].value = this.checked, n(10, s), n(20, j);
   }
-  const qe = () => {
+  const Ye = () => {
     n(13, m = !1);
   };
   return t.$$set = (h) => {
@@ -1239,26 +1239,26 @@ function Et(t, e, n) {
     i,
     _,
     m,
-    Je,
     Ge,
+    Ve,
     l,
     u,
     $,
     k,
     j,
-    Ve,
     We,
-    qe
+    qe,
+    Ye
   ];
 }
-class Ot extends vt {
+class He extends yt {
   constructor(e) {
-    super(), kt(
+    super(), wt(
       this,
       e,
+      Ot,
       Et,
-      jt,
-      Xe,
+      Ze,
       {
         cookieName: 16,
         canRejectCookies: 0,
@@ -1368,7 +1368,10 @@ class Ot extends vt {
     return this.$$.ctx[9];
   }
 }
-customElements.define("cookie-consent-banner", wt(Ot, { cookieName: {}, canRejectCookies: { type: "Boolean" }, showEditIcon: { type: "Boolean" }, visible: { type: "Boolean" }, heading: {}, description: {}, categories: {}, cookieConfig: {}, choices: {}, acceptLabel: {}, rejectLabel: {}, settingsLabel: {}, closeLabel: {}, editLabel: {} }, [], ["show"], !0));
+customElements.define("cookie-consent-banner", vt(He, { cookieName: {}, canRejectCookies: { type: "Boolean" }, showEditIcon: { type: "Boolean" }, visible: { type: "Boolean" }, heading: {}, description: {}, categories: {}, cookieConfig: {}, choices: {}, acceptLabel: {}, rejectLabel: {}, settingsLabel: {}, closeLabel: {}, editLabel: {} }, [], ["show"], !0));
+const Rt = {
+  Banner: He
+};
 export {
-  Ot as Banner
+  Rt as default
 };
