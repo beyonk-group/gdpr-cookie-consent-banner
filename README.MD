@@ -41,6 +41,14 @@ Simply install the node module into your codebase.
 npm install --save-dev @beyonk/gdpr-cookie-consent-banner
 ```
 
+#### Via CDN
+```html
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/dist/index.js"
+></script>
+```
+
 ### Usage
 
 #### Svelte
@@ -51,13 +59,32 @@ Just use it as a regular svelte component:
 <GdprBanner cookieName="foo" description="bar" on:analytics={initAnalytics} />
 
 <script>
-  import '@beyonk/gdpr-cookie-consent-banner/style.css' // optional, you can also define your own styles
+  import '@beyonk/gdpr-cookie-consent-banner/banner.css' // optional, you can also define your own styles
   import { Banner as GdprBanner } from '@beyonk/gdpr-cookie-consent-banner'
 
   function initAnalytics () {
     // do something with segment.io or google analytics etc
   }
 </script>
+```
+
+#### HTML
+
+Tap into either [unpkg](https://unpkg.com) or [jsdelivr](https://jsdelivr.net):
+
+```html
+<!-- optional, you can also define your own styles -->
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/src/banner.css"
+></script>
+
+<script
+  type="module"
+  src="https://cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/dist/index.js"
+></script>
+
+<cookie-consent-banner cookieName="foo" description="bar" />
 ```
 
 ### Methods
@@ -93,7 +120,7 @@ const props = {
    * Whether to display the banner to the user or not. This can be because you're in an iframe
    * and there is no room to show it if they haven't already consented, but, if they have already
    * consented, you want to action the "enableAnalytics" and similar handlers if they *have*.
-   * 
+   *
    * Default is true
    **/
   visible: true,
