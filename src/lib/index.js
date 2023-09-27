@@ -1,1 +1,5 @@
-export { default as Banner } from './Banner.svelte'
+import Banner from './Banner.svelte'
+
+export {
+  Banner
+}

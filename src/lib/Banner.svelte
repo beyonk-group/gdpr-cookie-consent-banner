@@ -1,3 +1,5 @@
+<svelte:options customElement="cookie-consent-banner" />
+
 <script>
   import Cookies from 'js-cookie'
   import { validate } from './util.js'
@@ -164,10 +166,15 @@
 {#if showEditIcon}
   <button
     class="cookieConsentToggle"
+    part="toggle"
     aria-label={editLabel}
     on:click={show}
     transition:fade>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 512 512"
+      fill="currentColor"
+    >
       <path
         d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17
         0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13
@@ -179,36 +186,50 @@
         368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32
         32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33
         32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32
-        32-14.33 32-32 32z" />
+        32-14.33 32-32 32z"
+      />
     </svg>
   </button>
 {/if}
 
 {#if shown}
-<div class="cookieConsentWrapper" transition:fade>
-  <div class="cookieConsent">
-    <div class="cookieConsent__Left">
-      <div class="cookieConsent__Content">
-        <p class="cookieConsent__Title">{heading}</p>
-        <p class="cookieConsent__Description">
+<div class="cookieConsentWrapper" part="wrapper" transition:fade>
+  <div class="cookieConsent" part="consent">
+    <div class="cookieConsent__Left" part="consent--left">
+      <div class="cookieConsent__Content" part="consent--content">
+        <p class="cookieConsent__Title" part="consent--title">{heading}</p>
+        <p class="cookieConsent__Description" part="consent--description">
           {@html description}
         </p>
       </div>
     </div>
-    <div class="cookieConsent__Right">
+    <div class="cookieConsent__Right" part="consent--right">
       <button
         type="button"
         class="cookieConsent__Button"
+        part="button"
         aria-label={settingsLabel}
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
       {#if canRejectCookies}
-      <button type="submit" class="cookieConsent__Button" on:click={reject} aria-label={rejectLabel}>
+      <button
+        type="submit"
+        class="cookieConsent__Button"
+        part="button"
+        on:click={reject}
+        aria-label={rejectLabel}
+      >
         {rejectLabel}
       </button>
       {/if}
-      <button type="submit" class="cookieConsent__Button" on:click={choose} aria-label={acceptLabel}>
+      <button
+        type="submit"
+        class="cookieConsent__Button"
+        part="button"
+        on:click={choose}
+        aria-label={acceptLabel}
+      >
         {acceptLabel}
       </button>
     </div>
@@ -217,20 +238,32 @@
 {/if}
 
 {#if settingsShown}
-<div class="cookieConsentOperations" transition:fade>
-  <div class="cookieConsentOperations__List">
+<div class="cookieConsentOperations" part="operations" transition:fade>
+  <div class="cookieConsentOperations__List" part="operations--list">
     {#each choicesArr as choice}
       {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
         <div
           class="cookieConsentOperations__Item"
-          class:disabled={choice.id === 'necessary'}>
+          class:disabled={choice.id === 'necessary'}
+          part={`operations--list-item ${choice.id === 'necessary' ? 'operations--list-item--disabled' : ''}`}
+        >
           <input
             type="checkbox"
             id={`gdpr-check-${choice.id}`}
+            part="operations--list-item-input"
             bind:checked={choicesMerged[choice.id].value}
-            disabled={choice.id === 'necessary'} />
-          <label for={`gdpr-check-${choice.id}`}>{choice.label}</label>
-          <span class="cookieConsentOperations__ItemLabel">
+            disabled={choice.id === 'necessary'}
+          />
+          <label
+            for={`gdpr-check-${choice.id}`}
+            part={`operations--list-item-label ${choicesMerged[choice.id].value ? 'operations--list-item-label--checked' : ''}`}
+          >
+            {choice.label}
+          </label>
+          <span
+            class="cookieConsentOperations__ItemLabel"
+            part="operations--list-item-description"
+          >
             {choice.description}
           </span>
         </div>
@@ -239,6 +272,7 @@
     <button
       type="submit"
       class="cookieConsent__Button cookieConsent__Button--Close"
+      part="button button--close"
       aria-label={closeLabel}
       on:click={() => { settingsShown = false } }>
       {closeLabel}

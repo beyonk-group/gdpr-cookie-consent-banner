@@ -1,23 +1,10 @@
-<script>
-  import '$lib/style.css'
-  import Banner from '$lib/Banner.svelte'
+<p>gdpr-cookie-consent-banner</p>
 
-  const categories = {
-    analytics: function () {
-      console.info('Dropped analytics cookies')
-    },
-    necessary: function () {
-      console.info('Dropped necessary cookies')
-    }
-  }
-  const choices = {
-    analytics: function () {
-      console.info('Dropped analytics cookies')
-    },
-    necessary: function () {
-      console.info('Dropped necessary cookies')
-    }
-  }
-</script>
-
-<Banner cookieName="test_gdpr" {categories} {choices} />
+<ul>
+  <li>
+    <a href="/web-component">Web component</a>
+  </li>
+  <li>
+    <a href="/svelte-component">Svelte component</a>
+  </li>
+</ul>
