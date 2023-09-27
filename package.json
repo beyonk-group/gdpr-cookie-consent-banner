@@ -1,6 +1,6 @@
 {
   "name": "@beyonk/gdpr-cookie-consent-banner",
-  "version": "11.0.0-5",
+  "version": "11.0.0-6",
   "description": "GDPR Cookie Consent Banner for Svelte/Kit",
   "author": "Antony Jones",
   "license": "MIT",
