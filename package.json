@@ -24,7 +24,7 @@
       "import": "./src/lib/Banner.svelte"
     },
     "./banner.js": {
-      "import": "./dist/banner.js"
+      "import": "./dist/index.js"
     },
     "./banner.css": {
       "import": "./src/lib/banner.css"
