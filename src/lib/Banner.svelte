@@ -154,15 +154,19 @@
   function execute (chosen) {
     const types = Object.keys(cookieChoices)
 
-    types.forEach(t => {
+    for (const t of types) {
       const agreed = chosen[t]
       if (choicesMerged[t]) {
         choicesMerged[t].value = agreed
       }
       if (agreed) {
         dispatch(t)
+        window.dispatchEvent(
+          new CustomEvent(`consent:${t}`)
+        )
       }
-    })
+    }
+
     shown = false
   }
 

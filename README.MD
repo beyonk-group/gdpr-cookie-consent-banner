@@ -196,7 +196,9 @@ const props = {
 
 ### Events
 
-Events are how you react to consent. Each type of consent emits an event when agreed to by the user:
+Events are how you react to consent. Each type of consent emits an event when agreed to by the user.
+
+For convenience when using Web Components - and to work around race conditions whereby events are emitted by the component prior to the handler being attached, we also emit the same events, with the prefix `consent`, on `window`.
 
 #### Svelte
 
@@ -214,10 +216,15 @@ Events are how you react to consent. Each type of consent emits an event when ag
 #### HTML / Web Components
 
 ```html
-<cookie-consent-banner id="cc" cookieName="foo" description="bar" />
+<cookie-consent-banner cookieName="foo" description="bar" />
 
 <script>
-  document.getElementById('cc').addEventListener('analytics', () => {
+  document.getElementsByTagName('cookie-consent-banner')[0].addEventListener('analytics', () => {
+    // some fathom analytics tracking code or similar
+  })
+
+  // We also emit these events on `window`
+  window.addEventListener('consent:analytics', () => {
     // some fathom analytics tracking code or similar
   })
 </script>
