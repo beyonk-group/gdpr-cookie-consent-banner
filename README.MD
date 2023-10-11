@@ -110,6 +110,8 @@ You can re-call the cookie banner from an external link by binding the component
 
 The defaults are shown below.
 
+When using as a Web Component, use the lower-dash-case version of the attribute name, pass booleans as strings, and object attributes as json strings
+
 It is not possible to opt-out of 'necessary' cookies.
 
 ```js
@@ -125,11 +127,15 @@ const props = {
    * consented, you want to action the "enableAnalytics" and similar handlers if they *have*.
    *
    * Default is true
+   * 
+   * For Web Components, pass `visible="true"`
    **/
   visible: true,
 
   /**
    * The cookie configuration, such as domain and path.
+   * 
+   * For web components, pass a JSON string: `cookie-config='{ "domain": "example.com", "path": "/" }'`
    **/
   cookieConfig: {
     domain: 'example.com',
@@ -184,27 +190,6 @@ const props = {
   /**
    * Show an icon to edit cookies later, when banner is closed.
   **/
-  showEditIcon: true,
-
-  /**
-   * These are the functions which are run if a user opts-in to that category.
-   * You should drop your cookies here (or set a variable to control the later dropping of cookies.
-   *
-   * If you are using svelte, you can use events instead - see the Svelte section below.
-   **/
-  categories: {
-    analytics: function() {
-      console.log('No analytics cookies specified')
-    },
-    tracking: function() {
-      console.log('No tracking cookies specified')
-    },
-    marketing: function() {
-      console.log('No marketing cookies specified')
-    },
-    necessary: function() {
-      console.log('No necessary cookies specified')
-    }
-  }
+  showEditIcon: true
 }
 ```

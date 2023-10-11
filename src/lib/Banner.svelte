@@ -1,4 +1,35 @@
-<svelte:options customElement="cookie-consent-banner" />
+<svelte:options
+  customElement={{
+    tag: 'cookie-consent-banner',
+    props: {
+      cookieName: { attribute: 'cookie-name' },
+      canRejectCookies: { attribute: 'can-reject-cookies', type: 'Boolean' },
+      showEditIcon: { attribute: 'show-edit-icon', type: 'Boolean' },
+      acceptLabel: { attribute: 'accept-label' },
+      rejectLabel: { attribute: 'reject-label' },
+      settingsLabel: { attribute: 'settings-label' },
+      closeLabel: { attribute: 'close-label' },
+      editLabel: { attribute: 'edit-label' },
+      visible: { attribute: 'visible', type: 'Boolean' },
+      settingsShown: { attribute: 'settings-shown', type: 'Boolean' },
+      cookieConfig: { attribute: 'cookie-config', type: 'Object' },
+      shown: { attribute: 'shown', type: 'Boolean' },
+      choices: { attribute: 'choices', type: 'Object' }
+    },
+    extend: cec => {
+			return class extends cec {
+        constructor () {
+          super()
+          this.emitConsent = (name) => {
+            this.dispatchEvent(
+              new CustomEvent(name)
+            )
+          }
+        }
+			}
+		}
+  }}
+/>
 
 <script>
   import Cookies from 'js-cookie'
@@ -8,12 +39,23 @@
 
   const dispatch = createEventDispatcher()
 
+  export let emitConsent
+
   /**
    * @type {string|undefined|null}
    */
   export let cookieName = null
   export let canRejectCookies = false
   export let showEditIcon = true
+
+  /**
+   * @type {string|undefined|null}
+   */
+  export let acceptLabel = 'Accept cookies'
+  export let rejectLabel = 'Reject cookies'
+  export let settingsLabel = 'Cookie settings'
+  export let closeLabel = 'Close settings'
+  export let editLabel = 'Edit cookie settings'
 
   /**
    * Whether to show the cookie banner if the user has not yet accepted or rejected your choices.
@@ -29,14 +71,7 @@
   export let description =
     'We use cookies to offer a better browsing experience, analyze site traffic, personalize content, and serve targeted advertisements. Please review our privacy policy & cookies information page. By clicking accept, you consent to our privacy policy & use of cookies.'
 
-  export let categories = {
-    analytics: function () {},
-    tracking: function () {},
-    marketing: function () {},
-    necessary: function () {}
-  }
-
-  export let cookieConfig = {}
+  export let cookieConfig = $$props['cookie-config'] ?? {}
 
   const defaults = {
     sameSite: 'strict'
@@ -86,12 +121,6 @@
     result[item.id] = item.id === 'necessary'
     return result
   }, {})
-
-  export let acceptLabel = 'Accept cookies'
-  export let rejectLabel = 'Reject cookies'
-  export let settingsLabel = 'Cookie settings'
-  export let closeLabel = 'Close settings'
-  export let editLabel = 'Edit cookie settings'
 
   export function show () {
     shown = visible
@@ -145,8 +174,8 @@
         choicesMerged[t].value = agreed
       }
       if (agreed) {
-        categories[t] && categories[t]()
-        dispatch(`${t}`)
+        dispatch(t)
+        emitConsent(t)
       }
     })
     shown = false
