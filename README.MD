@@ -71,16 +71,16 @@ Just use it as a regular svelte component:
 </script>
 ```
 
-#### HTML
+#### HTML / Web Component
 
 Use the custom HTML element `cookie-consent-banner`:
 
 ```html
-<!-- optional, you can also define your own styles -->
-<script
-  type="module"
-  src="https://cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/src/banner.css"
-></script>
+<!-- optional, you can also define your own styles, or override the provided ones -->
+<link
+  rel="stylesheet"
+  src="//cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/src/lib/banner.css"
+ />
 
 <script
   type="module"
@@ -192,4 +192,33 @@ const props = {
   **/
   showEditIcon: true
 }
+```
+
+### Events
+
+Events are how you react to consent. Each type of consent emits an event when agreed to by the user:
+
+#### Svelte
+
+```svelte
+<GdprBanner bind:this={gdprBanner} cookieName="foo" description="bar" on:analytics={initAnalytics} />
+
+<script>
+  import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
+
+  function initAnalytics () {
+    // some fathom analytics tracking code or similar
+  }
+</script>
+```
+#### HTML / Web Components
+
+```html
+<cookie-consent-banner id="cc" cookieName="foo" description="bar" />
+
+<script>
+  document.getElementById('cc').addEventListener('analytics', () => {
+    // some fathom analytics tracking code or similar
+  })
+</script>
 ```

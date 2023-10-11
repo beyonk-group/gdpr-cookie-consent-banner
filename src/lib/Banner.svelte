@@ -15,19 +15,7 @@
       cookieConfig: { attribute: 'cookie-config', type: 'Object' },
       shown: { attribute: 'shown', type: 'Boolean' },
       choices: { attribute: 'choices', type: 'Object' }
-    },
-    extend: cec => {
-			return class extends cec {
-        constructor () {
-          super()
-          this.emitConsent = (name) => {
-            this.dispatchEvent(
-              new CustomEvent(name)
-            )
-          }
-        }
-			}
-		}
+    }
   }}
 />
 
@@ -38,8 +26,6 @@
   import { onMount, createEventDispatcher } from 'svelte'
 
   const dispatch = createEventDispatcher()
-
-  export let emitConsent
 
   /**
    * @type {string|undefined|null}
@@ -175,7 +161,6 @@
       }
       if (agreed) {
         dispatch(t)
-        emitConsent(t)
       }
     })
     shown = false
