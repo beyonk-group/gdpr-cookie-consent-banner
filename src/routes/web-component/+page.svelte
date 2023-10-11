@@ -4,7 +4,7 @@
   import { onMount } from 'svelte'
   import '$lib/Banner.svelte'
 
-  const cookieConfig = JSON.stringify({ foo: 'bar '})
+  const cookieConfig = JSON.stringify({ foo: 'bar ' })
 
   let cc
 
