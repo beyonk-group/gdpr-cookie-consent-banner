@@ -79,7 +79,7 @@ Use the custom HTML element `cookie-consent-banner`:
 <!-- optional, you can also define your own styles, or override the provided ones -->
 <link
   rel="stylesheet"
-  src="//cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/src/lib/banner.css"
+  href="//cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/src/lib/banner.css"
  />
 
 <script
@@ -87,7 +87,7 @@ Use the custom HTML element `cookie-consent-banner`:
   src="https://cdn.jsdelivr.net/npm/@beyonk/gdpr-cookie-consent-banner/dist/index.js"
 ></script>
 
-<cookie-consent-banner cookieName="foo" description="bar" />
+<cookie-consent-banner cookie-name="foo" description="bar" />
 ```
 
 ### Methods
@@ -216,7 +216,7 @@ For convenience when using Web Components - and to work around race conditions w
 #### HTML / Web Components
 
 ```html
-<cookie-consent-banner cookieName="foo" description="bar" />
+<cookie-consent-banner cookie-name="foo" description="bar" />
 
 <script>
   document.getElementsByTagName('cookie-consent-banner')[0].addEventListener('analytics', () => {
