@@ -190,7 +190,12 @@ const props = {
   /**
    * Show an icon to edit cookies later, when banner is closed.
   **/
-  showEditIcon: true
+  showEditIcon: true,
+
+  /**
+   * Show a button to reject all cookies.
+  **/
+  canRejectCookies: false
 }
 ```
 
