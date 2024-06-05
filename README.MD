@@ -196,20 +196,24 @@ const props = {
 
 ### Events
 
-Events are how you react to consent. Each type of consent emits an event when agreed to by the user.
+Events are how you react to consent. Each type of consent emits an event when set by the user. The agreement state is passed in the event’s details.
 
 For convenience when using Web Components - and to work around race conditions whereby events are emitted by the component prior to the handler being attached, we also emit the same events, with the prefix `consent`, on `window`.
 
 #### Svelte
 
 ```svelte
-<GdprBanner bind:this={gdprBanner} cookieName="foo" description="bar" on:analytics={initAnalytics} />
+<GdprBanner bind:this={gdprBanner} cookieName="foo" description="bar" on:analytics={handleAnalytics} />
 
 <script>
   import GdprBanner from '@beyonk/gdpr-cookie-consent-banner'
 
-  function initAnalytics () {
-    // some fathom analytics tracking code or similar
+  function handleAnalytics (event) {
+    if (event.detail.agreed) {
+      // some fathom analytics tracking code or similar
+    } else {
+      // disable any previously initialized analytics tracking code
+    }
   }
 </script>
 ```
