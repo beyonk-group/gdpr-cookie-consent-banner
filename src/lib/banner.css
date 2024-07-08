@@ -179,8 +179,8 @@ cookie-consent-banner::part(button),
 .cookieConsent__Button {
   padding: 15px 40px;
   display: block;
-  background: white !important;
-  color: black !important;
+  background: white;
+  color: black;
   white-space: nowrap;
   border: 0;
   font-size: 16px;
@@ -191,8 +191,8 @@ cookie-consent-banner::part(button),
 
 cookie-consent-banner::part(button--close),
 .cookieConsent__Button--Close {
-  background: black !important;
-  color: white !important;
+  background: black;
+  color: white;
   margin: 40px 0 0 60px;
   padding: 15px 60px;
 }
