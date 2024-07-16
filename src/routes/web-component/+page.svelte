@@ -13,7 +13,11 @@
   onMount(() => {
     for (const type of types) {
       cc.addEventListener(type, (e) => {
-        console.log(`${type} consent given`)
+        if (e.detail.agreed) {
+          console.log(`${type} consent given`)
+        } else {
+          console.log(`${type} consent rejected`)
+        }
       })
     }
   })
