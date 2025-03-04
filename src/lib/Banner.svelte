@@ -243,7 +243,7 @@
       {/if}
       <button
         type="submit"
-        class="cookieConsent__Button"
+        class="cookieConsent__Button cookieConsent__Button--Accept"
         part="button"
         on:click={choose}
         aria-label={acceptLabel}
