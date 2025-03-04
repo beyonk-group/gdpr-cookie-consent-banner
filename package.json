@@ -58,5 +58,6 @@
     "svelte",
     "vanilla",
     "beyonk"
-  ]
+  ],
+  "packageManager": "pnpm@9.15.0"
 }
