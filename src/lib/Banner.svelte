@@ -37,11 +37,12 @@
   /**
    * @type {string|undefined|null}
    */
-  export let acceptLabel = 'Accept cookies'
-  export let rejectLabel = 'Reject cookies'
+  export let acceptLabel = 'Accept all'
+  export let rejectLabel = 'Reject all'
   export let settingsLabel = 'Cookie settings'
   export let closeLabel = 'Close settings'
   export let editLabel = 'Edit cookie settings'
+  export let saveLabel = 'Accept selected'
 
   /**
    * Whether to show the cookie banner if the user has not yet accepted or rejected your choices.
@@ -105,6 +106,11 @@
 
   $: necessaryCookieChoices = choicesArr.reduce((result, item) => {
     result[item.id] = item.id === 'necessary'
+    return result
+  }, {})
+
+  $: allCookieChoices = choicesArr.reduce((result, item) => {
+    result[item.id] = true
     return result
   }, {})
 
@@ -179,6 +185,11 @@
     setCookie(cookieChoices)
     execute(cookieChoices)
   }
+
+  function accept () {
+    setCookie(allCookieChoices)
+    execute(allCookieChoices)
+  }
 </script>
 
 {#if showEditIcon}
@@ -230,6 +241,15 @@
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
+      <button
+        type="submit"
+        class="cookieConsent__Button"
+        part="button"
+        on:click={choose}
+        aria-label={saveLabel}
+      >
+        {saveLabel}
+      </button>
       {#if canRejectCookies}
       <button
         type="submit"
@@ -245,7 +265,7 @@
         type="submit"
         class="cookieConsent__Button cookieConsent__Button--Accept"
         part="button"
-        on:click={choose}
+        on:click={accept}
         aria-label={acceptLabel}
       >
         {acceptLabel}
