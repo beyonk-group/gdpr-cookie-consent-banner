@@ -10,10 +10,6 @@ export default defineConfig({
   },
   plugins: [
     svelte({
-      exclude: /\.svelte$/,
-      emitCss: false
-    }),
-    svelte({
       include: /\.svelte$/,
       compilerOptions: {
         customElement: true
