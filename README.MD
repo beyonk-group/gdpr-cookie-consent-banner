@@ -8,7 +8,7 @@
 
 ## GDPR Cookie Consent banner
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![actions](https://github.com/beyonk-adventures/gdpr-cookie-consent-banner/actions/workflows/publish.yml/badge.svg)](https://github.com/beyonk-adventures/gdpr-cookie-consent-banner/actions/workflows/publish.yml) [![SvelteKit](https://img.shields.io/badge/svelte-kit-orange.svg)](https://kit.svelte.dev) [![Svelte v3](https://img.shields.io/badge/svelte-v3-blueviolet.svg)](https://svelte.dev)
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com) [![actions](https://github.com/beyonk-adventures/gdpr-cookie-consent-banner/actions/workflows/publish.yml/badge.svg)](https://github.com/beyonk-adventures/gdpr-cookie-consent-banner/actions/workflows/publish.yml) [![SvelteKit](https://img.shields.io/badge/svelte-kit-orange.svg)](https://kit.svelte.dev) [![Svelte v5](https://img.shields.io/badge/svelte-v5-blueviolet.svg)](https://svelte.dev)
 
 ### What is it?
 
