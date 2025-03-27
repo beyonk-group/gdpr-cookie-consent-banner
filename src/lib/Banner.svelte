@@ -89,7 +89,7 @@
     }
   }
 
-  $: choicesMerged = Object.assign({}, choicesDefaults, choices)
+  const choicesMerged = Object.assign({}, choicesDefaults, choices)
 
   $: choicesArr = Object.values(choicesMerged).map((item, index) => {
     return Object.assign(
@@ -160,6 +160,7 @@
   function execute (chosen) {
     const types = Object.keys(cookieChoices)
 
+    console.log('about to modify choices')
     for (const t of types) {
       const agreed = chosen[t]
       if (choicesMerged[t]) {
@@ -276,7 +277,7 @@
 {#if settingsShown}
 <div class="cookieConsentOperations" part="operations" transition:fade>
   <div class="cookieConsentOperations__List" part="operations--list">
-    {#each choicesArr as choice}
+    {#each choicesArr as choice (choice.id)}
       {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
         <div
           class="cookieConsentOperations__Item"
