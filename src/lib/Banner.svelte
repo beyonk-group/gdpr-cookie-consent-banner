@@ -165,12 +165,10 @@
       if (choicesMerged[t]) {
         choicesMerged[t].value = agreed
       }
-      if (agreed) {
-        dispatch(t)
-        window.dispatchEvent(
-          new CustomEvent(`consent:${t}`)
-        )
-      }
+      dispatch(t, { agreed })
+      window.dispatchEvent(
+        new CustomEvent(`consent:${t}`, { detail: { agreed } })
+      )
     }
 
     shown = false
