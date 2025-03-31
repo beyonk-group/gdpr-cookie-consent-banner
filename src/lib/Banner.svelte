@@ -235,7 +235,7 @@
       <button
         type="button"
         class="cookieConsent__Button"
-        part="button"
+        part="button--settings"
         aria-label={settingsLabel}
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
@@ -243,7 +243,7 @@
       <button
         type="submit"
         class="cookieConsent__Button"
-        part="button"
+        part="button--choose"
         on:click={choose}
         aria-label={saveLabel}
       >
@@ -253,7 +253,7 @@
       <button
         type="submit"
         class="cookieConsent__Button"
-        part="button"
+        part="button--reject"
         on:click={reject}
         aria-label={rejectLabel}
       >
@@ -263,7 +263,7 @@
       <button
         type="submit"
         class="cookieConsent__Button cookieConsent__Button--Accept"
-        part="button"
+        part="button--accept"
         on:click={accept}
         aria-label={acceptLabel}
       >
