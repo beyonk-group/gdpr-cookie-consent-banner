@@ -160,7 +160,6 @@
   function execute (chosen) {
     const types = Object.keys(cookieChoices)
 
-    console.log('about to modify choices')
     for (const t of types) {
       const agreed = chosen[t]
       if (choicesMerged[t]) {
