@@ -1,5 +1,3 @@
-<cookie-consent-banner bind:this={cc} cookie-name="test_gdpr" heading="Noice nay" cookie-config={cookieConfig} />
-
 <script>
   import { onMount } from 'svelte'
   import '$lib/Banner.svelte'
@@ -22,5 +20,7 @@
     }
   })
 </script>
+
+<cookie-consent-banner bind:this={cc} cookie-name="test_gdpr" heading="Polite Notice" cookie-config={cookieConfig}></cookie-consent-banner>
 
 <a href="/">Back</a>

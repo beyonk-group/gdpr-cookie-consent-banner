@@ -89,7 +89,7 @@
     }
   }
 
-  $: choicesMerged = Object.assign({}, choicesDefaults, choices)
+  const choicesMerged = Object.assign({}, choicesDefaults, choices)
 
   $: choicesArr = Object.values(choicesMerged).map((item, index) => {
     return Object.assign(
@@ -234,7 +234,7 @@
       <button
         type="button"
         class="cookieConsent__Button"
-        part="button"
+        part="button button--settings"
         aria-label={settingsLabel}
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
@@ -242,7 +242,7 @@
       <button
         type="submit"
         class="cookieConsent__Button"
-        part="button"
+        part="button button--choose"
         on:click={choose}
         aria-label={saveLabel}
       >
@@ -252,7 +252,7 @@
       <button
         type="submit"
         class="cookieConsent__Button"
-        part="button"
+        part="button button--reject"
         on:click={reject}
         aria-label={rejectLabel}
       >
@@ -262,7 +262,7 @@
       <button
         type="submit"
         class="cookieConsent__Button cookieConsent__Button--Accept"
-        part="button"
+        part="button button--accept"
         on:click={accept}
         aria-label={acceptLabel}
       >
@@ -276,7 +276,7 @@
 {#if settingsShown}
 <div class="cookieConsentOperations" part="operations" transition:fade>
   <div class="cookieConsentOperations__List" part="operations--list">
-    {#each choicesArr as choice}
+    {#each choicesArr as choice (choice.id)}
       {#if Object.hasOwnProperty.call(choicesMerged, choice.id) && choicesMerged[choice.id]}
         <div
           class="cookieConsentOperations__Item"
