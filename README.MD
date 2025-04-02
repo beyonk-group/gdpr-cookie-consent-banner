@@ -151,8 +151,11 @@ const props = {
 
   /**
    * All the button labels and aria-label content.
+
+    Note that either acceptAllLabel or acceptSelectedLabel will appear, depending on whether the user has selected all or only some cookie choices in the configuration dialogue. 
    **/
-  acceptLabel: 'Confirm all',
+  acceptAllLabel: 'Accept all',
+  acceptSelectedLabel: 'Accept selected',
   rejectLabel: 'Reject all',
   settingsLabel: 'Preferences',
   closeLabel: 'Close window',

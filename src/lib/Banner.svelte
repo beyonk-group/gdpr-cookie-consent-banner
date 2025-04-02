@@ -37,12 +37,12 @@
   /**
    * @type {string|undefined|null}
    */
-  export let acceptLabel = 'Accept all'
+  export let acceptAllLabel = 'Accept all'
+  export let acceptSelectedLabel = 'Accept selected'
   export let rejectLabel = 'Reject all'
   export let settingsLabel = 'Cookie settings'
   export let closeLabel = 'Close settings'
   export let editLabel = 'Edit cookie settings'
-  export let saveLabel = 'Accept selected'
 
   /**
    * Whether to show the cookie banner if the user has not yet accepted or rejected your choices.
@@ -109,10 +109,7 @@
     return result
   }, {})
 
-  $: allCookieChoices = choicesArr.reduce((result, item) => {
-    result[item.id] = true
-    return result
-  }, {})
+  $: hasSelectedAllCookieTypes = Object.values(cookieChoices).every(value => value === true)
 
   export function show () {
     shown = visible
@@ -179,14 +176,9 @@
     execute(necessaryCookieChoices)
   }
 
-  function choose () {
+  function accept () {
     setCookie(cookieChoices)
     execute(cookieChoices)
-  }
-
-  function accept () {
-    setCookie(allCookieChoices)
-    execute(allCookieChoices)
   }
 </script>
 
@@ -239,15 +231,6 @@
         on:click={() => { settingsShown = true } }>
         {settingsLabel}
       </button>
-      <button
-        type="submit"
-        class="cookieConsent__Button"
-        part="button button--choose"
-        on:click={choose}
-        aria-label={saveLabel}
-      >
-        {saveLabel}
-      </button>
       {#if canRejectCookies}
       <button
         type="submit"
@@ -264,9 +247,9 @@
         class="cookieConsent__Button cookieConsent__Button--Accept"
         part="button button--accept"
         on:click={accept}
-        aria-label={acceptLabel}
+        aria-label={hasSelectedAllCookieTypes ? acceptAllLabel : acceptSelectedLabel}
       >
-        {acceptLabel}
+        {hasSelectedAllCookieTypes ? acceptAllLabel : acceptSelectedLabel}
       </button>
     </div>
   </div>
