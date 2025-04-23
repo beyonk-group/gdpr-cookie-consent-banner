@@ -208,6 +208,12 @@ Events are how you react to consent. Each type of consent emits an event when se
 
 For convenience when using Web Components - and to work around race conditions whereby events are emitted by the component prior to the handler being attached, we also emit the same events, with the prefix `consent`, on `window`.
 
+### Fingerprinting
+
+Accepting analytics or tracking cookies will create a unique UUID to allow you to differentiate events from different users when using server-side cookies in a system such as CAPI.
+
+This "fingerprint" is exposed as the property "fp" on the cookie.
+
 #### Svelte
 
 ```svelte
