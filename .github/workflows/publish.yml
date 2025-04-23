@@ -24,6 +24,9 @@ jobs:
       - run: pnpm test
       - run: pnpm build
 
+      - name: publish a canary
+        run: pnpx pkg-pr-new publish
+
   publish-npm:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
