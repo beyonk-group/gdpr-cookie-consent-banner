@@ -21,6 +21,7 @@
 />
 
 <script>
+  import './shim-randomuuid.js'
   import Cookies from 'js-cookie'
   import { validate } from './util.js'
   import { fade } from 'svelte/transition'
@@ -128,11 +129,17 @@
     }
 
     try {
-      const { choices } = JSON.parse(cookie)
+      const { choices, fp } = JSON.parse(cookie)
       const valid = validate(cookieChoices, choices)
 
       if (!valid) {
         throw new Error('cookie consent has changed')
+      }
+
+      console.log('choices', fp, choices)
+      if (!fp && (choices.analytics || choices.tracking)) {
+        console.log('setting fp')
+        setCookie(choices)
       }
 
       execute(choices)
@@ -144,10 +151,16 @@
 
   function setCookie (choices) {
     const expires = new Date()
-    expires.setDate(expires.getDate() + 365)
+    expires.setDate(expires.getDate() + 400)
+
+    const cookieContent = { choices }
 
     const options = Object.assign({}, defaults, cookieConfig, { expires })
-    Cookies.set(cookieName, JSON.stringify({ choices }), options)
+    if (choices.analytics || choices.tracking) {
+      cookieContent.fp = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : 'test-fingerprint-1234'
+    }
+
+    Cookies.set(cookieName, JSON.stringify(cookieContent), options)
   }
 
   function removeCookie () {
