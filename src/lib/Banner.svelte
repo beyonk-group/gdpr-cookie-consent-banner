@@ -148,7 +148,7 @@
     }
   })
 
-  async function setCookie (choices) {
+  function setCookie (choices) {
     const expires = new Date()
     expires.setDate(expires.getDate() + 400)
 
