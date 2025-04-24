@@ -11,5 +11,10 @@ export default [
       ecmaVersion: 2025,
       sourceType: 'module'
     }
+  },
+  {
+    ignores: [
+      'dist'
+    ]
   }
 ]
