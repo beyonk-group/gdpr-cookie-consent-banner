@@ -4,6 +4,7 @@
   "description": "GDPR Cookie Consent Banner for Svelte/Kit",
   "author": "Antony MacKenzie-Jones",
   "license": "MIT",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "vite dev --host",
     "build": "vite build --config vite.components.config.js",
@@ -24,10 +25,12 @@
       "import": "./src/lib/Banner.svelte"
     },
     "./banner.js": {
-      "import": "./dist/index.js"
+      "import": "./src/lib/index.js",
+      "require": "./dist/index.js"
     },
     "./banner.css": {
-      "import": "./src/lib/banner.css"
+      "import": "./src/lib/banner.css",
+      "require": "./dist/banner.css"
     }
   },
   "devDependencies": {
