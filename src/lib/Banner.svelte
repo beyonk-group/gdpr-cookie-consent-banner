@@ -21,7 +21,6 @@
 />
 
 <script>
-  import './shim-randomuuid.js'
   import Cookies from 'js-cookie'
   import { validate } from './util.js'
   import { fade } from 'svelte/transition'
@@ -117,10 +116,12 @@
     shown = visible
   }
 
-  onMount(() => {
+  onMount(async () => {
     if (!cookieName) {
       throw new Error('You must set gdpr cookie name')
     }
+
+    await import('./shim-randomuuid.js')
 
     const cookie = Cookies.get(cookieName)
     if (!cookie) {
@@ -136,9 +137,7 @@
         throw new Error('cookie consent has changed')
       }
 
-      console.log('choices', fp, choices)
       if (!fp && (choices.analytics || choices.tracking)) {
-        console.log('setting fp')
         setCookie(choices)
       }
 
@@ -149,7 +148,7 @@
     }
   })
 
-  function setCookie (choices) {
+  async function setCookie (choices) {
     const expires = new Date()
     expires.setDate(expires.getDate() + 400)
 
