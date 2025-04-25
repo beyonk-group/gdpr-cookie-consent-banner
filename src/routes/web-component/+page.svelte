@@ -21,6 +21,12 @@
   })
 </script>
 
-<cookie-consent-banner bind:this={cc} cookie-name="test_gdpr" heading="Polite Notice" cookie-config={cookieConfig}></cookie-consent-banner>
+<cookie-consent-banner
+  bind:this={cc}
+  cookie-name="test_gdpr"
+  heading="Polite Notice"
+  cookie-config={cookieConfig}
+></cookie-consent-banner>
 
+<button on:click={cc.show}>Show</button>
 <a href="/">Back</a>
