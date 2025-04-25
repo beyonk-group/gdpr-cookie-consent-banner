@@ -22,6 +22,7 @@
 
 <script>
   import Cookies from 'js-cookie'
+  import uid from 'uid'
   import { validate } from './util.js'
   import { fade } from 'svelte/transition'
   import { onMount, createEventDispatcher } from 'svelte'
@@ -121,8 +122,6 @@
       throw new Error('You must set gdpr cookie name')
     }
 
-    await import('./shim-randomuuid.js')
-
     const cookie = Cookies.get(cookieName)
     if (!cookie) {
       show()
@@ -156,7 +155,7 @@
 
     const options = Object.assign({}, defaults, cookieConfig, { expires })
     if (choices.analytics || choices.tracking) {
-      cookieContent.fp = typeof crypto.randomUUID === 'function' ? crypto.randomUUID() : 'test-fingerprint-1234'
+      cookieContent.fp = uid(32)
     }
 
     Cookies.set(cookieName, JSON.stringify(cookieContent), options)

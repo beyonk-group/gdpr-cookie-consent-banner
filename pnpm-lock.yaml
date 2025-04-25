@@ -11,6 +11,9 @@ importers:
       js-cookie:
         specifier: ^3.0.5
         version: 3.0.5
+      uid:
+        specifier: '1'
+        version: 1.0.0
     devDependencies:
       '@beyonk/eslint-config':
         specifier: ^9.0.3
@@ -1927,6 +1930,10 @@ packages:
     resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
     engines: {node: '>=14.17'}
     hasBin: true
+
+  uid@1.0.0:
+    resolution: {integrity: sha512-DYp36HDIRECMW0xmeyGSDSheURMbL7gy4DqINDUW5OSw7cot0pNRNvEtEji9nk1XVDZN/0lJ7myxacoTeU9oow==}
+    engines: {node: '>=8'}
 
   unbox-primitive@1.1.0:
     resolution: {integrity: sha512-nWJ91DjeOkej/TA8pXQ3myruKpKEYgqvpw9lz4OPHj/NWFNluYrjbz9j01CJ8yKQd2g4jFoOkINCTW2I5LEEyw==}
@@ -4159,6 +4166,8 @@ snapshots:
       - supports-color
 
   typescript@5.2.2: {}
+
+  uid@1.0.0: {}
 
   unbox-primitive@1.1.0:
     dependencies:
